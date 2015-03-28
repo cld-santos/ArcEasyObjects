@@ -1,0 +1,7 @@
+E:\csantos\src\ArcEasyObjects\testeArcEasyObjects\obj\Debug\testeArcEasyObjects.csprojResolveAssemblyReference.cache
+E:\csantos\src\ArcEasyObjects\testeArcEasyObjects\bin\Debug\testeArcEasyObjects.dll
+E:\csantos\src\ArcEasyObjects\testeArcEasyObjects\bin\Debug\testeArcEasyObjects.pdb
+E:\csantos\src\ArcEasyObjects\testeArcEasyObjects\bin\Debug\ArcEasyObjects.exe
+E:\csantos\src\ArcEasyObjects\testeArcEasyObjects\bin\Debug\ArcEasyObjects.pdb
+E:\csantos\src\ArcEasyObjects\testeArcEasyObjects\obj\Debug\testeArcEasyObjects.dll
+E:\csantos\src\ArcEasyObjects\testeArcEasyObjects\obj\Debug\testeArcEasyObjects.pdb

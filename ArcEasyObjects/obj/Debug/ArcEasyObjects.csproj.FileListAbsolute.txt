@@ -1,0 +1,6 @@
+E:\csantos\src\ArcEasyObjects\ArcEasyObjects\bin\Debug\ArcEasyObjects.exe.config
+E:\csantos\src\ArcEasyObjects\ArcEasyObjects\bin\Debug\ArcEasyObjects.exe
+E:\csantos\src\ArcEasyObjects\ArcEasyObjects\bin\Debug\ArcEasyObjects.pdb
+E:\csantos\src\ArcEasyObjects\ArcEasyObjects\obj\Debug\ArcEasyObjects.csprojResolveAssemblyReference.cache
+E:\csantos\src\ArcEasyObjects\ArcEasyObjects\obj\Debug\ArcEasyObjects.exe
+E:\csantos\src\ArcEasyObjects\ArcEasyObjects\obj\Debug\ArcEasyObjects.pdb
