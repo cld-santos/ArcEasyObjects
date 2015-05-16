@@ -32,26 +32,25 @@ namespace ArcEasyObjects
             return "";
         }
 
-        public string obterAtributosFeatureClass()
+        public HashSet<ModelProperty> obterAtributosFeatureClass()
         {
             PropertyInfo[] _properties = _modelo.GetType().GetProperties();
+            HashSet<ModelProperty> _modelProperty = new HashSet<ModelProperty>();
 
             foreach (PropertyInfo _property in _properties)
             {
-
                 object[] attributes = _property.GetCustomAttributes(true);
 
                 foreach (object attribute in attributes)
                 {
                     if (attribute is FeatureClassFieldsAEOAttribute)
                     {
-                        FeatureClassFieldsAEOAttribute a = (FeatureClassFieldsAEOAttribute)attribute;
-                        return a.FieldName;
+                        _modelProperty.Add(new ModelProperty(_property, (FeatureClassFieldsAEOAttribute)attribute));
                     }
 
                 }
             }
-            return "";
+            return _modelProperty;
 
         }
     }

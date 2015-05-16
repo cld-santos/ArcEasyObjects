@@ -27,9 +27,8 @@ namespace testeArcEasyObjects
         {
             inicializaLicenca();
 
-            PontoNotavel _pn = new PontoNotavel();
+            PontoNotavel _pn = new PontoNotavel(new FileGeodatabase(abrirWorkspace()));
 
-            _pn.setMetodoDePersistencia(new FileGeodatabase(abrirWorkspace()));
             _pn.Codigo = 1;
             _pn.Descricao = "Testando a inclusao por uma camada transparente.";
             _pn.Nome = "Teste Inclusao.";

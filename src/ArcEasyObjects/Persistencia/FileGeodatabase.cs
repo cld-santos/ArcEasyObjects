@@ -22,28 +22,15 @@ namespace ArcEasyObjects.Persistencia
             
             IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(AEOModel.NomeFeatureClass).CreateFeature();
 
-            PropertyInfo[] _properties = AEOModel.GetType().GetProperties();
-
-            foreach (PropertyInfo _property in _properties)
+            foreach (ModelProperty _property in AEOModel.ModelProperties)
             {
-
-                object[] attributes = _property.GetCustomAttributes(true);
-
-                foreach (object attribute in attributes)
-                {
-                    if (attribute is FeatureClassFieldsAEOAttribute)
-                    {
-                        FeatureClassFieldsAEOAttribute a = (FeatureClassFieldsAEOAttribute)attribute;
-                        feat.set_Value(feat.Fields.FindField(a.FieldName), Convert.ChangeType(_property.GetValue(AEOModel),a.FieldType));
-                    }
-
-                }
+                feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel), _property.Attribute.FieldType));
             }
+            
             feat.Store();
 
         }
     
         private IWorkspace _workspace;
-        private IFeatureClass _featureClass;
     }
 }

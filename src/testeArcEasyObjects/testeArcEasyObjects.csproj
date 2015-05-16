@@ -61,7 +61,7 @@
     <Compile Include="LicenseInitializer.cs" />
     <Compile Include="testArcEasyObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestModelo.cs" />
+    <Compile Include="Cartografia\Model\TestModelo.cs" />
     <Compile Include="testPontoNotavel.cs" />
   </ItemGroup>
   <ItemGroup>

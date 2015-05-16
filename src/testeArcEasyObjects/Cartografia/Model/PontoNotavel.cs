@@ -1,4 +1,5 @@
-﻿using ArcEasyObjects.Attributes;
+﻿using ArcEasyObjects;
+using ArcEasyObjects.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace testeArcEasyObjects.Cartografia.Model
     [FeatureClassAEO("PT_PONTO_NOTAVEL")]
     public class PontoNotavel : ArcEasyObjects.Model
     {
+        public PontoNotavel(IPersistencia MetodoDePersistencia) : base(MetodoDePersistencia) { }
 
         [FeatureClassFieldsAEO("CD_PN", typeof(Int32))]
         public Int32 Codigo
