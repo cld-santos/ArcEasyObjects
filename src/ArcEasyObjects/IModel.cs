@@ -5,7 +5,13 @@ using System.Text;
 
 namespace ArcEasyObjects
 {
-    public interface IModel
+    public abstract class IModel
     {
+        IPersistencia _persistencia;
+
+        public void salvar()
+        {
+            _persistencia.salvar();
+        }
     }
 }

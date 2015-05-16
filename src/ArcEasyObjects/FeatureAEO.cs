@@ -35,24 +35,18 @@ namespace ArcEasyObjects
         {
             MemberInfo[] _members = _modelo.GetType().GetMembers();
 
-            foreach (MemberInfo member in _members)
+            foreach (MemberInfo member in _members.Where(x => x.MemberType == MemberTypes.Property))
             {
                 object[] attributes = member.GetCustomAttributes(true);
 
-                if (member.MemberType == MemberTypes.Property)
+                foreach (object attribute in attributes)
                 {
-                    if (attributes.Length != 0)
+                    if (attribute is FeatureClassFieldsAEOAttribute)
                     {
-                        foreach (object attribute in attributes)
-                        {
-                            if (attribute is FeatureClassFieldsAEOAttribute)
-                            {
-                                FeatureClassFieldsAEOAttribute a = (FeatureClassFieldsAEOAttribute)attribute;
-                                return a.FieldName;
-                            }
-
-                        }
+                        FeatureClassFieldsAEOAttribute a = (FeatureClassFieldsAEOAttribute)attribute;
+                        return a.FieldName;
                     }
+
                 }
             }
             return "";

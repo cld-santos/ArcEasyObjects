@@ -25,9 +25,9 @@ namespace testeArcEasyObjects
             ArcEasyObjects.IModel _modelo = new TestModelo();
             ArcEasyObjects.FeatureAEO _featureAEO = new ArcEasyObjects.FeatureAEO(_modelo);
 
-            string _nomeFeatureClass = _featureAEO.obterAtributosFeatureClass();
+            string _nomeFeatureClassField = _featureAEO.obterAtributosFeatureClass();
 
-            Assert.AreEqual(_nomeFeatureClass, "NU_CAMPO_ID");
+            Assert.AreEqual(_nomeFeatureClassField, "NU_CAMPO_ID");
 
 
         }
