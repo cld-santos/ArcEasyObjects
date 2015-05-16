@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F82C5EFC-EB34-44DA-BE63-2AB7E20E3A83}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArcEasyObjects</RootNamespace>
     <AssemblyName>ArcEasyObjects</AssemblyName>
@@ -31,7 +31,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.System, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Version, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,15 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FeatureAEO.cs" />
-    <Compile Include="FeatureClassAEO.cs" />
-    <Compile Include="FeatureClassFieldsAEO.cs" />
-    <Compile Include="IModel.cs" />
-    <Compile Include="IPersistencia.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Attributes\FeatureClassAEO.cs" />
+    <Compile Include="Attributes\FeatureClassFieldsAEO.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="Interfaces\IPersistencia.cs" />
+    <Compile Include="Persistencia\FileGeodatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ArcEasyObjects;
+using ArcEasyObjects.Attributes;
 using System.Reflection;
 
 namespace ArcEasyObjects
 {
     public class FeatureAEO
     {
-        private IModel _modelo;
+        private Model _modelo;
 
-        public FeatureAEO(IModel Modelo)
+        public FeatureAEO(Model Modelo)
         {
             this._modelo = Modelo;
         }
@@ -33,11 +34,12 @@ namespace ArcEasyObjects
 
         public string obterAtributosFeatureClass()
         {
-            MemberInfo[] _members = _modelo.GetType().GetMembers();
+            PropertyInfo[] _properties = _modelo.GetType().GetProperties();
 
-            foreach (MemberInfo member in _members.Where(x => x.MemberType == MemberTypes.Property))
+            foreach (PropertyInfo _property in _properties)
             {
-                object[] attributes = member.GetCustomAttributes(true);
+
+                object[] attributes = _property.GetCustomAttributes(true);
 
                 foreach (object attribute in attributes)
                 {

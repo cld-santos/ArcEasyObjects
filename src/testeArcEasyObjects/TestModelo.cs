@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ArcEasyObjects;
+using ArcEasyObjects.Attributes;
 
 namespace testeArcEasyObjects
 {
     [FeatureClassAEO("CSANTOS.PT_TESTMODELO")]
-    public class TestModelo : ArcEasyObjects.IModel
+    public class TestModelo : ArcEasyObjects.Model
     {
         private int _campoChave;
 

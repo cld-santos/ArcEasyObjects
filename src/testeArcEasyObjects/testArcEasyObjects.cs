@@ -9,7 +9,7 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void deveObterOFeatureClassNameDeUmModel()
         {
-            ArcEasyObjects.IModel _modelo = new TestModelo();
+            ArcEasyObjects.Model _modelo = new TestModelo();
             ArcEasyObjects.FeatureAEO _featureAEO = new ArcEasyObjects.FeatureAEO(_modelo);
 
             string _nomeFeatureClass = _featureAEO.obterNomeFeatureClass();
@@ -22,7 +22,7 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void deveObterOFeatureClassFieldDeUmModel()
         {
-            ArcEasyObjects.IModel _modelo = new TestModelo();
+            ArcEasyObjects.Model _modelo = new TestModelo();
             ArcEasyObjects.FeatureAEO _featureAEO = new ArcEasyObjects.FeatureAEO(_modelo);
 
             string _nomeFeatureClassField = _featureAEO.obterAtributosFeatureClass();
