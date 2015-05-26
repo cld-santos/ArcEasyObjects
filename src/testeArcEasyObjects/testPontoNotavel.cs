@@ -23,19 +23,35 @@ namespace testeArcEasyObjects
         }
 
         [TestMethod]
-        public void deveSalvarModelo()
+        public void mustSaveAModel()
         {
             inicializaLicenca();
 
-            PontoNotavel _pn = new PontoNotavel(new FileGeodatabase(abrirWorkspace()));
+            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(openWorkspace()));
 
             _pn.Codigo = 1;
             _pn.Descricao = "Testando a inclusao por uma camada transparente.";
             _pn.Nome = "Teste Inclusao.";
 
-            _pn.Salvar();
+            _pn.Save();
             
         }
+
+        [TestMethod]
+        public void mustLoadAModel()
+        {
+            inicializaLicenca();
+
+            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(openWorkspace()));
+
+            _pn.Load(1);
+
+            Assert.AreEqual(_pn.Descricao, "Testando a inclusao por uma camada transparente.");
+            Assert.AreEqual(_pn.Nome ,"Teste Inclusao.");
+
+
+        }
+
 
         private void inicializaLicenca()
         {
@@ -61,7 +77,7 @@ namespace testeArcEasyObjects
 
 
 
-        public virtual IWorkspace abrirWorkspace()
+        public virtual IWorkspace openWorkspace()
         {
             Type factoryType = Type.GetTypeFromProgID("esriDataSourcesGDB.FileGDBWorkspaceFactory");
             IWorkspaceFactory workspaceFactory = (IWorkspaceFactory)Activator.CreateInstance(factoryType);

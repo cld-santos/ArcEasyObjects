@@ -56,8 +56,9 @@
     <Compile Include="Attributes\FeatureClassAEO.cs" />
     <Compile Include="Attributes\FeatureClassFieldsAEO.cs" />
     <Compile Include="Model.cs" />
-    <Compile Include="Interfaces\IPersistencia.cs" />
-    <Compile Include="Persistencia\FileGeodatabase.cs" />
+    <Compile Include="Interfaces\IPersistence.cs" />
+    <Compile Include="Persistencia\TableDAO.cs" />
+    <Compile Include="Persistencia\FeatureClasseDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ArcEasyObjects
 {
-    public interface IPersistencia
+    public interface IPersistence
     {
-
-        void Salvar(Model model);
+        void Save(Model AEOModel);
+        void Load(Model AEOModel, int KeyFieldValue);
     }
 }

@@ -12,7 +12,7 @@ namespace testeArcEasyObjects
             ArcEasyObjects.Model _modelo = new TestModelo();
             ArcEasyObjects.FeatureAEO _featureAEO = new ArcEasyObjects.FeatureAEO(_modelo);
 
-            string _nomeFeatureClass = _featureAEO.obterNomeFeatureClass();
+            string _nomeFeatureClass = _featureAEO.getFeatureClassName();
 
             Assert.AreEqual(_nomeFeatureClass, "CSANTOS.PT_TESTMODELO");
 

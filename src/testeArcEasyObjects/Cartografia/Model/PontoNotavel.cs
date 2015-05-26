@@ -11,7 +11,7 @@ namespace testeArcEasyObjects.Cartografia.Model
     [FeatureClassAEO("PT_PONTO_NOTAVEL")]
     public class PontoNotavel : ArcEasyObjects.Model
     {
-        public PontoNotavel(IPersistencia MetodoDePersistencia) : base(MetodoDePersistencia) { }
+        public PontoNotavel(IPersistence MetodoDePersistencia) : base(MetodoDePersistencia) { }
 
         [FeatureClassFieldsAEO("CD_PN", typeof(Int32))]
         public Int32 Codigo
@@ -37,5 +37,6 @@ namespace testeArcEasyObjects.Cartografia.Model
         private Int32 _Codigo;
         private String _Nome;
         private String _Descricao;
+
     }
 }

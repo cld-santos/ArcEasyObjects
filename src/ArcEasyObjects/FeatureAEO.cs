@@ -17,7 +17,7 @@ namespace ArcEasyObjects
             this._modelo = Modelo;
         }
 
-        public string obterNomeFeatureClass()
+        public string getFeatureClassName()
         {
             System.Attribute[] attrs = System.Attribute.GetCustomAttributes(_modelo.GetType());
 
@@ -32,7 +32,7 @@ namespace ArcEasyObjects
             return "";
         }
 
-        public HashSet<ModelProperty> obterAtributosFeatureClass()
+        public HashSet<ModelProperty> getFeatureClassFields()
         {
             PropertyInfo[] _properties = _modelo.GetType().GetProperties();
             HashSet<ModelProperty> _modelProperty = new HashSet<ModelProperty>();

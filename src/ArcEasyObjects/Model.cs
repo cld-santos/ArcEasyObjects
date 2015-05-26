@@ -8,9 +8,9 @@ namespace ArcEasyObjects
 {
     public abstract class Model
     {
-        IPersistencia _persistencia;
+        IPersistence _persistence;
         ArcEasyObjects.FeatureAEO _featureAEO;
-        string _nomeFeatureClass;
+        string _FeatureClassName;
         HashSet<ModelProperty> _modelProperties;
 
         internal HashSet<ModelProperty> ModelProperties
@@ -21,21 +21,27 @@ namespace ArcEasyObjects
         protected Model()
         {
             _featureAEO = new ArcEasyObjects.FeatureAEO(this);
-            _nomeFeatureClass = _featureAEO.obterNomeFeatureClass();
-            _modelProperties = _featureAEO.obterAtributosFeatureClass();
+            _FeatureClassName = _featureAEO.getFeatureClassName();
+            _modelProperties = _featureAEO.getFeatureClassFields();
         }
 
-        protected Model(IPersistencia MetodoDePersistencia) : this()
+        protected Model(IPersistence MetodoDePersistencia) : this()
         {
-            _persistencia = MetodoDePersistencia;
+            _persistence = MetodoDePersistencia;
         }
 
 
-        public string NomeFeatureClass { get { return _nomeFeatureClass; } }
+        public string NomeFeatureClass { get { return _FeatureClassName; } }
 
-        public void Salvar()
+        public void Save()
         {
-            _persistencia.Salvar(this);
+            _persistence.Save(this);
         }
+
+        public void Load(int KeyFieldValue)
+        {
+            _persistence.Load(this, KeyFieldValue);
+        }
+
     }
 }
