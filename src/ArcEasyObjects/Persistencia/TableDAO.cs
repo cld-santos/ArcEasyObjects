@@ -24,7 +24,9 @@ namespace ArcEasyObjects.Persistencia
 
             foreach (ModelProperty _property in AEOModel.ModelProperties)
             {
-                _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel), _property.Attribute.FieldType));
+                _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), 
+                                Convert.ChangeType(_property.Property.GetValue(AEOModel), 
+                                                   _property.Attribute.FieldType));
             }
 
             _row.Store();
@@ -36,15 +38,17 @@ namespace ArcEasyObjects.Persistencia
         public void Load(Model AEOModel, int KeyFieldValue)
         {
             IQueryFilter _queryParamns = new QueryFilter();
-            _queryParamns.WhereClause = "1=1";
+            _queryParamns.WhereClause = AEOModel.KeyField + "=" + KeyFieldValue;
 
             ICursor _rows = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.NomeFeatureClass).Search(_queryParamns, true);
             IRow _row = _rows.NextRow();
             if (_row != null)
-            {
+            {   
                 foreach (ModelProperty _property in AEOModel.ModelProperties)
                 {
-                    _property.Property.SetValue(_property, Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)), _property.Attribute.FieldType));
+                    _property.Property.SetValue(_property, 
+                                                Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)), 
+                                                                   _property.Attribute.FieldType));
                 }
             }
            

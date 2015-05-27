@@ -13,21 +13,21 @@ namespace testeArcEasyObjects.Cartografia.Model
     {
         public PontoNotavel(IPersistence MetodoDePersistencia) : base(MetodoDePersistencia) { }
 
-        [FeatureClassFieldsAEO("CD_PN", typeof(Int32))]
+        [FeatureClassKeyFieldAEO("CD_PN", typeof(Int32))]
         public Int32 Codigo
         {
             get { return _Codigo; }
             set { _Codigo = value; }
         }
         
-        [FeatureClassFieldsAEO("NOME", typeof(String))]
+        [FeatureClassFieldAEO("NOME", typeof(String))]
         public String Nome
         {
             get { return _Nome; }
             set { _Nome = value; }
         }
 
-        [FeatureClassFieldsAEO("DESCRICAO", typeof(String))]
+        [FeatureClassFieldAEO("DESCRICAO", typeof(String))]
         public String Descricao
         {
             get { return _Descricao; }

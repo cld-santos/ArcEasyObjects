@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\FeatureClassKeyFieldAttribute.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
     <Compile Include="FeatureAEO.cs" />
     <Compile Include="Attributes\FeatureClassAEO.cs" />

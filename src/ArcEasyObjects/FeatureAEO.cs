@@ -43,14 +43,38 @@ namespace ArcEasyObjects
 
                 foreach (object attribute in attributes)
                 {
-                    if (attribute is FeatureClassFieldsAEOAttribute)
+                    if (attribute is FeatureClassFieldAEOAttribute)
                     {
-                        _modelProperty.Add(new ModelProperty(_property, (FeatureClassFieldsAEOAttribute)attribute));
+                        _modelProperty.Add(new ModelProperty(_property, (FeatureClassFieldAEOAttribute)attribute));
                     }
 
                 }
             }
+
             return _modelProperty;
+
+        }
+
+        public String getFeatureClassKeyField()
+        {
+            PropertyInfo[] _properties = _modelo.GetType().GetProperties();
+            HashSet<ModelProperty> _modelProperty = new HashSet<ModelProperty>();
+
+            foreach (PropertyInfo _property in _properties)
+            {
+                object[] attributes = _property.GetCustomAttributes(true);
+
+                foreach (object attribute in attributes)
+                {
+                    if (attribute is FeatureClassKeyFieldAEOAttribute)
+                    {
+                        return ((FeatureClassFieldAEOAttribute)attribute).FieldName;
+                    }
+
+                }
+            }
+
+            return null;
 
         }
     }

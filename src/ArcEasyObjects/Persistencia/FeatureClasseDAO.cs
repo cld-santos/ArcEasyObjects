@@ -36,7 +36,7 @@ namespace ArcEasyObjects.Persistencia
         {
 
             IQueryFilter _queryParamns = new QueryFilter();
-            _queryParamns.WhereClause = "1=1";
+            _queryParamns.WhereClause = AEOModel.KeyField + "=" + KeyFieldValue;
 
             IFeatureCursor _rows = ((IFeatureWorkspace)_workspace).OpenFeatureClass(AEOModel.NomeFeatureClass).Search(_queryParamns, true);
             IFeature _feature = _rows.NextFeature();

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ArcEasyObjects.Attributes
 {
-    public class FeatureClassFieldsAEOAttribute : Attribute
+    public class FeatureClassFieldAEOAttribute : Attribute
     {
         private string _fieldName;
         private Type _fieldType;
@@ -20,7 +20,7 @@ namespace ArcEasyObjects.Attributes
             get { return _fieldType; }
         }
 
-        public FeatureClassFieldsAEOAttribute(string FieldName, Type FieldType)
+        public FeatureClassFieldAEOAttribute(string FieldName, Type FieldType)
         {
             _fieldName = FieldName;
             _fieldType = FieldType;

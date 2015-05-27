@@ -11,7 +11,7 @@ namespace testeArcEasyObjects
     {
         private int _campoChave;
 
-        [FeatureClassFieldsAEO("NU_CAMPO_ID", typeof(Int32))]
+        [FeatureClassFieldAEO("NU_CAMPO_ID", typeof(Int32))]
         public int CampoChave
         {
             get { return _campoChave; }

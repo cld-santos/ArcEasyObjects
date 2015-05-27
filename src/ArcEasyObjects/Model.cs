@@ -12,6 +12,12 @@ namespace ArcEasyObjects
         ArcEasyObjects.FeatureAEO _featureAEO;
         string _FeatureClassName;
         HashSet<ModelProperty> _modelProperties;
+        private string _KeyField;
+
+        public string KeyField
+        {
+            get { return _KeyField; }
+        }
 
         internal HashSet<ModelProperty> ModelProperties
         {
@@ -23,6 +29,7 @@ namespace ArcEasyObjects
             _featureAEO = new ArcEasyObjects.FeatureAEO(this);
             _FeatureClassName = _featureAEO.getFeatureClassName();
             _modelProperties = _featureAEO.getFeatureClassFields();
+            _KeyField = _featureAEO.getFeatureClassKeyField();
         }
 
         protected Model(IPersistence MetodoDePersistencia) : this()
