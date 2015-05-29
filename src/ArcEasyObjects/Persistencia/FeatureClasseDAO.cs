@@ -22,6 +22,7 @@ namespace ArcEasyObjects.Persistencia
             
             IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(AEOModel.NomeFeatureClass).CreateFeature();
 
+
             foreach (ModelProperty _property in AEOModel.ModelProperties)
             {
                 feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), 

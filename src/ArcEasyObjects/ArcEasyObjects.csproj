@@ -56,6 +56,7 @@
     <Compile Include="FeatureAEO.cs" />
     <Compile Include="Attributes\FeatureClassAEO.cs" />
     <Compile Include="Attributes\FeatureClassFieldsAEO.cs" />
+    <Compile Include="InvalidModelAEOException.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Interfaces\IPersistence.cs" />
     <Compile Include="Persistencia\TableDAO.cs" />

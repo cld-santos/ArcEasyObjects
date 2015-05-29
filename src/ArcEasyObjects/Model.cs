@@ -2,33 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace ArcEasyObjects
 {
     public abstract class Model
     {
-        IPersistence _persistence;
-        ArcEasyObjects.FeatureAEO _featureAEO;
-        string _FeatureClassName;
-        HashSet<ModelProperty> _modelProperties;
-        private string _KeyField;
 
-        public string KeyField
-        {
-            get { return _KeyField; }
-        }
-
-        internal HashSet<ModelProperty> ModelProperties
-        {
-            get { return _modelProperties; }
-        }
+        public string NomeFeatureClass { get { return _FeatureClassName; } }
+        public string KeyField { get { return _KeyField; } }
+        internal HashSet<ModelProperty> ModelProperties { get { return _ModelProperties; } }
 
         protected Model()
         {
             _featureAEO = new ArcEasyObjects.FeatureAEO(this);
             _FeatureClassName = _featureAEO.getFeatureClassName();
-            _modelProperties = _featureAEO.getFeatureClassFields();
+            _ModelProperties = _featureAEO.getFeatureClassFields();
             _KeyField = _featureAEO.getFeatureClassKeyField();
         }
 
@@ -38,7 +28,6 @@ namespace ArcEasyObjects
         }
 
 
-        public string NomeFeatureClass { get { return _FeatureClassName; } }
 
         public void Save()
         {
@@ -49,6 +38,14 @@ namespace ArcEasyObjects
         {
             _persistence.Load(this, KeyFieldValue);
         }
+
+        private IPersistence _persistence;
+        private ArcEasyObjects.FeatureAEO _featureAEO;
+
+        private string _FeatureClassName;
+        private HashSet<ModelProperty> _ModelProperties;
+        private IDictionary<string, string> _modelAttributes;
+        private string _KeyField;
 
     }
 }

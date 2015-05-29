@@ -10,12 +10,14 @@ namespace ArcEasyObjects
 {
     public class FeatureAEO
     {
-        private Model _modelo;
 
-        public FeatureAEO(Model Modelo)
+        public  FeatureAEO(Model Modelo)
         {
             this._modelo = Modelo;
+            loadModelConfig();
         }
+
+
 
         public string getFeatureClassName()
         {
@@ -34,48 +36,51 @@ namespace ArcEasyObjects
 
         public HashSet<ModelProperty> getFeatureClassFields()
         {
-            PropertyInfo[] _properties = _modelo.GetType().GetProperties();
-            HashSet<ModelProperty> _modelProperty = new HashSet<ModelProperty>();
 
-            foreach (PropertyInfo _property in _properties)
-            {
-                object[] attributes = _property.GetCustomAttributes(true);
-
-                foreach (object attribute in attributes)
-                {
-                    if (attribute is FeatureClassFieldAEOAttribute)
-                    {
-                        _modelProperty.Add(new ModelProperty(_property, (FeatureClassFieldAEOAttribute)attribute));
-                    }
-
-                }
-            }
-
-            return _modelProperty;
+            return _modelProperties;
 
         }
 
         public String getFeatureClassKeyField()
         {
+
+            return _KeyField;
+
+        }
+
+        private void loadModelConfig()
+        {
             PropertyInfo[] _properties = _modelo.GetType().GetProperties();
-            HashSet<ModelProperty> _modelProperty = new HashSet<ModelProperty>();
+            _modelProperties = new HashSet<ModelProperty>();
+            _modelAttributes = new Dictionary<string, string>();
 
             foreach (PropertyInfo _property in _properties)
             {
-                object[] attributes = _property.GetCustomAttributes(true);
+                FeatureClassFieldAEOAttribute _featureAttribute;
+                object[] _attributes = _property.GetCustomAttributes(true);
+                object _attribute;
 
-                foreach (object attribute in attributes)
+                if (_attributes.Count() > 0)
                 {
-                    if (attribute is FeatureClassKeyFieldAEOAttribute)
-                    {
-                        return ((FeatureClassFieldAEOAttribute)attribute).FieldName;
-                    }
+                    _attribute = _attributes.Single();
 
+                    _featureAttribute = (FeatureClassFieldAEOAttribute)_attribute;
+                    _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
+                    _modelAttributes[this.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
+
+                    if (_attribute is FeatureClassKeyFieldAEOAttribute)
+                    {
+                        _KeyField = ((FeatureClassFieldAEOAttribute)_attribute).FieldName;
+                    }
                 }
             }
-
-            return null;
-
         }
+
+
+        private Model _modelo;
+        private HashSet<ModelProperty> _modelProperties;
+        private Dictionary<string, string> _modelAttributes;
+        private string _KeyField;
+
     }
 }

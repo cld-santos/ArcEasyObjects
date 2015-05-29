@@ -15,7 +15,7 @@ namespace ArcEasyObjects.Attributes
         }
 
         public FeatureClassFieldAEOAttribute Attribute
-        {
+        {   
             get { return _attribute; }
         }
 
