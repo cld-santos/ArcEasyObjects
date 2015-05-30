@@ -1,12 +1,15 @@
-# ArcEasyObjects #
+# ArcEasy || ArcEasyObjects #
 
-ArcEasyObjects é a proposta de um ORM para facilitar o desenvolvimento de aplicações  Desktop GIS com base na plataforma ArcGIS ESRI. 
+ArcEasy is an ORM (Object Relation Mapping) proposal to make easy the life of an ArcObjects Developer.
 
-###  Intuito do framework  ###
+Once you need to add a new Developer to your GIS Team, you need to find out an ESRI Developer, so you discover that is more easy to found a Microsft Developer than an ArcObjects Developer.
 
-A intenção é utilizar boas práticas de desenvolvimento para contruir um framework que facilite a vida do desenvolvedor ArcGIS, pois o arcObjects torna este desenvolvimento complexo.
+###  Disclaimer ###
+
+Don't think that you don't need your Developer know ArcObjects  
+
 
 ### Comitters ###
 
-* Claudio Santos
-* Daniel Porfirio
+* Claudio Santos -  [http://simplologia.com.br/](Simplologia)
+* Daniel Porfirio - [http://danielporfirio.com/](danielporfirio.com)
