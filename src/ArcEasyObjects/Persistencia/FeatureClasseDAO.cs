@@ -49,14 +49,48 @@ namespace ArcEasyObjects.Persistencia
                                                 Convert.ChangeType(_feature.get_Value(_feature.Fields.FindField(_property.Attribute.FieldName)), 
                                                                    _property.Attribute.FieldType));
                 }
+
             }
 
+            //TODO: Carregar os relacionamentos;
 
 
 
         }
-    
+
+        public List<Model> Search(Model AEOModel, string AOWhereClause)
+        {
+            List<Model> _ModelsReturn = new List<Model>();
+
+            IQueryFilter _queryParamns = new QueryFilter();
+            _queryParamns.WhereClause = AOWhereClause;
+
+            IFeatureCursor _rows = ((IFeatureWorkspace)_workspace).OpenFeatureClass(AEOModel.NomeFeatureClass).Search(_queryParamns, true);
+            IFeature _feature = _rows.NextFeature();
+
+            while (_feature != null)
+            {
+                object[] _parameters = {this};
+                object _model = Activator.CreateInstance(AEOModel.GetType(), _parameters);
+
+                foreach (ModelProperty _property in AEOModel.ModelProperties)
+                {
+                    _property.Property.SetValue(_model,
+                                                Convert.ChangeType(_feature.get_Value(_feature.Fields.FindField(_property.Attribute.FieldName)),
+                                                                   _property.Attribute.FieldType));
+                }
+                _ModelsReturn.Add((Model)_model);
+                _feature = _rows.NextFeature();
+            }
+
+            return _ModelsReturn;
+            
+        }
+
+
         private IWorkspace _workspace;
+
+
 
 
     }

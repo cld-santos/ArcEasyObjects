@@ -5,6 +5,8 @@ using ESRI.ArcGIS;
 using ESRI.ArcGIS.Geodatabase;
 using ArcEasyObjects.Persistencia;
 using ESRI.ArcGIS.esriSystem;
+using System.Collections.Generic;
+using ArcEasyObjects;
 
 namespace testeArcEasyObjects
 {
@@ -12,22 +14,19 @@ namespace testeArcEasyObjects
     public class testPontoNotavel
     {
 
-        [TestMethod]
-        public void deveMontarListaDeAtributos()
+        [ClassInitialize]
+        public static void Initialization(TestContext context)
         {
-        }
-
-        [TestMethod]
-        public void deveInvocarPropriedadeExistente()
-        {
+            inicializaLicenca();
+            _workspace = openWorkspace();
         }
 
         [TestMethod]
         public void mustSaveAModel()
         {
-            inicializaLicenca();
 
-            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(openWorkspace()));
+            //TODO: Ter uma factory ou builder para inicializar o Model
+            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
 
             _pn.Codigo = 1;
             _pn.Descricao = "Testando a inclusao por uma camada transparente.";
@@ -40,9 +39,9 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void mustLoadAModel()
         {
-            inicializaLicenca();
 
-            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(openWorkspace()));
+            //TODO: Ter uma factory ou builder para inicializar o Model
+            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
 
             _pn.Load(1);
 
@@ -52,8 +51,22 @@ namespace testeArcEasyObjects
 
         }
 
+        [TestMethod]
+        public void mustSearchSomeFeatures()
+        {
+            //TODO: Criar uma lista do tipo desejado, aplicar generics
+            List<Model> _pns = new List<Model>();
+            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
 
-        private void inicializaLicenca()
+            _pns = _pn.Search("PontoNotavel.Codigo = 1");
+
+            Assert.IsTrue(_pns.Count > 0);
+        }
+
+
+
+        #region Métodos e Atributos Privados
+        private static void inicializaLicenca()
         {
 
             if (!ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.Engine))
@@ -77,12 +90,13 @@ namespace testeArcEasyObjects
 
 
 
-        public virtual IWorkspace openWorkspace()
+        public static IWorkspace openWorkspace()
         {
             Type factoryType = Type.GetTypeFromProgID("esriDataSourcesGDB.FileGDBWorkspaceFactory");
             IWorkspaceFactory workspaceFactory = (IWorkspaceFactory)Activator.CreateInstance(factoryType);
             return workspaceFactory.OpenFromFile(@"E:\csantos\src\ArcEasyObjects\data\aeoSample.gdb", 0);
         }
-
+        private static IWorkspace _workspace;
+        #endregion
     }
 }

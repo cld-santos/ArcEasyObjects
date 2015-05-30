@@ -11,6 +11,27 @@ namespace ArcEasyObjects
     public class FeatureAEO
     {
 
+        public Dictionary<string, string> getFeatureClassAttributes()
+        {
+
+            return _modelAttributes;
+
+        }
+
+        public HashSet<ModelProperty> getFeatureClassFields()
+        {
+
+            return _modelProperties;
+
+        }
+
+        public String getFeatureClassKeyField()
+        {
+
+            return _KeyField;
+
+        }
+
         public  FeatureAEO(Model Modelo)
         {
             this._modelo = Modelo;
@@ -34,20 +55,6 @@ namespace ArcEasyObjects
             return "";
         }
 
-        public HashSet<ModelProperty> getFeatureClassFields()
-        {
-
-            return _modelProperties;
-
-        }
-
-        public String getFeatureClassKeyField()
-        {
-
-            return _KeyField;
-
-        }
-
         private void loadModelConfig()
         {
             PropertyInfo[] _properties = _modelo.GetType().GetProperties();
@@ -66,7 +73,7 @@ namespace ArcEasyObjects
 
                     _featureAttribute = (FeatureClassFieldAEOAttribute)_attribute;
                     _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
-                    _modelAttributes[this.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
+                    _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
 
                     if (_attribute is FeatureClassKeyFieldAEOAttribute)
                     {

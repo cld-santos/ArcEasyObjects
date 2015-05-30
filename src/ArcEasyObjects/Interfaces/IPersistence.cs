@@ -9,5 +9,6 @@ namespace ArcEasyObjects
     {
         void Save(Model AEOModel);
         void Load(Model AEOModel, int KeyFieldValue);
+        List<Model> Search(Model AEOModel, string AOWhereClause);
     }
 }

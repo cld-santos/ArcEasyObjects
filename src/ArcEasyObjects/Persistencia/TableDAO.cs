@@ -53,5 +53,11 @@ namespace ArcEasyObjects.Persistencia
             }
            
         }
+
+
+        public List<Model> Search(Model AEOModel, string AOWhereClause)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
