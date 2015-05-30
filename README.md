@@ -8,8 +8,8 @@ Could be awesome to write ArcObjects code like bellow?
     PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
 
     _pn.Codigo = 1;
-    _pn.Descricao = "Testando a inclusao por uma camada transparente.";
-    _pn.Nome = "Teste Inclusao.";
+    _pn.Descricao = "Test the insert of a Model.";
+    _pn.Nome = "Insert Test.";
 
     _pn.Save();
 
