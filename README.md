@@ -22,7 +22,8 @@ Once you need to add a new Developer to your GIS Team, you need to find out an E
 
 To facilate the introduce of a MS Developer to ArcObjects world, and increase the productivity of your team try ArcEasy in your Project.
 
-Make contact to support us to develop this amazing tool. 
+
+Make contact to help us to develop this amazing tool. 
 
 ###  Disclaimer ###
 
