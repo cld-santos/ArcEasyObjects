@@ -18,7 +18,11 @@ Pleasure to meet you, I'm ArcEasyObjects!
 
 ArcEasy is an ORM (Object Relation Mapping) proposal to make easy the life of an ArcObjects Developer.
 
-Once you need to add a new Developer to your GIS Team, you need to find out an ESRI Developer, so you discover that is more easy to found a Microsft Developer than an ArcObjects Developer.
+Once you need to add a new Developer to your GIS Team, you need to find out an ESRI Developer, so you discover that is more easy to found a Microsoft Developer than an ArcObjects Developer.
+
+To facilate the introduce of a MS Developer to ArcObjects world, and increase the productivity of your team try ArcEasy in your Project.
+
+Make contact to support us to develop this amazing tool. 
 
 ###  Disclaimer ###
 
