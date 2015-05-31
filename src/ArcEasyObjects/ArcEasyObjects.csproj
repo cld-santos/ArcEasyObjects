@@ -51,13 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\FeatureClassKeyFieldAttribute.cs" />
+    <Compile Include="Attributes\EntityKeyField.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
-    <Compile Include="FeatureAEO.cs" />
-    <Compile Include="Attributes\FeatureClassAEO.cs" />
-    <Compile Include="Attributes\FeatureClassFieldsAEO.cs" />
-    <Compile Include="InvalidModelAEOException.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="EntityAEO.cs" />
+    <Compile Include="Attributes\EntityAEO.cs" />
+    <Compile Include="Attributes\EntityFieldAEO.cs" />
+    <Compile Include="ExceptionAEO\InvalidModelAEOException.cs" />
+    <Compile Include="BaseModel.cs" />
     <Compile Include="Interfaces\IPersistence.cs" />
     <Compile Include="Persistencia\TableDAO.cs" />
     <Compile Include="Persistencia\FeatureClasseDAO.cs" />

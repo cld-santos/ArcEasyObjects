@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace ArcEasyObjects
 {
-    public class FeatureAEO
+    public class EntityAEO
     {
 
         public Dictionary<string, string> getFeatureClassAttributes()
@@ -32,7 +32,7 @@ namespace ArcEasyObjects
 
         }
 
-        public  FeatureAEO(Model Modelo)
+        public  EntityAEO(BaseModel Modelo)
         {
             this._modelo = Modelo;
             loadModelConfig();
@@ -46,13 +46,27 @@ namespace ArcEasyObjects
 
             foreach (System.Attribute attr in attrs)
             {
-                if (attr is FeatureClassAEOAttribute)
+                if (attr is EntityAEOAttribute)
                 {
-                    FeatureClassAEOAttribute a = (FeatureClassAEOAttribute)attr;
-                    return a.NomeFeatureClass;
+                    EntityAEOAttribute a = (EntityAEOAttribute)attr;
+                    return a.FeatureClassName;
                 }
             }
             return "";
+        }
+
+        public EntityAEOAttribute getFeatureClassConfig()
+        {
+            System.Attribute[] attrs = System.Attribute.GetCustomAttributes(_modelo.GetType());
+
+            foreach (System.Attribute attr in attrs)
+            {
+                if (attr is EntityAEOAttribute)
+                {
+                    return (EntityAEOAttribute)attr;
+                }
+            }
+            return null;
         }
 
         private void loadModelConfig()
@@ -63,7 +77,7 @@ namespace ArcEasyObjects
 
             foreach (PropertyInfo _property in _properties)
             {
-                FeatureClassFieldAEOAttribute _featureAttribute;
+                EntityFieldAEOAttribute _featureAttribute;
                 object[] _attributes = _property.GetCustomAttributes(true);
                 object _attribute;
 
@@ -71,23 +85,24 @@ namespace ArcEasyObjects
                 {
                     _attribute = _attributes.Single();
 
-                    _featureAttribute = (FeatureClassFieldAEOAttribute)_attribute;
+                    _featureAttribute = (EntityFieldAEOAttribute)_attribute;
                     _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
                     _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
 
-                    if (_attribute is FeatureClassKeyFieldAEOAttribute)
+                    if (_attribute is EntityKeyFieldAEOAttribute)
                     {
-                        _KeyField = ((FeatureClassFieldAEOAttribute)_attribute).FieldName;
+                        _KeyField = ((EntityFieldAEOAttribute)_attribute).FieldName;
                     }
                 }
             }
         }
 
 
-        private Model _modelo;
+        private BaseModel _modelo;
         private HashSet<ModelProperty> _modelProperties;
         private Dictionary<string, string> _modelAttributes;
         private string _KeyField;
+
 
     }
 }

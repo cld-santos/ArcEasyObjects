@@ -24,9 +24,7 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void mustSaveAModel()
         {
-
-            //TODO: Ter uma factory ou builder para inicializar o Model
-            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
+            PontoNotavel _pn = new PontoNotavel(_workspace);
 
             _pn.Codigo = 1;
             _pn.Descricao = "Testando a inclusao por uma camada transparente.";
@@ -39,9 +37,7 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void mustLoadAModel()
         {
-
-            //TODO: Ter uma factory ou builder para inicializar o Model
-            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
+            PontoNotavel _pn = new PontoNotavel(_workspace);
 
             _pn.Load(1);
 
@@ -50,21 +46,26 @@ namespace testeArcEasyObjects
 
 
         }
-
+            
         [TestMethod]
         public void mustSearchSomeFeatures()
-        {
-            //TODO: Criar uma lista do tipo desejado, aplicar generics
-            List<Model> _pns = new List<Model>();
-            PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
+        {   
+            //TODO: Criar uma lista do tipo desejado, aplicar generics.
+            //List<PontoNotavel> _pns = new List<PontoNotavel>();
+            
+            PontoNotavel _pn = new PontoNotavel(_workspace);
 
-            _pns = _pn.Search("PontoNotavel.Codigo = 1");
-
+            var _pns = _pn.Search("PontoNotavel.Codigo = 1");
+            
+            foreach (PontoNotavel _item in _pns)
+            {
+                Assert.AreEqual(_item.Nome, "Teste Inclusao.");
+            }
+                       
             Assert.IsTrue(_pns.Count > 0);
-        }
 
-
-
+        }  
+        
         #region Métodos e Atributos Privados
         private static void inicializaLicenca()
         {
@@ -98,5 +99,6 @@ namespace testeArcEasyObjects
         }
         private static IWorkspace _workspace;
         #endregion
+
     }
 }

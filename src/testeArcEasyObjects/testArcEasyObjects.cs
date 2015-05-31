@@ -7,23 +7,23 @@ namespace testeArcEasyObjects
     public class testArcEasyObjects
     {
         [TestMethod]
-        public void deveObterOFeatureClassNameDeUmModel()
+        public void mustGetFeatureClassName()
         {
-            ArcEasyObjects.Model _modelo = new TestModelo();
-            ArcEasyObjects.FeatureAEO _featureAEO = new ArcEasyObjects.FeatureAEO(_modelo);
+            ArcEasyObjects.BaseModel _modelo = new TestModel();
+            ArcEasyObjects.EntityAEO _featureAEO = new ArcEasyObjects.EntityAEO(_modelo);
 
-            string _nomeFeatureClass = _featureAEO.getFeatureClassName();
+            string _FeatureClassName = _featureAEO.getFeatureClassName();
 
-            Assert.AreEqual(_nomeFeatureClass, "CSANTOS.PT_TESTMODELO");
+            Assert.AreEqual(_FeatureClassName, "CSANTOS.PT_TESTMODELO");
 
 
         }
 
         [TestMethod]
-        public void deveObterOFeatureClassFieldDeUmModel()
+        public void mustGetOFeatureClassFields()
         {
-            ArcEasyObjects.Model _modelo = new TestModelo();
-            ArcEasyObjects.FeatureAEO _featureAEO = new ArcEasyObjects.FeatureAEO(_modelo);
+            ArcEasyObjects.BaseModel _model = new TestModel();
+            ArcEasyObjects.EntityAEO _featureAEO = new ArcEasyObjects.EntityAEO(_model);
 
             //string _nomeFeatureClassField = _featureAEO.obterAtributosFeatureClass();
 

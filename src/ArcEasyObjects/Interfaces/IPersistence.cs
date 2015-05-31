@@ -7,8 +7,9 @@ namespace ArcEasyObjects
 {
     public interface IPersistence
     {
-        void Save(Model AEOModel);
-        void Load(Model AEOModel, int KeyFieldValue);
-        List<Model> Search(Model AEOModel, string AOWhereClause);
+        void Save(BaseModel AEOModel);
+        void Load(BaseModel AEOModel, int KeyFieldValue);
+        List<BaseModel>  Search(BaseModel AEOModel,string AOWhereClause);
+        //List<T> Search<T>(Model AEOModel, string AOWhereClause);
     }
 }

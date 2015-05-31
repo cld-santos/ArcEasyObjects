@@ -17,7 +17,7 @@ namespace ArcEasyObjects.Persistencia
             _workspace = Workspace;
         }
 
-        public void Save(Model AEOModel)
+        public void Save(BaseModel AEOModel)
         {
             
             IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(AEOModel.NomeFeatureClass).CreateFeature();
@@ -33,7 +33,7 @@ namespace ArcEasyObjects.Persistencia
 
         }
 
-        public void Load(Model AEOModel, int KeyFieldValue)
+        public void Load(BaseModel AEOModel, int KeyFieldValue)
         {
 
             IQueryFilter _queryParamns = new QueryFilter();
@@ -58,9 +58,9 @@ namespace ArcEasyObjects.Persistencia
 
         }
 
-        public List<Model> Search(Model AEOModel, string AOWhereClause)
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause)
         {
-            List<Model> _ModelsReturn = new List<Model>();
+            List<BaseModel> _ModelsReturn = new List<BaseModel>();
 
             IQueryFilter _queryParamns = new QueryFilter();
             _queryParamns.WhereClause = AOWhereClause;
@@ -70,7 +70,7 @@ namespace ArcEasyObjects.Persistencia
 
             while (_feature != null)
             {
-                object[] _parameters = {this};
+                object[] _parameters = {_workspace};
                 object _model = Activator.CreateInstance(AEOModel.GetType(), _parameters);
 
                 foreach (ModelProperty _property in AEOModel.ModelProperties)
@@ -79,14 +79,13 @@ namespace ArcEasyObjects.Persistencia
                                                 Convert.ChangeType(_feature.get_Value(_feature.Fields.FindField(_property.Attribute.FieldName)),
                                                                    _property.Attribute.FieldType));
                 }
-                _ModelsReturn.Add((Model)_model);
+                _ModelsReturn.Add((BaseModel)_model);
                 _feature = _rows.NextFeature();
             }
 
             return _ModelsReturn;
             
         }
-
 
         private IWorkspace _workspace;
 

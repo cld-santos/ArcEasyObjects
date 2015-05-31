@@ -6,12 +6,12 @@ using ArcEasyObjects.Attributes;
 
 namespace testeArcEasyObjects
 {
-    [FeatureClassAEO("CSANTOS.PT_TESTMODELO")]
-    public class TestModelo : ArcEasyObjects.Model
+    [EntityAEO("CSANTOS.PT_TESTMODELO", Type.FeatureClass)]
+    public class TestModel : ArcEasyObjects.BaseModel
     {
         private int _campoChave;
 
-        [FeatureClassFieldAEO("NU_CAMPO_ID", typeof(Int32))]
+        [EntityFieldAEO("NU_CAMPO_ID", typeof(Int32))]
         public int CampoChave
         {
             get { return _campoChave; }

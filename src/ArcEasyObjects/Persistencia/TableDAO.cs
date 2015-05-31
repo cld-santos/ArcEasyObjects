@@ -17,7 +17,7 @@ namespace ArcEasyObjects.Persistencia
             _workspace = Workspace;
         }
 
-        public void Save(Model AEOModel)
+        public void Save(BaseModel AEOModel)
         {
             
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.NomeFeatureClass).CreateRow();
@@ -35,7 +35,7 @@ namespace ArcEasyObjects.Persistencia
     
         private IWorkspace _workspace;
 
-        public void Load(Model AEOModel, int KeyFieldValue)
+        public void Load(BaseModel AEOModel, int KeyFieldValue)
         {
             IQueryFilter _queryParamns = new QueryFilter();
             _queryParamns.WhereClause = AEOModel.KeyField + "=" + KeyFieldValue;
@@ -55,7 +55,7 @@ namespace ArcEasyObjects.Persistencia
         }
 
 
-        public List<Model> Search(Model AEOModel, string AOWhereClause)
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause)
         {
             throw new NotImplementedException();
         }

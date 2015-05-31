@@ -1,5 +1,7 @@
 ﻿using ArcEasyObjects;
 using ArcEasyObjects.Attributes;
+using ArcEasyObjects.Persistencia;
+using ESRI.ArcGIS.Geodatabase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,26 +10,27 @@ using System.Threading.Tasks;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [FeatureClassAEO("PT_PONTO_NOTAVEL")]
-    public class PontoNotavel : ArcEasyObjects.Model
+    [EntityAEO("PT_PONTO_NOTAVEL", Type.FeatureClass)]
+    public class PontoNotavel : ArcEasyObjects.BaseModel
     {
-        public  PontoNotavel(IPersistence MetodoDePersistencia) : base(MetodoDePersistencia) { }
+        //TODO: Remover dependencia explicita da classe pai
+        public PontoNotavel(IWorkspace Workspace) : base(Workspace) { }
 
-        [FeatureClassKeyFieldAEO("CD_PN", typeof(Int32))]
+        [EntityKeyFieldAEO("CD_PN", typeof(Int32))]
         public Int32 Codigo
         {
             get { return _Codigo; }
             set { _Codigo = value; }
         }
         
-        [FeatureClassFieldAEO("NOME", typeof(String))]
+        [EntityFieldAEO("NOME", typeof(String))]
         public String Nome
         {
             get { return _Nome; }
             set { _Nome = value; }
         }
 
-        [FeatureClassFieldAEO("DESCRICAO", typeof(String))]
+        [EntityFieldAEO("DESCRICAO", typeof(String))]
         public String Descricao
         {
             get { return _Descricao; }
@@ -37,7 +40,6 @@ namespace testeArcEasyObjects.Cartografia.Model
         private Int32 _Codigo;
         private String _Nome;
         private String _Descricao;
-
 
     }
 }
