@@ -5,7 +5,7 @@ Could be awesome to write ArcObjects code like bellow?
 ```
 #!c#
 
-    PontoNotavel _pn = new PontoNotavel(new FeatureClassDAO(_workspace));
+    PontoNotavel _pn = new PontoNotavel(_workspace);
 
     _pn.Codigo = 1;
     _pn.Descricao = "Test the insert of a Model.";
