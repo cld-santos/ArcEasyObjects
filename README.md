@@ -14,6 +14,22 @@ Could be awesome to write ArcObjects code like bellow?
     _pn.Save();
 
 ```
+```
+#!c#
+
+    PontoNotavel _pn = new PontoNotavel(_workspace);
+
+    var _pns = _pn.Search("PontoNotavel.Codigo = 1 and PontoNotavel inside (Municipio.codigo=1)");
+            
+    foreach (PontoNotavel _item in _pns)
+    {
+        Assert.AreEqual(_item.Nome, "Teste Inclusao.");
+    }
+                       
+    Assert.IsTrue(_pns.Count > 0);
+```
+
+
 Pleasure to meet you, I'm ArcEasyObjects!
 
 ArcEasy is an ORM (Object Relation Mapping) proposal to make easy the life of an ArcObjects Developer.
