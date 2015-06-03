@@ -1,6 +1,4 @@
-﻿using ArcEasyObjects;
-using ArcEasyObjects.Attributes;
-using ArcEasyObjects.Persistencia;
+﻿using ArcEasyObjects.Attributes;
 using ESRI.ArcGIS.Geodatabase;
 using System;
 using System.Collections.Generic;
@@ -15,7 +13,7 @@ namespace testeArcEasyObjects.Cartografia.Model
     {
         //TODO: Remover dependencia explicita da classe pai
         public PontoNotavel(IWorkspace Workspace) : base(Workspace) { }
-
+    
         [EntityKeyFieldAEO("CD_PN", typeof(Int32))]
         public Int32 Codigo
         {
@@ -40,6 +38,7 @@ namespace testeArcEasyObjects.Cartografia.Model
         private Int32 _Codigo;
         private String _Nome;
         private String _Descricao;
+
 
     }
 }

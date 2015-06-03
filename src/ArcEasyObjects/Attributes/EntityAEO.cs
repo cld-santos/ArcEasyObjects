@@ -13,18 +13,18 @@ namespace ArcEasyObjects.Attributes
             get { return _TypeEntity; }
         }
 
-        public string FeatureClassName
+        public string EntityName
         {
-            get { return _FeatureClassName; }
+            get { return _EntityName; }
         }
 
-        public EntityAEOAttribute(string FeatureClassName, BaseModel.Type TypeEntity)
+        public EntityAEOAttribute(string EntityName, BaseModel.Type TypeEntity)
         {
-            _FeatureClassName = FeatureClassName;
+            _EntityName = EntityName;
             _TypeEntity = TypeEntity;
         }
 
-        private string _FeatureClassName;
+        private string _EntityName;
         private BaseModel.Type _TypeEntity;
 
     }

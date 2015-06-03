@@ -49,7 +49,7 @@ namespace ArcEasyObjects
                 if (attr is EntityAEOAttribute)
                 {
                     EntityAEOAttribute a = (EntityAEOAttribute)attr;
-                    return a.FeatureClassName;
+                    return a.EntityName;
                 }
             }
             return "";

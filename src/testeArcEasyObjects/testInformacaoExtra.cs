@@ -10,8 +10,9 @@ using testeArcEasyObjects.Cartografia.Model;
 
 namespace testeArcEasyObjects
 {
+
     [TestClass]
-    public class testPontoNotavel
+    public class testInformacaoExtra
     {
 
         [ClassInitialize]
@@ -24,75 +25,71 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void mustSaveAModel()
         {
-            PontoNotavel _pn = new PontoNotavel(_workspace);
+            InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
+                
+            _infoExtra.CodigoInformacaoExtra = 1;
+            _infoExtra.CodigoPontoNotavel = 1;
+            _infoExtra.Informacoes = "Testes";
 
-            _pn.Codigo = 1;
-            _pn.Descricao = "Testando a inclusao por uma camada transparente.";
-            _pn.Nome = "Teste Inclusao.";
-
-            _pn.Save();
-            
+            _infoExtra.Save();
         }
 
         [TestMethod]
         public void mustLoadAModel()
         {
-            PontoNotavel _pn = new PontoNotavel(_workspace);
+            InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
 
-            _pn.Load(1);
+            _infoExtra.Load(1);
 
-            Assert.AreEqual(_pn.Descricao, "Testando a inclusao por uma camada transparente.");
-            Assert.AreEqual(_pn.Nome ,"Teste Inclusao.");
+            Assert.AreEqual(_infoExtra.CodigoInformacaoExtra,1);
+            Assert.AreEqual(_infoExtra.CodigoPontoNotavel, 1);
+            Assert.AreEqual(_infoExtra.Informacoes, "Testes");
 
         }
             
         [TestMethod]
         public void mustSearchSomeFeatures()
-        {   
-            //TODO: Criar uma lista do tipo desejado, aplicar generics.
-            //List<PontoNotavel> _pns = new List<PontoNotavel>();
-            
-            PontoNotavel _pn = new PontoNotavel(_workspace);
+        {
+            InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
+            var _infosExtra = _infoExtra.Search("InformacaoExtra.CodigoPontoNotavel = 1");
 
-            //TODO:Replace only words
-            var _pns = _pn.Search("PontoNotavel.Codigo = 1");
-            
-            foreach (PontoNotavel _item in _pns)
+            foreach (InformacaoExtra _item in _infosExtra)
             {
-                Assert.AreEqual(_item.Nome, "Teste Inclusao.");
-            }
-                       
-            Assert.IsTrue(_pns.Count > 0);
+                Assert.AreEqual(_item.Informacoes, "Testes");
 
+            }
+
+            Assert.IsTrue(_infosExtra.Count > 0);
         }
 
         [TestMethod]
         public void mustUpdateAModel()  
         {
-            PontoNotavel _pn = new PontoNotavel(_workspace);
+            InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
 
-            _pn.Load(1);
-            _pn.Descricao = "Ponto Notável Atualizado";
-            _pn.Update();
+            _infoExtra.Load(1);
 
-            _pn.Load(1);
+            _infoExtra.Informacoes = "Sem Testes";
 
-            Assert.AreEqual(_pn.Descricao, "Ponto Notável Atualizado");
-            Assert.AreEqual(_pn.Nome, "Teste Inclusao.");
+            _infoExtra.Update();
 
+            InformacaoExtra _infoExtraResultado = new InformacaoExtra(_workspace);
+            _infoExtraResultado.Load(1);
+            Assert.AreEqual(_infoExtraResultado.Informacoes, "Sem Testes");
         }
 
         [TestMethod]
-        public void mustdeleteAModel()
+        public void mustDeleteAModel()
         {
-            PontoNotavel _pn = new PontoNotavel(_workspace);
-            
-            _pn.Load(1);
-            _pn.Delete();
+            InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
 
-            Assert.IsNull(_pn.Descricao);
-            Assert.IsNull(_pn.Nome);
+            _infoExtra.Load(1);
 
+            _infoExtra.Delete();
+
+            InformacaoExtra _infoExtraResultado = new InformacaoExtra(_workspace);
+            _infoExtraResultado.Load(1);
+            Assert.IsNull(_infoExtraResultado.Informacoes);
         }
 
 

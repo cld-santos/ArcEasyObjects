@@ -57,7 +57,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Cartografia\Model\InformacaoExtra.cs" />
     <Compile Include="Cartografia\Model\PontoNotavel.cs" />
+    <Compile Include="testInformacaoExtra.cs" />
     <Compile Include="LicenseInitializer.cs" />
     <Compile Include="testArcEasyObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

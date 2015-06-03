@@ -6,6 +6,8 @@ namespace testeArcEasyObjects
     [TestClass]
     public class testArcEasyObjects
     {
+
+
         [TestMethod]
         public void mustGetFeatureClassName()
         {

@@ -11,5 +11,7 @@ namespace ArcEasyObjects
         void Load(BaseModel AEOModel, int KeyFieldValue);
         List<BaseModel>  Search(BaseModel AEOModel,string AOWhereClause);
         //List<T> Search<T>(Model AEOModel, string AOWhereClause);
+        void Update(BaseModel baseModel);
+        void Delete(BaseModel baseModel);
     }
 }

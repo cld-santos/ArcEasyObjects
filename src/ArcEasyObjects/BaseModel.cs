@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ArcEasyObjects
 {
@@ -13,7 +14,7 @@ namespace ArcEasyObjects
     {
         public enum Type { FeatureClass, Table };
 
-        public string NomeFeatureClass { get { return _FeatureClassConfig.FeatureClassName; } }
+        public string EntityName { get { return _FeatureClassConfig.EntityName; } }
         public string KeyField { get { return _KeyField; } }
         internal HashSet<ModelProperty> ModelProperties { get { return _ModelProperties; } }
 
@@ -27,7 +28,6 @@ namespace ArcEasyObjects
             _ModelAttributes = _featureAEO.getFeatureClassAttributes();
             _KeyField = _featureAEO.getFeatureClassKeyField();
         }
-
     
         public BaseModel(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace) : this()
         {
@@ -38,15 +38,24 @@ namespace ArcEasyObjects
         }
 
 
-
         public void Save()
         {
             _persistence.Save(this);
         }
 
+        public void Update()
+        {
+            _persistence.Update(this);
+        }
+
         public void Load(int KeyFieldValue)
         {
             _persistence.Load(this, KeyFieldValue);
+        }
+
+        public void Delete()
+        {
+            _persistence.Delete(this);
         }
 
         public List<BaseModel> Search(string AEOWhereClause)
@@ -57,10 +66,22 @@ namespace ArcEasyObjects
             
         }
 
+        
+        [EntityFieldAEO("OBJECTID", typeof(Int32))]
+        public Int32 ObjectId
+        {
+            get { return _ObjectId; }
+            set { _ObjectId = value; }
+        }
+
+        private int _ObjectId;
+
+
         private string toAOWhereClause(string AEOWhereClause)
         {
             foreach (string _item in _ModelAttributes.Keys)
             {
+
                 AEOWhereClause = AEOWhereClause.Replace(_item, _ModelAttributes[_item]);
             }
 
