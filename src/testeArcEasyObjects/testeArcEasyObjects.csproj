@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="Cartografia\Model\InformacaoExtra.cs" />
     <Compile Include="Cartografia\Model\PontoNotavel.cs" />
+    <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
+    <Compile Include="ProjetoStandardTest.cs" />
     <Compile Include="testInformacaoExtra.cs" />
     <Compile Include="LicenseInitializer.cs" />
     <Compile Include="testArcEasyObjects.cs" />

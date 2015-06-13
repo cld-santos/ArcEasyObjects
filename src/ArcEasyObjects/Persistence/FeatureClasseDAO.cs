@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArcEasyObjects.Persistencia
+namespace ArcEasyObjects.Persistence
 {
     public class FeatureClassDAO:IPersistence
     {
@@ -62,7 +62,7 @@ namespace ArcEasyObjects.Persistencia
 
         public void Delete(BaseModel BaseModel)
         {
-            IFeature _feature = ((IFeatureWorkspace)_workspace).OpenFeatureClass(BaseModel.EntityName).GetFeature(BaseModel.ObjectId);
+            IFeature _feature = ((IFeatureWorkspace)_workspace).OpenFeatureClass(BaseModel.EntityName).GetFeature(((GISModel)BaseModel).ObjectId);
 
             _feature.Delete();
 
@@ -74,7 +74,7 @@ namespace ArcEasyObjects.Persistencia
 
         public void Update(BaseModel BaseModel)
         {
-            IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(BaseModel.EntityName).GetFeature(BaseModel.ObjectId);
+            IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(BaseModel.EntityName).GetFeature(((GISModel)BaseModel).ObjectId);
 
 
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))    

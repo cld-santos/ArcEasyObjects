@@ -1,5 +1,5 @@
 ﻿using ArcEasyObjects;
-using ArcEasyObjects.Persistencia;
+using ArcEasyObjects.Persistence;
 using ESRI.ArcGIS;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
@@ -63,7 +63,7 @@ namespace testeArcEasyObjects
         }
 
         [TestMethod]
-        public void mustUpdateAModel()  
+        public void mustUpdateAModel()
         {
             InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
 

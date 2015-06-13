@@ -7,12 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArcEasyObjects.Persistencia
+namespace ArcEasyObjects.Persistence
 {
-    public class TableDAO:IPersistence
+    public class GISTableDAO:IPersistence
     {
 
-        public TableDAO(IWorkspace Workspace)
+        public GISTableDAO(IWorkspace Workspace)
         {
             _workspace = Workspace;
         }
@@ -54,7 +54,7 @@ namespace ArcEasyObjects.Persistencia
 
         public void Delete(BaseModel BaseModel)
         {
-            IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).GetRow(BaseModel.ObjectId);
+            IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).GetRow(((GISModel)BaseModel).ObjectId);
 
             _row.Delete();
 
@@ -64,15 +64,15 @@ namespace ArcEasyObjects.Persistencia
             }
         }
 
-        public void Update(BaseModel AEOModel)
+        public void Update(BaseModel BaseModel)
         {
 
-            IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).GetRow(AEOModel.ObjectId);
+            IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).GetRow(((GISModel)BaseModel).ObjectId);
 
-            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))
             {
                 _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName),
-                                Convert.ChangeType(_property.Property.GetValue(AEOModel),
+                                Convert.ChangeType(_property.Property.GetValue(BaseModel),
                                                    _property.Attribute.FieldType));
             }
 

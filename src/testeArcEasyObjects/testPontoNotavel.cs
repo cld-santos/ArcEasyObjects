@@ -1,5 +1,5 @@
 ﻿using ArcEasyObjects;
-using ArcEasyObjects.Persistencia;
+using ArcEasyObjects.Persistence;
 using ESRI.ArcGIS;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace testeArcEasyObjects.Cartografia.Model
 {
     [EntityAEO("PT_PONTO_NOTAVEL", Type.FeatureClass)]
-    public class PontoNotavel : ArcEasyObjects.BaseModel
+    public class PontoNotavel : ArcEasyObjects.GISModel
     {
         //TODO: Remover dependencia explicita da classe pai
         public PontoNotavel(IWorkspace Workspace) : base(Workspace) { }

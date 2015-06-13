@@ -53,14 +53,16 @@
   <ItemGroup>
     <Compile Include="Attributes\EntityKeyField.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
+    <Compile Include="GISModel.cs" />
     <Compile Include="EntityAEO.cs" />
     <Compile Include="Attributes\EntityAEO.cs" />
     <Compile Include="Attributes\EntityFieldAEO.cs" />
     <Compile Include="ExceptionAEO\InvalidModelAEOException.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="Interfaces\IPersistence.cs" />
-    <Compile Include="Persistencia\TableDAO.cs" />
-    <Compile Include="Persistencia\FeatureClasseDAO.cs" />
+    <Compile Include="Persistence\TableDAO.cs" />
+    <Compile Include="Persistence\GISTableDAO.cs" />
+    <Compile Include="Persistence\FeatureClasseDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

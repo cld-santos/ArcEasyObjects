@@ -1,5 +1,5 @@
 ﻿using ArcEasyObjects.Attributes;
-using ArcEasyObjects.Persistencia;
+using ArcEasyObjects.Persistence;
 using ESRI.ArcGIS.Geodatabase;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace ArcEasyObjects
 {
     public abstract class BaseModel 
     {
-        public enum Type { FeatureClass, Table };
+        public enum Type { FeatureClass, GISTable, Table };
 
         public string EntityName { get { return _FeatureClassConfig.EntityName; } }
         public string KeyField { get { return _KeyField; } }
@@ -32,6 +32,7 @@ namespace ArcEasyObjects
         public BaseModel(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace) : this()
         {
             _createEntityPersistence.Add(Type.FeatureClass, () => { return new FeatureClassDAO(Workspace); });
+            _createEntityPersistence.Add(Type.GISTable, () => { return new GISTableDAO(Workspace); });
             _createEntityPersistence.Add(Type.Table, () => { return new TableDAO(Workspace); }); 
 
             _persistence = _createEntityPersistence[_FeatureClassConfig.TypeEntity]();
@@ -60,29 +61,21 @@ namespace ArcEasyObjects
 
         public List<BaseModel> Search(string AEOWhereClause)
         {
+
             String AOWhereClause = toAOWhereClause(AEOWhereClause);
 
             return _persistence.Search(this, AOWhereClause);
-            
+
         }
 
         
-        [EntityFieldAEO("OBJECTID", typeof(Int32))]
-        public Int32 ObjectId
-        {
-            get { return _ObjectId; }
-            set { _ObjectId = value; }
-        }
-
-        private int _ObjectId;
-
-
         private string toAOWhereClause(string AEOWhereClause)
         {
+
             foreach (string _item in _ModelAttributes.Keys)
             {
-
-                AEOWhereClause = AEOWhereClause.Replace(_item, _ModelAttributes[_item]);
+                Regex padrao = new Regex(@"\b"+_item+@"\b");
+                AEOWhereClause = padrao.Replace(AEOWhereClause, _ModelAttributes[_item]);
             }
 
             return AEOWhereClause;
