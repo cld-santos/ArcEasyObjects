@@ -1,19 +1,17 @@
 ﻿using ArcEasyObjects.Attributes;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ArcEasyObjects
 {
     public class GISModel : BaseModel
     {
-        //TODO: Remover dependencia explicita da classe pai
         public GISModel(IWorkspace Workspace) : base(Workspace) { }
-
-
+        
         [EntityFieldAEO("OBJECTID", typeof(Int32))]
         public Int32 ObjectId
         {
@@ -21,7 +19,15 @@ namespace ArcEasyObjects
             set { _ObjectId = value; }
         }
 
+        [EntityShapeFieldAEO(typeof(IGeometry))]
+        public IGeometry Geometry
+        {
+            get { return _Geometry; }
+            set { _Geometry = value; }
+        }
+
         private int _ObjectId;
+        private IGeometry _Geometry;
 
     }
 }

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArcEasyObjects</RootNamespace>
     <AssemblyName>ArcEasyObjects</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,6 +39,9 @@
     <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="ESRI.ArcGIS.Geometry, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="ESRI.ArcGIS.System, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -46,17 +50,17 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\EntityKeyField.cs" />
+    <Compile Include="Attributes\EntityKeyFieldAttribute.cs" />
+    <Compile Include="Attributes\EntityShapeFieldAEOAttribute.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
     <Compile Include="GISModel.cs" />
     <Compile Include="EntityAEO.cs" />
-    <Compile Include="Attributes\EntityAEO.cs" />
-    <Compile Include="Attributes\EntityFieldAEO.cs" />
+    <Compile Include="Attributes\EntityAEOAttribute.cs" />
+    <Compile Include="Attributes\EntityFieldAEOAttribute.cs" />
     <Compile Include="ExceptionAEO\InvalidModelAEOException.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="Interfaces\IPersistence.cs" />

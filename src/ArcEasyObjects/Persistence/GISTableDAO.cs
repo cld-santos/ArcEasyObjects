@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ArcEasyObjects.Persistence
 {
@@ -30,7 +29,7 @@ namespace ArcEasyObjects.Persistence
                 {
                     _property.Property.SetValue(AEOModel,
                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                   _property.Attribute.FieldType));
+                                                                   _property.Attribute.FieldType),null);
                 }
             }
 
@@ -43,8 +42,8 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))
             {
-                _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), 
-                                Convert.ChangeType(_property.Property.GetValue(AEOModel), 
+                _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName),
+                                Convert.ChangeType(_property.Property.GetValue(AEOModel, null), 
                                                    _property.Attribute.FieldType));
             }
 
@@ -60,7 +59,7 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in BaseModel.ModelProperties)
             {
-                _property.Property.SetValue(BaseModel, null);
+                _property.Property.SetValue(BaseModel, null,null);
             }
         }
 
@@ -72,7 +71,7 @@ namespace ArcEasyObjects.Persistence
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))
             {
                 _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName),
-                                Convert.ChangeType(_property.Property.GetValue(BaseModel),
+                                Convert.ChangeType(_property.Property.GetValue(BaseModel, null),
                                                    _property.Attribute.FieldType));
             }
 
@@ -99,7 +98,7 @@ namespace ArcEasyObjects.Persistence
                 {
                     _property.Property.SetValue(_model,
                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                   _property.Attribute.FieldType));
+                                                                   _property.Attribute.FieldType), null);
                 }
 
                 _ModelsReturn.Add((BaseModel)_model);

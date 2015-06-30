@@ -1,10 +1,10 @@
 ﻿using ArcEasyObjects.Attributes;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
@@ -38,7 +38,6 @@ namespace testeArcEasyObjects.Cartografia.Model
         private Int32 _Codigo;
         private String _Nome;
         private String _Descricao;
-
 
     }
 }

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ArcEasyObjects.Persistence
 {
@@ -46,7 +45,7 @@ namespace ArcEasyObjects.Persistence
                 {
                     _property.Property.SetValue(BaseModel,
                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                   _property.Attribute.FieldType));
+                                                                   _property.Attribute.FieldType), null);
                 }
             }
 
@@ -61,7 +60,7 @@ namespace ArcEasyObjects.Persistence
             foreach (ModelProperty _property in BaseModel.ModelProperties)
             {
                _fields += _property.Attribute.FieldName + ",";
-               _values += _getFormatedValue(_property.Property.GetValue(BaseModel), _property.Attribute.FieldType) + ",";
+               _values += _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType) + ",";
             }
 
             _fields = _fields.Substring(0,_fields.Length-1);
@@ -91,7 +90,7 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAEOAttribute)))
             {
-                String _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel), _property.Attribute.FieldType);
+                String _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
                 _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName,_WhereClause));
             }
         }
@@ -105,12 +104,12 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAEOAttribute)))
             {
-                _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel), _property.Attribute.FieldType);
+                _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
             }
 
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAEOAttribute)))
             {
-                _Value = _property.Property.GetValue(BaseModel);
+                _Value = _property.Property.GetValue(BaseModel, null);
                 _values = String.Format(_set,_property.Attribute.FieldName,_getFormatedValue(_Value, _property.Attribute.FieldType));
                 
                 _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName, _values, _WhereClause));
@@ -152,7 +151,7 @@ namespace ArcEasyObjects.Persistence
                 {
                     _property.Property.SetValue(_model,
                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                   _property.Attribute.FieldType));
+                                                                   _property.Attribute.FieldType), null);
                 }
 
                 _ModelsReturn.Add((BaseModel)_model);

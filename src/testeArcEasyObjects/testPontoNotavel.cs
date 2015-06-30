@@ -3,6 +3,7 @@ using ArcEasyObjects.Persistence;
 using ESRI.ArcGIS;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,12 @@ namespace testeArcEasyObjects
             _pn.Codigo = 1;
             _pn.Descricao = "Testando a inclusao por uma camada transparente.";
             _pn.Nome = "Teste Inclusao.";
+
+            IPoint _ponto = new PointClass();
+
+            _ponto.PutCoords(-5118733.117, -2667994.655);
+            
+            _pn.Geometry = _ponto;
 
             _pn.Save();
             
@@ -73,6 +80,10 @@ namespace testeArcEasyObjects
 
             _pn.Load(1);
             _pn.Descricao = "Ponto Notável Atualizado";
+
+            IPoint _ponto = new PointClass();
+            _ponto.PutCoords(-5119200.437, -2668197.160);
+            _pn.Geometry = _ponto;
             _pn.Update();
 
             _pn.Load(1);

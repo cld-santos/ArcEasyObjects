@@ -80,7 +80,7 @@ namespace ArcEasyObjects
                 EntityFieldAEOAttribute _featureAttribute;
                 object[] _attributes = _property.GetCustomAttributes(true);
                 object _attribute;
-
+                //TODO: 
                 if (_attributes.Count() > 0)
                 {
                     _attribute = _attributes.Single();
