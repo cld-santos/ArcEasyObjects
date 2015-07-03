@@ -7,9 +7,6 @@ namespace ArcEasyObjects.Attributes
 {
     public class EntityFieldAEOAttribute : Attribute
     {
-        private string _fieldName;
-        private Type _fieldType;
-
         public string FieldName
         {
             get { return _fieldName; }
@@ -25,5 +22,9 @@ namespace ArcEasyObjects.Attributes
             _fieldName = FieldName;
             _fieldType = FieldType;
         }
+
+        private string _fieldName;
+        private Type _fieldType;
+
     }
 }

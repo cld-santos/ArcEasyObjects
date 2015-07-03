@@ -63,6 +63,7 @@
     <Compile Include="Attributes\EntityFieldAEOAttribute.cs" />
     <Compile Include="ExceptionAEO\InvalidModelAEOException.cs" />
     <Compile Include="BaseModel.cs" />
+    <Compile Include="Helper\GDBCursor.cs" />
     <Compile Include="Interfaces\IPersistence.cs" />
     <Compile Include="Persistence\TableDAO.cs" />
     <Compile Include="Persistence\GISTableDAO.cs" />

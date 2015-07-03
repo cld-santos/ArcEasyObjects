@@ -35,6 +35,17 @@ namespace testeArcEasyObjects.Cartografia.Model
             set { _Descricao = value; }
         }
 
+        private InformacaoExtra _InformacaoExtra;
+
+        //[EntityOneToOneFieldAEO("CD_INFO_EXTRA_FK", typeof(Int32))]
+        public InformacaoExtra InformacaoExtra
+        {
+            get { return _InformacaoExtra; }
+            set { _InformacaoExtra = value; }
+        }
+
+
+
         private Int32 _Codigo;
         private String _Nome;
         private String _Descricao;

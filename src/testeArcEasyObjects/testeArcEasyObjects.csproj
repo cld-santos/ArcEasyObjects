@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Cartografia\Model\UsuarioSAP.cs" />
     <Compile Include="Cartografia\Model\InformacaoExtra.cs" />
     <Compile Include="Cartografia\Model\PontoNotavel.cs" />
     <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cartografia\Model\TestModelo.cs" />
     <Compile Include="testPontoNotavel.cs" />
+    <Compile Include="UsuarioSAPTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArcEasyObjects\ArcEasyObjects.csproj">

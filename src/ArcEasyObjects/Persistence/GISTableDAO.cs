@@ -42,9 +42,19 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))
             {
-                _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName),
-                                Convert.ChangeType(_property.Property.GetValue(AEOModel, null), 
-                                                   _property.Attribute.FieldType));
+                EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
+                if (String.IsNullOrEmpty(_keyField.Sequence))
+                {
+                    _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
+
+                }
+                else
+                {
+                    ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
+                    IRow row = cursor.NextRow();
+                    _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType));
+                }
+
             }
 
             _row.Store();

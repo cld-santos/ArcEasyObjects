@@ -78,21 +78,28 @@ namespace ArcEasyObjects
             foreach (PropertyInfo _property in _properties)
             {
                 EntityFieldAEOAttribute _featureAttribute;
-                object[] _attributes = _property.GetCustomAttributes(true);
-                object _attribute;
+                var _attributes = _property.GetCustomAttributes(true);
+                //object _attribute;
                 //TODO: 
                 if (_attributes.Count() > 0)
                 {
-                    _attribute = _attributes.Single();
-
-                    _featureAttribute = (EntityFieldAEOAttribute)_attribute;
-                    _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
-                    _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
+                    var _attribute = _attributes.Single();
 
                     if (_attribute is EntityKeyFieldAEOAttribute)
                     {
+                        _featureAttribute = (EntityKeyFieldAEOAttribute)_attribute;
+                        _modelProperties.Add(new ModelProperty(_property, (EntityKeyFieldAEOAttribute)_featureAttribute));
+                        _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
                         _KeyField = ((EntityFieldAEOAttribute)_attribute).FieldName;
                     }
+                    else
+                    {
+                        _featureAttribute = (EntityFieldAEOAttribute)_attribute;
+                        _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
+                        _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
+
+                    }
+
                 }
             }
         }

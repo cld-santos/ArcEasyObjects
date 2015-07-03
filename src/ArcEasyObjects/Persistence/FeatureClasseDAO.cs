@@ -33,10 +33,12 @@ namespace ArcEasyObjects.Persistence
                                                                    _property.Attribute.FieldType),null);
                 }
 
+                //TODO: Carregar os relacionamentos;
+
+
                 ((GISModel)AEOModel).Geometry = _feature.ShapeCopy;
             }
 
-            //TODO: Carregar os relacionamentos;
 
         }
 
@@ -46,8 +48,25 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))
             {
-                 feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName),
-                               Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
+                if (_property.Attribute is EntityKeyFieldAEOAttribute)
+                {
+                    EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
+                    if (String.IsNullOrEmpty(_keyField.Sequence))
+                    {
+                        feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
+
+                    }
+                    else
+                    {
+                        ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
+                        IRow row = cursor.NextRow();
+                        feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType));
+                    }
+                }
+                else
+                {
+                    feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
+                }
             }
 
             feat.Shape = ((GISModel)AEOModel).Geometry;

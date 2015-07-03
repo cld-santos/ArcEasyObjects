@@ -57,10 +57,25 @@ namespace ArcEasyObjects.Persistence
             string _dml = "INSERT INTO {0}({1}) VALUES({2})";
             string _fields = "", _values = "";
 
+
+
             foreach (ModelProperty _property in BaseModel.ModelProperties)
             {
-               _fields += _property.Attribute.FieldName + ",";
-               _values += _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType) + ",";
+                _fields += _property.Attribute.FieldName + ",";
+
+                if (_property.Attribute is EntityKeyFieldAEOAttribute)
+                {
+                    EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
+                    ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
+                    IRow row = cursor.NextRow();
+
+                    _values += row.get_Value(0).ToString() + ",";
+                }
+                else
+                {
+                    _values += _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType) + ",";
+                }
+
             }
 
             _fields = _fields.Substring(0,_fields.Length-1);
