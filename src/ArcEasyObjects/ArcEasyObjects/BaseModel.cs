@@ -12,7 +12,7 @@ namespace ArcEasyObjects
 {
     public abstract class BaseModel 
     {
-        public enum Type { FeatureClass, GISTable, Table };
+        public enum Type { FeatureClass, GISTable, Table, OracleTable };
 
         public string EntityName { get { return _FeatureClassConfig.EntityName; } }
         public string KeyField { get { return _KeyField; } }
@@ -38,7 +38,13 @@ namespace ArcEasyObjects
             _persistence = _createEntityPersistence[_FeatureClassConfig.TypeEntity]();
         }
 
+        public BaseModel(System.Data.OracleClient.OracleConnection Connection)
+            : this()
+        {
+            _createEntityPersistence.Add(Type.OracleTable, () => { return new OracleTableDAO(Connection); });
 
+            _persistence = _createEntityPersistence[_FeatureClassConfig.TypeEntity]();
+        }
         public void Save()
         {
             _persistence.Save(this);

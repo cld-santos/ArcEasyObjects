@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{17EF860B-9936-4F22-91F7-198EDD2212D4}</ProjectGuid>
+    <ProjectGuid>{A7D2E8DA-7D22-4B60-9FCB-8BE34E34AC7A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>testeArcEasyObjects</RootNamespace>
-    <AssemblyName>testeArcEasyObjects</AssemblyName>
+    <RootNamespace>testArcEasyMonitor</RootNamespace>
+    <AssemblyName>testArcEasyMonitor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,7 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,17 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Geometry, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.System, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Version, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,24 +53,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Cartografia\Model\UsuarioSAP.cs" />
-    <Compile Include="Cartografia\Model\InformacaoExtra.cs" />
-    <Compile Include="Cartografia\Model\PontoNotavel.cs" />
-    <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
-    <Compile Include="ProjetoStandardTest.cs" />
-    <Compile Include="testInformacaoExtra.cs" />
-    <Compile Include="LicenseInitializer.cs" />
-    <Compile Include="testArcEasyObjects.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Cartografia\Model\TestModelo.cs" />
-    <Compile Include="testPontoNotavel.cs" />
-    <Compile Include="UsuarioSAPTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ArcEasyObjects\ArcEasyObjects.csproj">
-      <Project>{f82c5efc-eb34-44da-be63-2ab7e20e3a83}</Project>
-      <Name>ArcEasyObjects</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

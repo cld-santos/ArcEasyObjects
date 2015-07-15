@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F82C5EFC-EB34-44DA-BE63-2AB7E20E3A83}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{5A35B283-3C46-4F10-883D-333DBFCDC0A6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArcEasyObjects</RootNamespace>
-    <AssemblyName>ArcEasyObjects</AssemblyName>
+    <RootNamespace>ArcEasyMonitor</RootNamespace>
+    <AssemblyName>ArcEasyMonitor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,20 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Geometry, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.System, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Version, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,20 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\EntityKeyFieldAttribute.cs" />
-    <Compile Include="Attributes\EntityShapeFieldAEOAttribute.cs" />
-    <Compile Include="Attributes\ModelProperty.cs" />
-    <Compile Include="GISModel.cs" />
-    <Compile Include="EntityAEO.cs" />
-    <Compile Include="Attributes\EntityAEOAttribute.cs" />
-    <Compile Include="Attributes\EntityFieldAEOAttribute.cs" />
-    <Compile Include="ExceptionAEO\InvalidModelAEOException.cs" />
-    <Compile Include="BaseModel.cs" />
-    <Compile Include="Helper\GDBCursor.cs" />
-    <Compile Include="Interfaces\IPersistence.cs" />
-    <Compile Include="Persistence\TableDAO.cs" />
-    <Compile Include="Persistence\GISTableDAO.cs" />
-    <Compile Include="Persistence\FeatureClasseDAO.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
