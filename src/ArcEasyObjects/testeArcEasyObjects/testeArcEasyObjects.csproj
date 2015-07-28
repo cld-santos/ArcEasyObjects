@@ -63,11 +63,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Cartografia\Model\SimulacaoProjeto.cs" />
     <Compile Include="Cartografia\Model\TesteCld.cs" />
     <Compile Include="Cartografia\Model\UsuarioSAP.cs" />
     <Compile Include="Cartografia\Model\InformacaoExtra.cs" />
     <Compile Include="Cartografia\Model\PontoNotavel.cs" />
     <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
+    <Compile Include="SimulacaoProjetoTest.cs" />
     <Compile Include="TesteCldTest.cs" />
     <Compile Include="ProjetoStandardTest.cs" />
     <Compile Include="testInformacaoExtra.cs" />

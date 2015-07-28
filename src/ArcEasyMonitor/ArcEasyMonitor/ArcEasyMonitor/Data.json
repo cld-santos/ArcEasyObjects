@@ -1,0 +1,8 @@
+﻿{
+    "ArcEasyMonitor": {
+        "InicioMonitoramento": "2015-07-15T00:00:00",
+        "PadraoDesconsiderado": ["^BAK_","^[A-Z]{1}[0-9]{3,6}$"],
+        "PadraoConsiderado": ["^TB_","^DOM_","^LN_","^PT_","^PL_","^RC_"],
+	"Responsaveis":["claudio.santos@cgi.com","allex.santana@cgi.com"]
+    }
+}

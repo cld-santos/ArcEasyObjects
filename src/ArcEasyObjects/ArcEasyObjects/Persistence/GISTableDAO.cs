@@ -40,19 +40,27 @@ namespace ArcEasyObjects.Persistence
             
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).CreateRow();
 
-            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))
+            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))
             {
-                EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
-                if (String.IsNullOrEmpty(_keyField.Sequence))
+                if (_property.Attribute is EntityKeyFieldAEOAttribute)
                 {
-                    _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
 
+                    EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
+                    if (String.IsNullOrEmpty(_keyField.Sequence))
+                    {
+                        _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
+
+                    }
+                    else
+                    {
+                        ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
+                        IRow row = cursor.NextRow();
+                        _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType));
+                    }
                 }
                 else
                 {
-                    ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
-                    IRow row = cursor.NextRow();
-                    _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType));
+                    _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
                 }
 
             }
@@ -78,7 +86,7 @@ namespace ArcEasyObjects.Persistence
 
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).GetRow(((GISModel)BaseModel).ObjectId);
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))
             {
                 _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName),
                                 Convert.ChangeType(_property.Property.GetValue(BaseModel, null),
@@ -104,7 +112,7 @@ namespace ArcEasyObjects.Persistence
                 object[] _parameters = { _workspace };
                 object _model = Activator.CreateInstance(AEOModel.GetType(), _parameters);
 
-                foreach (ModelProperty _property in AEOModel.ModelProperties)
+                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
                     _property.Property.SetValue(_model,
                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
