@@ -60,6 +60,7 @@
     <Compile Include="Attributes\EntityKeyFieldAttribute.cs" />
     <Compile Include="Attributes\EntityShapeFieldAEOAttribute.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
+    <Compile Include="ExceptionAEO\KeyFieldNotFoundException.cs" />
     <Compile Include="GISModel.cs" />
     <Compile Include="EntityAEO.cs" />
     <Compile Include="Attributes\EntityAEOAttribute.cs" />

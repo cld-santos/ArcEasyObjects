@@ -28,10 +28,13 @@ namespace testeArcEasyObjects.Cartografia.Model
         {
             int _IdUsuarioSAP;
             UsuarioSAP _usuarioSap = new UsuarioSAP(_workspace);
+            _usuarioSap.Nome = "Teste";
             _usuarioSap.Chave = "testes testes";
-            _usuarioSap.CodigoUsuarioGSE = 7;
+            _usuarioSap.CodigoUsuarioGSE = 99;
             _usuarioSap.Save();
             _IdUsuarioSAP = _usuarioSap.Codigo;
+            _usuarioSap.Load(_IdUsuarioSAP);
+            _usuarioSap.Delete();
         }
 
         [TestMethod]
@@ -39,14 +42,17 @@ namespace testeArcEasyObjects.Cartografia.Model
         {
             int _IdUsuarioSAP;
             UsuarioSAP _usuarioSap = new UsuarioSAP(_workspace);
+            _usuarioSap.Nome = "Teste";
             _usuarioSap.Chave = "testes testes";
-            _usuarioSap.CodigoUsuarioGSE = 7;
+            _usuarioSap.CodigoUsuarioGSE = 99;
             _usuarioSap.Save();
             _IdUsuarioSAP = _usuarioSap.Codigo;
 
             _usuarioSap.Load(_IdUsuarioSAP);
             Assert.AreEqual(_usuarioSap.Chave, "testes testes");
-            Assert.AreEqual(_usuarioSap.CodigoUsuarioGSE, 7);
+            Assert.AreEqual(_usuarioSap.CodigoUsuarioGSE, 99);
+            _usuarioSap.Load(_IdUsuarioSAP);
+            _usuarioSap.Delete();
         }
 
         [TestMethod]
@@ -54,8 +60,9 @@ namespace testeArcEasyObjects.Cartografia.Model
         {
             int _IdUsuarioSAP;
             UsuarioSAP _usuarioSap = new UsuarioSAP(_workspace);
+            _usuarioSap.Nome = "Teste";
             _usuarioSap.Chave = "testes testes";
-            _usuarioSap.CodigoUsuarioGSE = 7;
+            _usuarioSap.CodigoUsuarioGSE = 99;
             _usuarioSap.Save();
             _IdUsuarioSAP = _usuarioSap.Codigo;
 
@@ -63,7 +70,9 @@ namespace testeArcEasyObjects.Cartografia.Model
             _usuarioSap.Chave = "setset setset";
             _usuarioSap.Update();
             Assert.AreEqual(_usuarioSap.Chave, "setset setset");
-            Assert.AreEqual(_usuarioSap.CodigoUsuarioGSE, 7);
+            Assert.AreEqual(_usuarioSap.CodigoUsuarioGSE, 99);
+            _usuarioSap.Load(_IdUsuarioSAP);
+            _usuarioSap.Delete();
         }
 
         [TestMethod]
@@ -71,8 +80,9 @@ namespace testeArcEasyObjects.Cartografia.Model
         {
             int _IdUsuarioSAP;
             UsuarioSAP _usuarioSap = new UsuarioSAP(_workspace);
+            _usuarioSap.Nome = "Teste";
             _usuarioSap.Chave = "testes testes";
-            _usuarioSap.CodigoUsuarioGSE = 7;
+            _usuarioSap.CodigoUsuarioGSE = 99;
             _usuarioSap.Save();
             _IdUsuarioSAP = _usuarioSap.Codigo;
 

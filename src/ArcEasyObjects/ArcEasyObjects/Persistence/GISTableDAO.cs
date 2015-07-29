@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using ArcEasyObjects.ExceptionAEO;
 
 namespace ArcEasyObjects.Persistence
 {
@@ -16,8 +17,9 @@ namespace ArcEasyObjects.Persistence
             _workspace = Workspace;
         }
 
-        public void Load(BaseModel AEOModel, int KeyFieldValue)
+        public void Load(BaseModel AEOModel, int KeyFieldValue) 
         {
+            if (String.IsNullOrEmpty(AEOModel.KeyField)) throw new KeyFieldNotFoundException();
             IQueryFilter _queryParamns = new QueryFilter();
             _queryParamns.WhereClause = AEOModel.KeyField + "=" + KeyFieldValue;
 
@@ -25,7 +27,7 @@ namespace ArcEasyObjects.Persistence
             IRow _row = _rows.NextRow();
             if (_row != null)
             {
-                foreach (ModelProperty _property in AEOModel.ModelProperties)
+                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
                     _property.Property.SetValue(AEOModel,
                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
@@ -75,7 +77,7 @@ namespace ArcEasyObjects.Persistence
 
             _row.Delete();
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties)
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
             {
                 _property.Property.SetValue(BaseModel, null,null);
             }

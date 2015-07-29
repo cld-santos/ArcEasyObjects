@@ -23,7 +23,7 @@ namespace testeArcEasyObjects
             _workspace = _openWorkspace("");
         }
 
-        [TestMethod]
+        
         public void mustSaveAModel()
         {
             ProjetoStandard _projStandard = new ProjetoStandard(_workspace);
@@ -43,7 +43,7 @@ namespace testeArcEasyObjects
         public void mustLoadAModel()
         {
             ProjetoStandard _projStandard = new ProjetoStandard(_workspace);
-
+            mustSaveAModel();
             _projStandard.Load(999);
 
             Assert.AreEqual(_projStandard.Codigo,999);
@@ -52,6 +52,8 @@ namespace testeArcEasyObjects
             Assert.AreEqual(_projStandard.CodigoTipoProjeto,1);
             Assert.AreEqual(_projStandard.Empresa,"teste");
             Assert.AreEqual(_projStandard.Nome,"teste");
+
+            _projStandard.Delete();
         
         }
 
@@ -59,17 +61,20 @@ namespace testeArcEasyObjects
         public void mustSearchSomeFeatures()
         {
             ProjetoStandard _projStandard = new ProjetoStandard(_workspace);
+            mustSaveAModel();
 
             var _listaProjetos = _projStandard.Search("ProjetoStandard.Empresa = 'teste' and ProjetoStandard.CodigoTI = 10");
             
             Assert.IsTrue(_listaProjetos.Count > 0);
-
+            _projStandard.Load(999);
+            _projStandard.Delete();
         }
 
         [TestMethod]
         public void mustUpdateAModel()
         {
             ProjetoStandard _projStandard = new ProjetoStandard(_workspace);
+            mustSaveAModel();
 
             _projStandard.Load(999);
 
@@ -81,18 +86,17 @@ namespace testeArcEasyObjects
 
             Assert.AreEqual(_projStandard.CodigoProjetoStandard, "1");
             Assert.AreEqual(_projStandard.CodigoTI, 10);
+            _projStandard.Delete();
         }
 
-        [TestMethod]
+        [TestMethod]       
         public void mustDeleteAModel()
         {
             ProjetoStandard _projStandard = new ProjetoStandard(_workspace);
+            mustSaveAModel();
 
             _projStandard.Load(999);
-
             _projStandard.Delete();
-
-            _projStandard.Load(999);
 
         }
 

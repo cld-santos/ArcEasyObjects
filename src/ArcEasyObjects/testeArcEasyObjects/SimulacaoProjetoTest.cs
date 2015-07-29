@@ -1,4 +1,5 @@
 ﻿using ArcEasyObjects;
+using ArcEasyObjects.ExceptionAEO;
 using ArcEasyObjects.Persistence;
 using ESRI.ArcGIS;
 using ESRI.ArcGIS.esriSystem;
@@ -22,42 +23,48 @@ namespace testeArcEasyObjects
             _workspace = _openWorkspace("");
         }
 
-        [TestMethod]
+        
         public void mustSaveAModel()
         {
             SimulacaoProjeto sp = new SimulacaoProjeto(_workspace);
             sp.no_versao = "tests";
-            sp.nu_projeto_id = 140;
+            sp.nu_projeto_id = 9999;
             sp.dt_criacao = DateTime.Now.Date;
             sp.Save();
         }
 
         [TestMethod]
+        [ExpectedException(typeof(KeyFieldNotFoundException))]
         public void mustLoadAModel()
         {
-
+            SimulacaoProjeto sp = new SimulacaoProjeto(_workspace);
+            sp.Load(9999);
 
         }
             
         [TestMethod]
         public void mustSearchSomeFeatures()
         {
+            mustSaveAModel();
+
             SimulacaoProjeto sp = new SimulacaoProjeto(_workspace);
-            var _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 140");
+            var _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 9999");
 
             foreach (SimulacaoProjeto _item in _simulacoes)
             {
                 Assert.AreEqual(_item.no_versao, "tests");
             }
-
             Assert.IsTrue(_simulacoes.Count > 0);
+            sp = (SimulacaoProjeto)_simulacoes[0];
+            sp.Delete();
         }
 
         [TestMethod]
         public void mustUpdateAModel()
         {
+            mustSaveAModel();
             SimulacaoProjeto sp = new SimulacaoProjeto(_workspace);
-            var _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 140");
+            var _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 9999");
 
             foreach (SimulacaoProjeto _item in _simulacoes)
             {
@@ -70,20 +77,24 @@ namespace testeArcEasyObjects
 
             sp.Update();
 
-            _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 140");
+
+            _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 9999");
 
             foreach (SimulacaoProjeto _item in _simulacoes)
             {
                 Assert.AreEqual(_item.no_versao, "testado");
             }
 
+            sp.Delete();
+
         }
 
         [TestMethod]
         public void mustDeleteAModel()
         {
+            mustSaveAModel();
             SimulacaoProjeto sp = new SimulacaoProjeto(_workspace);
-            var _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 140");
+            var _simulacoes = sp.Search("SimulacaoProjeto.nu_projeto_id = 9999");
 
             foreach (SimulacaoProjeto _item in _simulacoes)
             {

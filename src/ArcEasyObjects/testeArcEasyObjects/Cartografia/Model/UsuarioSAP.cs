@@ -34,9 +34,17 @@ namespace testeArcEasyObjects.Cartografia.Model
             set { _Chave = value; }
         }
 
+        [EntityFieldAEO("NO_NOME", typeof(string))]
+        public string Nome
+        {
+            get { return _Nome; }
+            set { _Nome = value; }
+        }
+
         private Int32 _Codigo;
         private Int32 _CodigoUsuarioGSE;
         private string _Chave;
+        private string _Nome;
 
     }
 }

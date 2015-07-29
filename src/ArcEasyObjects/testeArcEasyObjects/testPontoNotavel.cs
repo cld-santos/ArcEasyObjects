@@ -22,7 +22,6 @@ namespace testeArcEasyObjects
             _workspace = openWorkspace();
         }
 
-        [TestMethod]
         public void mustSaveAModel()
         {
             PontoNotavel _pn = new PontoNotavel(_workspace);
@@ -38,19 +37,21 @@ namespace testeArcEasyObjects
             _pn.Geometry = _ponto;
 
             _pn.Save();
-            
+
         }
 
         [TestMethod]
         public void mustLoadAModel()
         {
+            mustSaveAModel();
             PontoNotavel _pn = new PontoNotavel(_workspace);
 
             _pn.Load(1);
 
             Assert.AreEqual(_pn.Descricao, "Testando a inclusao por uma camada transparente.");
             Assert.AreEqual(_pn.Nome ,"Teste Inclusao.");
-
+            
+            _pn.Delete();
         }
             
         [TestMethod]
@@ -58,7 +59,7 @@ namespace testeArcEasyObjects
         {   
             //TODO: Criar uma lista do tipo desejado, aplicar generics.
             //List<PontoNotavel> _pns = new List<PontoNotavel>();
-            
+            mustSaveAModel();
             PontoNotavel _pn = new PontoNotavel(_workspace);
 
             //TODO:Replace only words
@@ -70,12 +71,14 @@ namespace testeArcEasyObjects
             }
                        
             Assert.IsTrue(_pns.Count > 0);
-
+            _pn.Load(1);
+            _pn.Delete();
         }
 
         [TestMethod]
         public void mustUpdateAModel()  
         {
+            mustSaveAModel();
             PontoNotavel _pn = new PontoNotavel(_workspace);
 
             _pn.Load(1);
@@ -90,12 +93,13 @@ namespace testeArcEasyObjects
 
             Assert.AreEqual(_pn.Descricao, "Ponto Notável Atualizado");
             Assert.AreEqual(_pn.Nome, "Teste Inclusao.");
-
+            _pn.Delete();
         }
 
         [TestMethod]
         public void mustdeleteAModel()
         {
+            mustSaveAModel();
             PontoNotavel _pn = new PontoNotavel(_workspace);
             
             _pn.Load(1);

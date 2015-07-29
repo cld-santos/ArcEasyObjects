@@ -23,26 +23,28 @@ namespace testeArcEasyObjects.Cartografia.Model
         }
 
 
-        [TestMethod]
-        public void deveSalvarUmTesteCld()
+        
+        public void deveSalvarUmTesteCld(OracleConnection Connection)
         {
-            _Connection.Open();
-            TesteCld _testeCld = new TesteCld(_Connection);
+            TesteCld _testeCld = new TesteCld(Connection);
             _testeCld.Identificador = 99;
             _testeCld.Nome = "teste claudio";
             _testeCld.Save();
-            _Connection.Close();
         }
 
         [TestMethod]
         public void deveCarregarUmTesteCld()
         {
             _Connection.Open();
+            deveSalvarUmTesteCld(_Connection);
+
             TesteCld _testeCld = new TesteCld(_Connection);
             _testeCld.Load(99);
 
             Assert.IsTrue(_testeCld.Identificador == 99);
             Assert.IsTrue(_testeCld.Nome == "teste claudio");
+
+            _testeCld.Delete();
             _Connection.Close();
         }
 
@@ -50,6 +52,7 @@ namespace testeArcEasyObjects.Cartografia.Model
         public void deveAtualizarUmTesteCld()
         {
             _Connection.Open();
+            deveSalvarUmTesteCld(_Connection); 
             TesteCld _testeCld = new TesteCld(_Connection);
             _testeCld.Load(99);
 
@@ -57,6 +60,7 @@ namespace testeArcEasyObjects.Cartografia.Model
             _testeCld.Update();
             Assert.IsTrue(_testeCld.Identificador == 99);
             Assert.IsTrue(_testeCld.Nome == "teste claudio denovo");
+            _testeCld.Delete();
             _Connection.Close();
         }
 
@@ -64,10 +68,13 @@ namespace testeArcEasyObjects.Cartografia.Model
         public void deveBuscarUmTesteCld()
         {
             _Connection.Open();
+            deveSalvarUmTesteCld(_Connection);
+
             TesteCld _testeCld = new TesteCld(_Connection);
-            var _testesCld = _testeCld.Search("TesteCld.Nome = 'teste claudio denovo'");
+            var _testesCld = _testeCld.Search("TesteCld.Nome = 'teste claudio'");
 
             Assert.IsTrue(_testesCld.Count>0);
+            _testeCld.Delete();
             _Connection.Close();
         }
 
@@ -75,6 +82,7 @@ namespace testeArcEasyObjects.Cartografia.Model
         public void deveDeletarUmTesteCld()
         {
             _Connection.Open();
+            deveSalvarUmTesteCld(_Connection);
             TesteCld _testeCld = new TesteCld(_Connection);
             _testeCld.Load(99);
             _testeCld.Delete();

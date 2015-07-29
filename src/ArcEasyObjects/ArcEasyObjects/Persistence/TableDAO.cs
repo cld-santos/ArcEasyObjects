@@ -66,10 +66,18 @@ namespace ArcEasyObjects.Persistence
                 if (_property.Attribute is EntityKeyFieldAEOAttribute)
                 {
                     EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
-                    ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
-                    IRow row = cursor.NextRow();
-
-                    _values += row.get_Value(0).ToString() + ",";
+                    if (String.IsNullOrEmpty(_keyField.Sequence))
+                    {
+                        _values += _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType) + ",";
+                    }
+                    else
+                    {
+                        ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
+                        IRow row = cursor.NextRow();
+                        _values += row.get_Value(0).ToString() + ",";
+                        _property.Property.SetValue(BaseModel,
+                                                    Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType), null);
+                    }
                 }
                 else
                 {

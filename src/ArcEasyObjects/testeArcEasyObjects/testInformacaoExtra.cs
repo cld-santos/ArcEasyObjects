@@ -22,7 +22,7 @@ namespace testeArcEasyObjects
             _workspace = openWorkspace();
         }
 
-        [TestMethod]
+        
         public void mustSaveAModel()
         {
             InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
@@ -37,6 +37,7 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void mustLoadAModel()
         {
+            mustSaveAModel();
             InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
 
             _infoExtra.Load(1);
@@ -44,12 +45,14 @@ namespace testeArcEasyObjects
             Assert.AreEqual(_infoExtra.CodigoInformacaoExtra,1);
             Assert.AreEqual(_infoExtra.CodigoPontoNotavel, 1);
             Assert.AreEqual(_infoExtra.Informacoes, "Testes");
+            _infoExtra.Delete();
 
         }
             
         [TestMethod]
         public void mustSearchSomeFeatures()
         {
+            mustSaveAModel();
             InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
             var _infosExtra = _infoExtra.Search("InformacaoExtra.CodigoPontoNotavel = 1");
 
@@ -60,11 +63,14 @@ namespace testeArcEasyObjects
             }
 
             Assert.IsTrue(_infosExtra.Count > 0);
+            _infoExtra.Load(1);
+            _infoExtra.Delete();
         }
 
         [TestMethod]
         public void mustUpdateAModel()
         {
+            mustSaveAModel();
             InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
 
             _infoExtra.Load(1);
@@ -76,15 +82,16 @@ namespace testeArcEasyObjects
             InformacaoExtra _infoExtraResultado = new InformacaoExtra(_workspace);
             _infoExtraResultado.Load(1);
             Assert.AreEqual(_infoExtraResultado.Informacoes, "Sem Testes");
+            _infoExtra.Delete();
         }
 
         [TestMethod]
         public void mustDeleteAModel()
         {
+            mustSaveAModel();
             InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
 
             _infoExtra.Load(1);
-
             _infoExtra.Delete();
 
             InformacaoExtra _infoExtraResultado = new InformacaoExtra(_workspace);

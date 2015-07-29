@@ -30,7 +30,7 @@ namespace ArcEasyObjects.Persistence
             OracleDataReader _Reader = _Command.ExecuteReader();
             if (_Reader.Read())
             {
-                foreach (ModelProperty _property in BaseModel.ModelProperties)
+                foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
                     _property.Property.SetValue(BaseModel,
                                                 Convert.ChangeType(_Reader.GetValue(_Reader.GetOrdinal(_property.Attribute.FieldName)),
@@ -158,7 +158,7 @@ namespace ArcEasyObjects.Persistence
                 object[] _parameters = { _Connection };
                 object _model = Activator.CreateInstance(BaseModel.GetType(), _parameters);
 
-                foreach (ModelProperty _property in BaseModel.ModelProperties)
+                foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
                     _property.Property.SetValue(_model,
                                                 Convert.ChangeType(_Reader.GetValue(_Reader.GetOrdinal(_property.Attribute.FieldName)),
