@@ -92,6 +92,7 @@ namespace testeArcEasyObjects.Cartografia.Model
             Assert.IsTrue(_testesCld.Count <= 0);
             _Connection.Close();
         }
+
         #region Métodos e Atributos Privados
         private static OracleConnection _Connection;
 

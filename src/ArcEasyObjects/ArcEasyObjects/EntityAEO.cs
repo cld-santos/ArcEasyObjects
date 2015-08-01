@@ -44,46 +44,34 @@ namespace ArcEasyObjects
         {
             System.Attribute[] attrs = System.Attribute.GetCustomAttributes(_modelo.GetType());
 
-            foreach (System.Attribute attr in attrs)
-            {
-                if (attr is EntityAEOAttribute)
-                {
-                    EntityAEOAttribute a = (EntityAEOAttribute)attr;
-                    return a.EntityName;
-                }
-            }
-            return "";
+            return ((EntityAEOAttribute)attrs.Where(x => x is EntityAEOAttribute).Single()).EntityName;
         }
 
         public EntityAEOAttribute getFeatureClassConfig()
         {
             System.Attribute[] attrs = System.Attribute.GetCustomAttributes(_modelo.GetType());
 
-            foreach (System.Attribute attr in attrs)
-            {
-                if (attr is EntityAEOAttribute)
-                {
-                    return (EntityAEOAttribute)attr;
-                }
-            }
-            return null;
+            return (EntityAEOAttribute)attrs.Where(x => x is EntityAEOAttribute).Single();
         }
 
         private void loadModelConfig()
         {
+            if (_modelProperties != null && _modelAttributes != null) return;
+
             PropertyInfo[] _properties = _modelo.GetType().GetProperties();
             _modelProperties = new HashSet<ModelProperty>();
             _modelAttributes = new Dictionary<string, string>();
-
+            System.Console.WriteLine("carregou o modelo");
             foreach (PropertyInfo _property in _properties)
             {
                 EntityFieldAEOAttribute _featureAttribute;
                 var _attributes = _property.GetCustomAttributes(true);
-                //object _attribute;
-                //TODO: 
-                if (_attributes.Count() > 0)
+                try
                 {
-                    var _attribute = _attributes.Single();
+                    var _attribute = _attributes.Where(x =>
+                        x.GetType().IsSubclassOf(typeof(EntityFieldAEOAttribute)) ||
+                        x is EntityFieldAEOAttribute
+                        ).First();
 
                     if (_attribute is EntityKeyFieldAEOAttribute)
                     {
@@ -99,8 +87,16 @@ namespace ArcEasyObjects
                         _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
 
                     }
-
                 }
+                catch (System.InvalidOperationException)
+                {
+                    continue;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                
             }
         }
 

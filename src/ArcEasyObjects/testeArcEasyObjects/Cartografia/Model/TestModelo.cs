@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ArcEasyObjects.Attributes;
-
+using System.Runtime.Serialization;
 namespace testeArcEasyObjects
 {
+    [DataContract]
     [EntityAEO("CSANTOS.PT_TESTMODELO", Type.FeatureClass)]
     public class TestModel : ArcEasyObjects.BaseModel
     {
         private int _campoChave;
 
+        [DataMember]
         [EntityFieldAEO("NU_CAMPO_ID", typeof(Int32))]
         public int CampoChave
         {

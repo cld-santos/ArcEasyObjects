@@ -49,6 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -69,16 +70,16 @@
     <Compile Include="Cartografia\Model\InformacaoExtra.cs" />
     <Compile Include="Cartografia\Model\PontoNotavel.cs" />
     <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
-    <Compile Include="SimulacaoProjetoTest.cs" />
-    <Compile Include="TesteCldTest.cs" />
-    <Compile Include="ProjetoStandardTest.cs" />
-    <Compile Include="testInformacaoExtra.cs" />
+    <Compile Include="Tests\SimulacaoProjetoTest.cs" />
+    <Compile Include="Tests\TesteCldTest.cs" />
+    <Compile Include="Tests\ProjetoStandardTest.cs" />
+    <Compile Include="Tests\testInformacaoExtra.cs" />
     <Compile Include="LicenseInitializer.cs" />
-    <Compile Include="testArcEasyObjects.cs" />
+    <Compile Include="Tests\testArcEasyObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cartografia\Model\TestModelo.cs" />
-    <Compile Include="testPontoNotavel.cs" />
-    <Compile Include="UsuarioSAPTest.cs" />
+    <Compile Include="Tests\testPontoNotavel.cs" />
+    <Compile Include="Tests\UsuarioSAPTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArcEasyObjects\ArcEasyObjects.csproj">
