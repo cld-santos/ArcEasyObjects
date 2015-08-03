@@ -16,11 +16,11 @@ namespace ArcEasyObjects
 
         public string EntityName { get { return _FeatureClassConfig.EntityName; } }
         public string KeyField { get { return _KeyField; } }
-        internal HashSet<ModelProperty> ModelProperties { get { return _ModelProperties; } }
+        public HashSet<ModelProperty> ModelProperties { get { return _ModelProperties; } }
 
         private IDictionary<Type, Func<IPersistence>> _createEntityPersistence = new Dictionary<Type, Func<IPersistence>>();
 
-        protected BaseModel()
+        public BaseModel()
         {
             EntityAEO _featureAEO = new EntityAEO(this);
             _FeatureClassConfig = _featureAEO.getFeatureClassConfig();
@@ -38,28 +38,24 @@ namespace ArcEasyObjects
             _persistence = _createEntityPersistence[_FeatureClassConfig.TypeEntity]();
         }
 
-        public BaseModel(System.Data.OracleClient.OracleConnection Connection)
-            : this()
+        public BaseModel(System.Data.OracleClient.OracleConnection Connection) : this()
         {
             _createEntityPersistence.Add(Type.OracleTable, () => { return new OracleTableDAO(Connection); });
-
             _persistence = _createEntityPersistence[_FeatureClassConfig.TypeEntity]();
         }
+
         public void Save()
         {
             _persistence.Save(this);
         }
-
         public void Update()
         {
             _persistence.Update(this);
         }
-
         public void Load(int KeyFieldValue)
         {
             _persistence.Load(this, KeyFieldValue);
         }
-
         public void Delete()
         {
             _persistence.Delete(this);
@@ -90,7 +86,6 @@ namespace ArcEasyObjects
 
 
         private IPersistence _persistence;
-        private string _FeatureClassName;
         private HashSet<ModelProperty> _ModelProperties;
         private IDictionary<string, string> _ModelAttributes;
         private string _KeyField;

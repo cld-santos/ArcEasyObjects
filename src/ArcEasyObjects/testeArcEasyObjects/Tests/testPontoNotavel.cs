@@ -80,7 +80,6 @@ namespace testeArcEasyObjects
         {
             mustSaveAModel();
             PontoNotavel _pn = new PontoNotavel(_workspace);
-
             _pn.Load(1);
             _pn.Descricao = "Ponto Notável Atualizado";
 
@@ -97,7 +96,7 @@ namespace testeArcEasyObjects
         }
 
         [TestMethod]
-        public void mustdeleteAModel()
+        public void mustDeleteAModel()
         {
             mustSaveAModel();
             PontoNotavel _pn = new PontoNotavel(_workspace);
@@ -110,8 +109,49 @@ namespace testeArcEasyObjects
 
         }
 
+        [TestMethod]
+        public void mustLoadASubModel()
+        {
+            PontoNotavel _pn = new PontoNotavel(_workspace);
 
+            _pn.Load(999);
 
+            Assert.IsNotNull(_pn.InformacaoExtra);
+            Assert.AreEqual(_pn.InformacaoExtra.Informacoes, "Testes");
+
+        }
+        
+        [TestMethod]
+        public void mustSaveASubModel()
+        {
+            InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
+
+            _infoExtra.CodigoInformacaoExtra = 99;
+            _infoExtra.CodigoPontoNotavel = 0;
+            _infoExtra.Informacoes = "Testes Novos com SubModel";
+
+            _infoExtra.Save();
+
+            PontoNotavel _pn = new PontoNotavel(_workspace);
+
+            _pn.Codigo = 88;
+            _pn.Descricao = "Testando a inclusao por uma camada transparente.";
+            _pn.Nome = "Teste Inclusao.";
+            _pn.InformacaoExtra = _infoExtra;
+            IPoint _ponto = new PointClass();
+
+            _ponto.PutCoords(-5118733.117, -2667994.655);
+
+            _pn.Geometry = _ponto;
+
+            _pn.Save();
+
+            _pn.Load(88);
+
+            Assert.IsNotNull(_pn.InformacaoExtra);
+            Assert.AreEqual(_pn.InformacaoExtra.Informacoes, "Testes Novos com SubModel");
+
+        }
         #region Métodos e Atributos Privados
         private static void inicializaLicenca()
         {

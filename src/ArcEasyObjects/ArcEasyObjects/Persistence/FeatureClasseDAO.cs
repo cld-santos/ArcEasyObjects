@@ -28,17 +28,45 @@ namespace ArcEasyObjects.Persistence
             {
                 foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
-                    _property.Property.SetValue(AEOModel,
-                                                Convert.ChangeType(_feature.get_Value(_feature.Fields.FindField(_property.Attribute.FieldName)),
-                                                                   _property.Attribute.FieldType),null);
+                    if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
+                    {
+                        _property.Property.SetValue(AEOModel,
+                                                    Convert.ChangeType(_feature.get_Value(_feature.Fields.FindField(_property.Attribute.FieldName)),
+                                                                       _property.Attribute.FieldType),
+                                                    null);
+                    }
+                    else
+                    {
+                        loadOneToOne(_feature, AEOModel, _property);
+                    }
+
                 }
 
-                //TODO: Carregar os relacionamentos;
-
-
                 ((GISModel)AEOModel).Geometry = _feature.ShapeCopy;
-            }
+            }            
+        }
 
+        private void loadOneToOne(IFeature Feature, BaseModel AEOModel, ModelProperty Property)
+        {
+            object[] _parametros = { (object)_workspace };
+
+            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAEOAttribute)Property.Attribute).FieldModelType,_parametros);
+            string _KeyObj = Feature.get_Value(Feature.Fields.FindField(Property.Attribute.FieldName)).ToString();
+            Int32 _keyValue = !String.IsNullOrEmpty(_KeyObj) ? Convert.ToInt32(_KeyObj) : 0;
+            if (_keyValue > 0)
+            {
+                otoField.Load(_keyValue);
+                Property.Property.SetValue(AEOModel, otoField, null);
+            }
+        }
+
+        private void loadOneToMany(IFeature Feature, BaseModel AEOModel, ModelProperty Property)
+        {
+            object[] _parametros = { (object)_workspace };
+
+            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAEOAttribute)Property.Attribute).FieldModelType, _parametros);
+            otoField.Load((int)Feature.get_Value(Feature.Fields.FindField(Property.Attribute.FieldName)));
+            Property.Property.SetValue(AEOModel, otoField, null);
 
         }
 
@@ -63,10 +91,25 @@ namespace ArcEasyObjects.Persistence
                         feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType));
                     }
                 }
+                else if (_property.Attribute is EntityOneToOneFieldAEOAttribute)
+                {
+                    BaseModel _bm = (BaseModel)_property.Property.GetValue(AEOModel, null);
+                    if (_bm != null)
+                    {
+                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAEOAttribute).First<ModelProperty>();
+                        Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
+
+                        feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), _keyValue);
+                    }
+                }
                 else
                 {
-                    feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
+                    feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName),
+                                   Convert.ChangeType(_property.Property.GetValue(AEOModel, null),
+                                                      _property.Attribute.FieldType));
                 }
+
+
             }
 
             feat.Shape = ((GISModel)AEOModel).Geometry;
@@ -95,8 +138,23 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))    
             {
-                feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName),
-                               Convert.ChangeType(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType));
+
+                if (_property.Attribute is EntityOneToOneFieldAEOAttribute)
+                {
+                    BaseModel _bm = (BaseModel)_property.Property.GetValue(BaseModel, null);
+                    if (_bm != null)
+                    {
+                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAEOAttribute).First<ModelProperty>();
+                        Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
+
+                        feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), _keyValue);
+                    }
+                }
+                else
+                {
+                    feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName),
+                        Convert.ChangeType(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType));
+                }
             }
 
             feat.Shape = ((GISModel)BaseModel).Geometry;
@@ -120,9 +178,16 @@ namespace ArcEasyObjects.Persistence
 
                 foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
-                    _property.Property.SetValue(_model,
-                                                Convert.ChangeType(_feature.get_Value(_feature.Fields.FindField(_property.Attribute.FieldName)),
-                                                                   _property.Attribute.FieldType), null);
+                    if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
+                    {
+                        _property.Property.SetValue(_model,
+                                                    Convert.ChangeType(_feature.get_Value(_feature.Fields.FindField(_property.Attribute.FieldName)),
+                                                                       _property.Attribute.FieldType), null);
+                    }
+                    else
+                    {
+                        loadOneToOne(_feature, (BaseModel)_model, _property);
+                    }
                 }
                 ((GISModel)_model).Geometry = _feature.ShapeCopy;
                 _ModelsReturn.Add((BaseModel)_model);

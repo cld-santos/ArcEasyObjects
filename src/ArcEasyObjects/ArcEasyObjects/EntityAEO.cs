@@ -10,6 +10,21 @@ namespace ArcEasyObjects
 {
     public class EntityAEO
     {
+        public EntityAEO(BaseModel Modelo)
+        {
+            this._modelo = Modelo;
+
+            loadModels.Add(typeof(EntityKeyFieldAEOAttribute), loadEntityKeyField);
+            loadModels.Add(typeof(EntityFieldAEOAttribute), loadEntityField);
+            loadModels.Add(typeof(EntityShapeFieldAEOAttribute), loadEntityShapeField);
+            loadModels.Add(typeof(EntityOneToOneFieldAEOAttribute), loadEntityOneToOneField);
+
+            loadModelConfig();
+        }
+
+
+
+
 
         public Dictionary<string, string> getFeatureClassAttributes()
         {
@@ -30,12 +45,6 @@ namespace ArcEasyObjects
 
             return _KeyField;
 
-        }
-
-        public  EntityAEO(BaseModel Modelo)
-        {
-            this._modelo = Modelo;
-            loadModelConfig();
         }
 
 
@@ -61,45 +70,45 @@ namespace ArcEasyObjects
             PropertyInfo[] _properties = _modelo.GetType().GetProperties();
             _modelProperties = new HashSet<ModelProperty>();
             _modelAttributes = new Dictionary<string, string>();
-            System.Console.WriteLine("carregou o modelo");
+
             foreach (PropertyInfo _property in _properties)
             {
-                EntityFieldAEOAttribute _featureAttribute;
                 var _attributes = _property.GetCustomAttributes(true);
-                try
+                foreach (var _attribute in _attributes.Where(x => x.GetType().IsSubclassOf(typeof(EntityFieldAEOAttribute)) || x is EntityFieldAEOAttribute))
                 {
-                    var _attribute = _attributes.Where(x =>
-                        x.GetType().IsSubclassOf(typeof(EntityFieldAEOAttribute)) ||
-                        x is EntityFieldAEOAttribute
-                        ).First();
-
-                    if (_attribute is EntityKeyFieldAEOAttribute)
-                    {
-                        _featureAttribute = (EntityKeyFieldAEOAttribute)_attribute;
-                        _modelProperties.Add(new ModelProperty(_property, (EntityKeyFieldAEOAttribute)_featureAttribute));
-                        _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
-                        _KeyField = ((EntityFieldAEOAttribute)_attribute).FieldName;
-                    }
-                    else
-                    {
-                        _featureAttribute = (EntityFieldAEOAttribute)_attribute;
-                        _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
-                        _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
-
-                    }
+                    loadModels[_attribute.GetType()]((EntityFieldAEOAttribute)_attribute, _property);
                 }
-                catch (System.InvalidOperationException)
-                {
-                    continue;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                
             }
         }
 
+        private void loadEntityKeyField(EntityFieldAEOAttribute _attribute, PropertyInfo _property)
+        {
+            EntityKeyFieldAEOAttribute _featureAttribute = (EntityKeyFieldAEOAttribute)_attribute;
+            _modelProperties.Add(new ModelProperty(_property, (EntityKeyFieldAEOAttribute)_featureAttribute));
+            _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
+            _KeyField = ((EntityFieldAEOAttribute)_attribute).FieldName;
+        }
+
+        private void loadEntityField(EntityFieldAEOAttribute _attribute, PropertyInfo _property)
+        {
+            _modelProperties.Add(new ModelProperty(_property, _attribute));
+            _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _attribute.FieldName;
+
+        }
+
+        private void loadEntityShapeField(EntityFieldAEOAttribute _attribute, PropertyInfo _property)
+        {
+            _modelProperties.Add(new ModelProperty(_property, _attribute));
+            _modelAttributes[_modelo.GetType().Name + ".Shape"] = "Geometry";
+
+        }
+
+        private void loadEntityOneToOneField(EntityFieldAEOAttribute _attribute, PropertyInfo _property)
+        {
+            _modelProperties.Add(new ModelProperty(_property, (EntityOneToOneFieldAEOAttribute)_attribute));
+            _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _attribute.FieldName;
+        }
+        private Dictionary<Type, Action<EntityFieldAEOAttribute, PropertyInfo>> loadModels = new Dictionary<Type, Action<EntityFieldAEOAttribute, PropertyInfo>>();
 
         private BaseModel _modelo;
         private HashSet<ModelProperty> _modelProperties;

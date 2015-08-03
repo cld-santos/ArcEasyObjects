@@ -37,7 +37,7 @@ namespace testeArcEasyObjects.Cartografia.Model
 
         private InformacaoExtra _InformacaoExtra;
 
-        //[EntityOneToOneFieldAEO("CD_INFO_EXTRA_FK", typeof(Int32))]
+        [EntityOneToOneFieldAEO(typeof(InformacaoExtra), "CD_INFO_EXTRA_FK", typeof(Int32))]
         public InformacaoExtra InformacaoExtra
         {
             get { return _InformacaoExtra; }

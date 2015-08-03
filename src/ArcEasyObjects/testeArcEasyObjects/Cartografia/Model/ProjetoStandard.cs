@@ -10,6 +10,7 @@ namespace testeArcEasyObjects.Cartografia.Model
     [EntityAEO("NEOSDE.DOM_PROJETO_STANDARD", Type.Table)]
     public class ProjetoStandard : ArcEasyObjects.BaseModel
     {
+        public ProjetoStandard() : base() { }
         //TODO: Remover dependencia explicita da classe pai
         public ProjetoStandard(IWorkspace Workspace) : base(Workspace) { }
 
