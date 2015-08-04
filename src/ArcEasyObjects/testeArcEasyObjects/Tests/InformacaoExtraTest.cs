@@ -12,7 +12,7 @@ namespace testeArcEasyObjects
 {
 
     [TestClass]
-    public class testInformacaoExtra
+    public class InformacaoExtraTest
     {
 
         [ClassInitialize]

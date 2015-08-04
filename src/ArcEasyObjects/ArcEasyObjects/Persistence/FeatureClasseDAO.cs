@@ -28,6 +28,7 @@ namespace ArcEasyObjects.Persistence
             {
                 foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
+                    //TODO: Apply Observer pattern
                     if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
                     {
                         _property.Property.SetValue(AEOModel,
@@ -60,22 +61,13 @@ namespace ArcEasyObjects.Persistence
             }
         }
 
-        private void loadOneToMany(IFeature Feature, BaseModel AEOModel, ModelProperty Property)
-        {
-            object[] _parametros = { (object)_workspace };
-
-            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAEOAttribute)Property.Attribute).FieldModelType, _parametros);
-            otoField.Load((int)Feature.get_Value(Feature.Fields.FindField(Property.Attribute.FieldName)));
-            Property.Property.SetValue(AEOModel, otoField, null);
-
-        }
-
         public void Save(BaseModel AEOModel)
         {
             IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(AEOModel.EntityName).CreateFeature();
 
             foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))
             {
+                //TODO: Apply Observer pattern
                 if (_property.Attribute is EntityKeyFieldAEOAttribute)
                 {
                     EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
@@ -139,6 +131,7 @@ namespace ArcEasyObjects.Persistence
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))    
             {
 
+                //TODO: Apply Observer pattern
                 if (_property.Attribute is EntityOneToOneFieldAEOAttribute)
                 {
                     BaseModel _bm = (BaseModel)_property.Property.GetValue(BaseModel, null);
@@ -178,6 +171,7 @@ namespace ArcEasyObjects.Persistence
 
                 foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
                 {
+                    //TODO: Apply Observer pattern
                     if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
                     {
                         _property.Property.SetValue(_model,
