@@ -43,19 +43,22 @@ namespace ArcEasyObjects.Persistence
             {
                 foreach (ModelProperty _property in BaseModel.ModelProperties)
                 {
-                    _property.Property.SetValue(BaseModel,
-                                                Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                   _property.Attribute.FieldType), null);
-
-                    if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
+                    if (_property.Attribute is EntityOneToOneFieldAttribute)
                     {
-                        _property.Property.SetValue(BaseModel,
-                                                             Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                                _property.Attribute.FieldType), null);
+                        loadOneToOne(_row, BaseModel, _property);
                     }
                     else
                     {
-                        loadOneToOne(_row, BaseModel, _property);
+                        if (_property.Attribute.FieldType == typeof(bool) || _property.Attribute.FieldType == typeof(bool))
+                        {
+                            _property.Property.SetValue(BaseModel, "1".Equals(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)).ToString()), null);
+                        }
+                        else
+                        {
+                            _property.Property.SetValue(BaseModel,
+                                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
+                                                                                    _property.Attribute.FieldType), null);
+                        }
                     }
                 }
             }
@@ -65,7 +68,7 @@ namespace ArcEasyObjects.Persistence
         {
             object[] _parametros = { (object)_workspace };
 
-            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAEOAttribute)Property.Attribute).FieldModelType, _parametros);
+            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAttribute)Property.Attribute).FieldModelType, _parametros);
             string _KeyObj = Row.get_Value(Row.Fields.FindField(Property.Attribute.FieldName)).ToString();
             Int32 _keyValue = !String.IsNullOrEmpty(_KeyObj) ? Convert.ToInt32(_KeyObj) : 0;
             if (_keyValue > 0)
@@ -87,9 +90,9 @@ namespace ArcEasyObjects.Persistence
             {
                 _fields += _property.Attribute.FieldName + ",";
 
-                if (_property.Attribute is EntityKeyFieldAEOAttribute)
+                if (_property.Attribute is EntityKeyFieldAttribute)
                 {
-                    EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
+                    EntityKeyFieldAttribute _keyField = (EntityKeyFieldAttribute)_property.Attribute;
                     if (String.IsNullOrEmpty(_keyField.Sequence))
                     {
                         _values += _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType) + ",";
@@ -103,16 +106,29 @@ namespace ArcEasyObjects.Persistence
                                                     Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType), null);
                     }
                 }
-                else if (_property.Attribute is EntityOneToOneFieldAEOAttribute)
+                else if (_property.Attribute is EntityOneToOneFieldAttribute)
                 {
                     BaseModel _bm = (BaseModel)_property.Property.GetValue(BaseModel, null);
                     if (_bm != null)
                     {
-                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAEOAttribute).First<ModelProperty>();
+                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAttribute).First<ModelProperty>();
                         Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
 
                         _values += _getFormatedValue(_keyValue, _property.Attribute.FieldType) + ",";
                     }
+                }
+                else if (_property.Attribute is EntityDateFieldAttribute)
+                {
+                    string _DateValue = Convert.ToDateTime(_property.Property.GetValue(BaseModel, null)).ToShortDateString();
+
+                    _values += "'" + _getFormatedValue(_DateValue, _property.Attribute.FieldType) + "',";
+                }
+                else if (_property.Attribute is EntityDateTimeFieldAttribute)
+                {
+                    string _DateValue = Convert.ToDateTime(_property.Property.GetValue(BaseModel, null)).ToShortDateString() + " " + 
+                                        Convert.ToDateTime(_property.Property.GetValue(BaseModel, null)).ToLongTimeString();
+
+                    _values += "'" + _getFormatedValue(_DateValue, _property.Attribute.FieldType) + "',";
                 }
                 else
                 {
@@ -134,9 +150,9 @@ namespace ArcEasyObjects.Persistence
             {
                 return "'" + Convert.ToString(Value) + "'";
             }
-            else if (typeof(DateTime) == Type)
+            else if (typeof(bool) == Type)
             {
-                return Convert.ToDateTime(Value).ToShortDateString();
+                return (bool)Value ? "1" : "0";
             }
 
             return Convert.ToString(Value);
@@ -146,7 +162,7 @@ namespace ArcEasyObjects.Persistence
         {
             string _dml = "DELETE FROM {0} WHERE {1}";
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAttribute)))
             {
                 String _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
                 _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName,_WhereClause));
@@ -160,33 +176,48 @@ namespace ArcEasyObjects.Persistence
             string _WhereClause ="", _values="";
             object _Value;
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAttribute)))
             {
                 _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
             }
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAttribute)))
             {
-                                //TODO: Apply Observer pattern
-                if (_property.Attribute is EntityOneToOneFieldAEOAttribute)
+                if (_property.Attribute is EntityOneToOneFieldAttribute)
                 {
                     BaseModel _bm = (BaseModel)_property.Property.GetValue(BaseModel, null);
                     if (_bm != null)
                     {
-                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAEOAttribute).First<ModelProperty>();
+                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAttribute).First<ModelProperty>();
                         Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
-
-                        //feat.set_Value(feat.Fields.FindField(_property.Attribute.FieldName), _keyValue);
 
                         _Value = _property.Property.GetValue(BaseModel, null);
                         _values = String.Format(_set, _property.Attribute.FieldName, _getFormatedValue(_keyValue, _property.Attribute.FieldType));
                     }
+                }
+                else if (_property.Attribute is EntityDateFieldAttribute)
+                {
+                    string _DateValue = Convert.ToDateTime(_property.Property.GetValue(BaseModel, null)).ToShortDateString();
+
+                    _Value = "'" + _getFormatedValue(_DateValue, _property.Attribute.FieldType) + "'";
+                    _values = String.Format(_set, _property.Attribute.FieldName, _Value);
+
+                }
+                else if (_property.Attribute is EntityDateTimeFieldAttribute)
+                {
+                    string _DateValue = Convert.ToDateTime(_property.Property.GetValue(BaseModel, null)).ToShortDateString() + " " +
+                                        Convert.ToDateTime(_property.Property.GetValue(BaseModel, null)).ToLongTimeString();
+
+                    _Value = "'" + _getFormatedValue(_DateValue, _property.Attribute.FieldType) + "'";
+                    _values = String.Format(_set, _property.Attribute.FieldName, _Value);
                 }
                 else
                 {
                     _Value = _property.Property.GetValue(BaseModel, null);
                     _values = String.Format(_set, _property.Attribute.FieldName, _getFormatedValue(_Value, _property.Attribute.FieldType));
                 }
+
+                
                 _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName, _values, _WhereClause));
 
             }
@@ -224,7 +255,7 @@ namespace ArcEasyObjects.Persistence
 
                 foreach (ModelProperty _property in BaseModel.ModelProperties)
                 {
-                    if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
+                    if (!(_property.Attribute is EntityOneToOneFieldAttribute))
                     {
                         _property.Property.SetValue(_model,
                                                     Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),

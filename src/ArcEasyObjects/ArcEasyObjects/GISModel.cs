@@ -12,14 +12,14 @@ namespace ArcEasyObjects
     {
         public GISModel(IWorkspace Workspace) : base(Workspace) { }
         
-        [EntityFieldAEO("OBJECTID", typeof(Int32))]
+        [EntityField("OBJECTID", typeof(Int32))]
         public Int32 ObjectId
         {
             get { return _ObjectId; }
             set { _ObjectId = value; }
         }
 
-        [EntityShapeFieldAEO(typeof(IGeometry))]
+        [EntityShapeField(typeof(IGeometry))]
         public IGeometry Geometry
         {
             get { return _Geometry; }

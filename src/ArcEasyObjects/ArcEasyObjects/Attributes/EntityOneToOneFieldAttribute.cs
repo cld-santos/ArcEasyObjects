@@ -5,11 +5,11 @@ using System.Text;
 
 namespace ArcEasyObjects.Attributes
 {
-    public class EntityOneToOneFieldAEOAttribute : EntityFieldAEOAttribute
+    public class EntityOneToOneFieldAttribute : EntityFieldAttribute
     {
-        public EntityOneToOneFieldAEOAttribute(string FieldName, Type FieldType) : base(FieldName, FieldType) { }
+        public EntityOneToOneFieldAttribute(string FieldName, Type FieldType) : base(FieldName, FieldType) { }
 
-        public EntityOneToOneFieldAEOAttribute(Type FieldModelType, string FieldName, Type FieldType)
+        public EntityOneToOneFieldAttribute(Type FieldModelType, string FieldName, Type FieldType)
             : base(FieldName, FieldType)
         {
             _fieldModelType = FieldModelType;

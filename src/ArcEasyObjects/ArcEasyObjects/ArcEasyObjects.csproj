@@ -57,15 +57,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\EntityOneToOneFieldAEOAttribute.cs" />
+    <Compile Include="Attributes\EntityDateTimeFieldAttribute.cs" />
+    <Compile Include="Attributes\EntityDateFieldAttribute.cs" />
+    <Compile Include="Attributes\EntityOneToOneFieldAttribute.cs" />
     <Compile Include="Attributes\EntityKeyFieldAttribute.cs" />
-    <Compile Include="Attributes\EntityShapeFieldAEOAttribute.cs" />
+    <Compile Include="Attributes\EntityShapeFieldAttribute.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
     <Compile Include="ExceptionAEO\KeyFieldNotFoundException.cs" />
     <Compile Include="GISModel.cs" />
     <Compile Include="EntityAEO.cs" />
     <Compile Include="Attributes\EntityAEOAttribute.cs" />
-    <Compile Include="Attributes\EntityFieldAEOAttribute.cs" />
+    <Compile Include="Attributes\EntityFieldAttribute.cs" />
     <Compile Include="ExceptionAEO\InvalidModelAEOException.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="Helper\GDBCursor.cs" />

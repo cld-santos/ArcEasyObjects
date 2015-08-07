@@ -13,21 +13,21 @@ namespace testeArcEasyObjects.Cartografia.Model
         //TODO: Remover dependencia explicita da classe pai
         public InformacaoExtra(IWorkspace Workspace) : base(Workspace) { }
 
-        [EntityKeyFieldAEO("CD_EXTRAINFO", typeof(Int32))]
+        [EntityKeyField("CD_EXTRAINFO", typeof(Int32))]
         public Int32 CodigoInformacaoExtra
         {
             get { return _CodigoInformacaoExtra; }
             set { _CodigoInformacaoExtra = value; }
         }
 
-        [EntityFieldAEO("CD_PN", typeof(Int32))]
+        [EntityField("CD_PN", typeof(Int32))]
         public Int32 CodigoPontoNotavel
         {
             get { return _CodigoPontoNotavel; }
             set { _CodigoPontoNotavel = value; }
         }
 
-        [EntityFieldAEO("DE_INFORMACOES", typeof(String))]
+        [EntityField("DE_INFORMACOES", typeof(String))]
         public String Informacoes
         {
             get { return _Informacoes; }

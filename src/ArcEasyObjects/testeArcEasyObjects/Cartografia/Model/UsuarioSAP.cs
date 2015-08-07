@@ -13,28 +13,28 @@ namespace testeArcEasyObjects.Cartografia.Model
         //TODO: Remover dependencia explicita da classe pai
         public UsuarioSAP(IWorkspace Workspace) : base(Workspace) { }
 
-        [EntityKeyFieldAEO("NU_USUARIOSAP_ID", typeof(Int32), "NEOSDE.SEQ_USUARIO_SAP")]
+        [EntityKeyField("NU_USUARIOSAP_ID", typeof(Int32), "NEOSDE.SEQ_USUARIO_SAP")]
         public Int32 Codigo
         {
             get { return _Codigo; }
             set { _Codigo = value; }
         }
 
-        [EntityFieldAEO("CD_USUARIO_ID", typeof(Int32))]
+        [EntityField("CD_USUARIO_ID", typeof(Int32))]
         public Int32 CodigoUsuarioGSE
         {
             get { return _CodigoUsuarioGSE; }
             set { _CodigoUsuarioGSE = value; }
         }
 
-        [EntityFieldAEO("DE_CHAVE", typeof(string))]
+        [EntityField("DE_CHAVE", typeof(string))]
         public string Chave
         {
             get { return _Chave; }
             set { _Chave = value; }
         }
 
-        [EntityFieldAEO("NO_NOME", typeof(string))]
+        [EntityField("NO_NOME", typeof(string))]
         public string Nome
         {
             get { return _Nome; }

@@ -6,9 +6,9 @@ using System.Text;
 
 namespace ArcEasyObjects.Attributes
 {
-    public class EntityShapeFieldAEOAttribute : EntityFieldAEOAttribute
+    public class EntityShapeFieldAttribute : EntityFieldAttribute
     {
-        public EntityShapeFieldAEOAttribute(Type Type):base("",Type)
+        public EntityShapeFieldAttribute(Type Type):base("",Type)
         {
 
         }

@@ -12,28 +12,28 @@ namespace testeArcEasyObjects.Cartografia.Model
     {
         public Avaliacao(IWorkspace Workspace) : base(Workspace) { }
 
-        [EntityKeyFieldAEO("CD_AVALIACAOPN",typeof(Int32))]
+        [EntityKeyField("CD_AVALIACAOPN",typeof(Int32))]
         public Int32 Codigo
         {
             get { return _Codigo; }
             set { _Codigo = value; }
         }
 
-        [EntityFieldAEO("DE_NOME",typeof(string))]
+        [EntityField("DE_NOME",typeof(string))]
         public string Nome
         {
             get { return _Nome; }
             set { _Nome = value; }
         }
 
-        [EntityFieldAEO("DE_COMENTARIO", typeof(string))]
+        [EntityField("DE_COMENTARIO", typeof(string))]
         public string Comentario
         {
             get { return _Comentario; }
             set { _Comentario = value; }
         }
 
-        [EntityOneToOneFieldAEO(typeof(PontoNotavel),"CD_PN", typeof(string))]
+        [EntityOneToOneField(typeof(PontoNotavel),"CD_PN", typeof(string))]
         public PontoNotavel PontoNotavelAvaliado
         {
             get { return _PontoNotavelAvaliado; }

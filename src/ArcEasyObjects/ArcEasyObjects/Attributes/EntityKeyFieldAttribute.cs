@@ -5,10 +5,10 @@ using System.Text;
 
 namespace ArcEasyObjects.Attributes
 {
-    public class EntityKeyFieldAEOAttribute : EntityFieldAEOAttribute
+    public class EntityKeyFieldAttribute : EntityFieldAttribute
     {
-        public EntityKeyFieldAEOAttribute(string FieldName, Type FieldType) : base(FieldName, FieldType) { }
-        public EntityKeyFieldAEOAttribute(string FieldName, Type FieldType, String Sequence)
+        public EntityKeyFieldAttribute(string FieldName, Type FieldType) : base(FieldName, FieldType) { }
+        public EntityKeyFieldAttribute(string FieldName, Type FieldType, String Sequence)
             : base(FieldName, FieldType)
         {
             _Sequence = Sequence;

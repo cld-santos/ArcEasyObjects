@@ -152,6 +152,7 @@ namespace testeArcEasyObjects
             Assert.AreEqual(_pn.InformacaoExtra.Informacoes, "Testes Novos com SubModel");
 
         }
+
         #region Métodos e Atributos Privados
         private static void inicializaLicenca()
         {

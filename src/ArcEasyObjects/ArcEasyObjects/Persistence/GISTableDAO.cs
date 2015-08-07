@@ -27,9 +27,9 @@ namespace ArcEasyObjects.Persistence
             IRow _row = _rows.NextRow();
             if (_row != null)
             {
-                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
+                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
-                    if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
+                    if (!(_property.Attribute is EntityOneToOneFieldAttribute))
                     {
                         _property.Property.SetValue(AEOModel,
                                                              Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
@@ -48,7 +48,7 @@ namespace ArcEasyObjects.Persistence
         {
             object[] _parametros = { (object)_workspace };
 
-            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAEOAttribute)Property.Attribute).FieldModelType, _parametros);
+            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAttribute)Property.Attribute).FieldModelType, _parametros);
             string _KeyObj = Row.get_Value(Row.Fields.FindField(Property.Attribute.FieldName)).ToString();
             Int32 _keyValue = !String.IsNullOrEmpty(_KeyObj) ? Convert.ToInt32(_KeyObj) : 0;
             if (_keyValue > 0)
@@ -63,12 +63,12 @@ namespace ArcEasyObjects.Persistence
             
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).CreateRow();
 
-            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))
+            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))
             {
-                if (_property.Attribute is EntityKeyFieldAEOAttribute)
+                if (_property.Attribute is EntityKeyFieldAttribute)
                 {
 
-                    EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
+                    EntityKeyFieldAttribute _keyField = (EntityKeyFieldAttribute)_property.Attribute;
                     if (String.IsNullOrEmpty(_keyField.Sequence))
                     {
                         _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
@@ -81,12 +81,12 @@ namespace ArcEasyObjects.Persistence
                         _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType));
                     }
                 }
-                else if (_property.Attribute is EntityOneToOneFieldAEOAttribute)
+                else if (_property.Attribute is EntityOneToOneFieldAttribute)
                 {
                     BaseModel _bm = (BaseModel)_property.Property.GetValue(AEOModel, null);
                     if (_bm != null)
                     {
-                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAEOAttribute).First<ModelProperty>();
+                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAttribute).First<ModelProperty>();
                         Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
 
                         _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), _keyValue);
@@ -109,7 +109,7 @@ namespace ArcEasyObjects.Persistence
 
             _row.Delete();
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
             {
                 _property.Property.SetValue(BaseModel, null,null);
             }
@@ -120,15 +120,15 @@ namespace ArcEasyObjects.Persistence
 
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).GetRow(((GISModel)BaseModel).ObjectId);
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))
             {
                 //TODO: Apply Observer pattern
-                if (_property.Attribute is EntityOneToOneFieldAEOAttribute)
+                if (_property.Attribute is EntityOneToOneFieldAttribute)
                 {
                     BaseModel _bm = (BaseModel)_property.Property.GetValue(BaseModel, null);
                     if (_bm != null)
                     {
-                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAEOAttribute).First<ModelProperty>();
+                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAttribute).First<ModelProperty>();
                         Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
 
                         _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), _keyValue);
@@ -161,9 +161,9 @@ namespace ArcEasyObjects.Persistence
                 object[] _parameters = { _workspace };
                 object _model = Activator.CreateInstance(AEOModel.GetType(), _parameters);
 
-                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
+                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
-                    if (!(_property.Attribute is EntityOneToOneFieldAEOAttribute))
+                    if (!(_property.Attribute is EntityOneToOneFieldAttribute))
                     {
                         _property.Property.SetValue(_model,
                                                     Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),

@@ -13,7 +13,7 @@ namespace testeArcEasyObjects
         private int _campoChave;
 
         [DataMember]
-        [EntityFieldAEO("NU_CAMPO_ID", typeof(Int32))]
+        [EntityField("NU_CAMPO_ID", typeof(Int32))]
         public int CampoChave
         {
             get { return _campoChave; }

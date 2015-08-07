@@ -15,7 +15,7 @@ namespace testeArcEasyObjects.Cartografia.Model
         public ProjetoStandard(IWorkspace Workspace) : base(Workspace) { }
 
         //NU_PROJETO_STANDARD_ID NUMBER(3) NOT NULL PRIMARY KEY,
-        [EntityKeyFieldAEO("NU_PROJETO_STANDARD_ID",typeof(Int16))]
+        [EntityKeyField("NU_PROJETO_STANDARD_ID",typeof(Int16))]
         public Int16 Codigo
         {
             get { return _Codigo; }
@@ -23,7 +23,7 @@ namespace testeArcEasyObjects.Cartografia.Model
         }
 
         //CD_TI NUMBER(3) NOT NULL,
-        [EntityFieldAEO("CD_TI", typeof(Int16))]
+        [EntityField("CD_TI", typeof(Int16))]
         public Int16 CodigoTI
         {
             get { return _CodigoTI; }
@@ -31,14 +31,14 @@ namespace testeArcEasyObjects.Cartografia.Model
         }
 
         //NO_NOME VARCHAR(50) NOT NULL,
-        [EntityFieldAEO("NO_NOME", typeof(string))]
+        [EntityField("NO_NOME", typeof(string))]
         public string Nome
         {
             get { return _Nome; }
             set { _Nome = value; }
         }
         //CD_TIPO_PROJETO NUMBER(3) NOT NULL,
-        [EntityFieldAEO("CD_TIPO_PROJETO", typeof(Int16))]
+        [EntityField("CD_TIPO_PROJETO", typeof(Int16))]
         public Int16 CodigoTipoProjeto
         {
             get { return _CodigoTipoProjeto; }
@@ -46,7 +46,7 @@ namespace testeArcEasyObjects.Cartografia.Model
         }
 
         //NO_EMPRESA VARCHAR(10) NOT NULL, 
-        [EntityFieldAEO("NO_EMPRESA", typeof(string))]
+        [EntityField("NO_EMPRESA", typeof(string))]
         public string Empresa
         {
             get { return _Empresa; }
@@ -54,7 +54,7 @@ namespace testeArcEasyObjects.Cartografia.Model
         }
 
         //NO_PROJETO_STANDARD VARCHAR(10) NOT NULL
-        [EntityFieldAEO("NO_PROJETO_STANDARD", typeof(string))]
+        [EntityField("NO_PROJETO_STANDARD", typeof(string))]
         public string CodigoProjetoStandard
         {
             get { return _CodigoProjetoStandard; }

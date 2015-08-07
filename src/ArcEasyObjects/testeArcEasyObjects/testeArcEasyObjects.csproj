@@ -73,13 +73,15 @@
     <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
     <Compile Include="Tests\AvaliacaoTest.cs" />
     <Compile Include="Tests\SimulacaoProjetoTest.cs" />
-    <Compile Include="Tests\TesteCldTest.cs" />
     <Compile Include="Tests\ProjetoStandardTest.cs" />
     <Compile Include="Tests\InformacaoExtraTest.cs" />
     <Compile Include="LicenseInitializer.cs" />
     <Compile Include="Tests\testArcEasyObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cartografia\Model\TestModelo.cs" />
+    <Compile Include="Tests\TesteCldTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tests\testPontoNotavel.cs" />
     <Compile Include="Tests\LoadModelTest.cs" />
     <Compile Include="Tests\UsuarioSAPTest.cs" />

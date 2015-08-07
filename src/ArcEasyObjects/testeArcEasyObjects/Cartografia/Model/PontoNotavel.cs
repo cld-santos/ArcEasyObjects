@@ -14,21 +14,21 @@ namespace testeArcEasyObjects.Cartografia.Model
         //TODO: Remover dependencia explicita da classe pai
         public PontoNotavel(IWorkspace Workspace) : base(Workspace) { }
     
-        [EntityKeyFieldAEO("CD_PN", typeof(Int32))]
+        [EntityKeyField("CD_PN", typeof(Int32))]
         public Int32 Codigo
         {
             get { return _Codigo; }
             set { _Codigo = value; }
         }
         
-        [EntityFieldAEO("NOME", typeof(String))]
+        [EntityField("NOME", typeof(String))]
         public String Nome
         {
             get { return _Nome; }
             set { _Nome = value; }
         }
 
-        [EntityFieldAEO("DESCRICAO", typeof(String))]
+        [EntityField("DESCRICAO", typeof(String))]
         public String Descricao
         {
             get { return _Descricao; }
@@ -37,7 +37,7 @@ namespace testeArcEasyObjects.Cartografia.Model
 
         private InformacaoExtra _InformacaoExtra;
 
-        [EntityOneToOneFieldAEO(typeof(InformacaoExtra), "CD_INFO_EXTRA_FK", typeof(Int32))]
+        [EntityOneToOneField(typeof(InformacaoExtra), "CD_INFO_EXTRA_FK", typeof(Int32))]
         public InformacaoExtra InformacaoExtra
         {
             get { return _InformacaoExtra; }

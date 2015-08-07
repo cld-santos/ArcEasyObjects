@@ -13,20 +13,20 @@ namespace ArcEasyObjects.Attributes
             get { return _property; }
         }
 
-        public EntityFieldAEOAttribute Attribute
+        public EntityFieldAttribute Attribute
         {   
             get { return _attribute; }
         }
 
 
-        public ModelProperty(PropertyInfo PropertyInfo, EntityFieldAEOAttribute Attribute)
+        public ModelProperty(PropertyInfo PropertyInfo, EntityFieldAttribute Attribute)
         {
             _property  = PropertyInfo;
             _attribute = Attribute;
         }
 
         private PropertyInfo _property;
-        private EntityFieldAEOAttribute _attribute;
+        private EntityFieldAttribute _attribute;
 
 
     }

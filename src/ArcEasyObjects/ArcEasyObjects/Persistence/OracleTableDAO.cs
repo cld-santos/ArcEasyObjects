@@ -30,7 +30,7 @@ namespace ArcEasyObjects.Persistence
             OracleDataReader _Reader = _Command.ExecuteReader();
             if (_Reader.Read())
             {
-                foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
+                foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
                     _property.Property.SetValue(BaseModel,
                                                 Convert.ChangeType(_Reader.GetValue(_Reader.GetOrdinal(_property.Attribute.FieldName)),
@@ -50,9 +50,9 @@ namespace ArcEasyObjects.Persistence
             {
                 _fields += _property.Attribute.FieldName + ",";
 
-                if (_property.Attribute is EntityKeyFieldAEOAttribute)
+                if (_property.Attribute is EntityKeyFieldAttribute)
                 {
-                    EntityKeyFieldAEOAttribute _keyField = (EntityKeyFieldAEOAttribute)_property.Attribute;
+                    EntityKeyFieldAttribute _keyField = (EntityKeyFieldAttribute)_property.Attribute;
                     if (String.IsNullOrEmpty(_keyField.Sequence))
                     {
                         _values += _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType) + ",";
@@ -97,7 +97,7 @@ namespace ArcEasyObjects.Persistence
             OracleCommand _Command;
             string _dml = "DELETE FROM {0} WHERE {1}";
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAttribute)))
             {
                 String _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
 
@@ -116,12 +116,12 @@ namespace ArcEasyObjects.Persistence
             string _WhereClause ="", _values="";
             object _Value;
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAttribute)))
             {
                 _WhereClause = BaseModel.KeyField + "=" + _getFormatedValue(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
             }
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAEOAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAttribute)))
             {
                 _Value = _property.Property.GetValue(BaseModel, null);
                 _values = String.Format(_set,_property.Attribute.FieldName,_getFormatedValue(_Value, _property.Attribute.FieldType));
@@ -158,7 +158,7 @@ namespace ArcEasyObjects.Persistence
                 object[] _parameters = { _Connection };
                 object _model = Activator.CreateInstance(BaseModel.GetType(), _parameters);
 
-                foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAEOAttribute)))
+                foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
                     _property.Property.SetValue(_model,
                                                 Convert.ChangeType(_Reader.GetValue(_Reader.GetOrdinal(_property.Attribute.FieldName)),
