@@ -29,34 +29,12 @@ namespace ArcEasyObjects.Persistence
             {
                 foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
-                    if (!(_property.Attribute is EntityOneToOneFieldAttribute))
-                    {
-                        _property.Property.SetValue(AEOModel,
-                                                             Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                                _property.Attribute.FieldType), null);
-                    }
-                    else
-                    {
-                        loadOneToOne(_row, AEOModel, _property);
-                    }
-
+                    _property.Attribute.Load(_workspace, _row, AEOModel, _property);
                 }
             }
         }
 
-        private void loadOneToOne(IRow Row, BaseModel AEOModel, ModelProperty Property)
-        {
-            object[] _parametros = { (object)_workspace };
 
-            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAttribute)Property.Attribute).FieldModelType, _parametros);
-            string _KeyObj = Row.get_Value(Row.Fields.FindField(Property.Attribute.FieldName)).ToString();
-            Int32 _keyValue = !String.IsNullOrEmpty(_KeyObj) ? Convert.ToInt32(_KeyObj) : 0;
-            if (_keyValue > 0)
-            {
-                otoField.Load(_keyValue);
-                Property.Property.SetValue(AEOModel, otoField, null);
-            }
-        }
         
         public void Save(BaseModel AEOModel)
         {
@@ -163,17 +141,7 @@ namespace ArcEasyObjects.Persistence
 
                 foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
-                    if (!(_property.Attribute is EntityOneToOneFieldAttribute))
-                    {
-                        _property.Property.SetValue(_model,
-                                                    Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                       _property.Attribute.FieldType), null);
-                    }
-                    else
-                    {
-                        loadOneToOne(_row, (BaseModel)_model, _property);
-                    }
-
+                        _property.Attribute.Load(_workspace, _row, (BaseModel)_model, _property);
                 }
 
                 _ModelsReturn.Add((BaseModel)_model);
@@ -185,5 +153,11 @@ namespace ArcEasyObjects.Persistence
 
         private IWorkspace _workspace;
 
+
+
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause, BaseModel.LoadMethod ChooseMethod)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

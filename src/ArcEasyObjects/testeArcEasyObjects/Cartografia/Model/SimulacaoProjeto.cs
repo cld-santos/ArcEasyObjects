@@ -7,7 +7,7 @@ using ESRI.ArcGIS.Geodatabase;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [EntityAEO("NEOSDE.TB_SIMULACAO_PROJETO", Type.GISTable)]
+    [EntityClass("NEOSDE.TB_SIMULACAO_PROJETO", Type.GISTable)]
     public class SimulacaoProjeto : ArcEasyObjects.GISModel
     {
         private string _no_versao;

@@ -22,6 +22,6 @@ namespace ArcEasyObjects.Attributes
         }
 
         private string _Sequence;
-    
+
     }
 }

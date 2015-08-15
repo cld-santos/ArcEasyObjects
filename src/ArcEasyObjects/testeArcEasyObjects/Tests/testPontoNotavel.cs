@@ -110,18 +110,6 @@ namespace testeArcEasyObjects
         }
 
         [TestMethod]
-        public void mustLoadASubModel()
-        {
-            PontoNotavel _pn = new PontoNotavel(_workspace);
-
-            _pn.Load(999);
-
-            Assert.IsNotNull(_pn.InformacaoExtra);
-            Assert.AreEqual(_pn.InformacaoExtra.Informacoes, "Testes");
-
-        }
-        
-        [TestMethod]
         public void mustSaveASubModel()
         {
             InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);

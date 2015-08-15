@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace testeArcEasyObjects
 {
     [DataContract]
-    [EntityAEO("CSANTOS.PT_TESTMODELO", Type.FeatureClass)]
+    [EntityClass("CSANTOS.PT_TESTMODELO", Type.FeatureClass)]
     public class TestModel : ArcEasyObjects.BaseModel
     {
         private int _campoChave;

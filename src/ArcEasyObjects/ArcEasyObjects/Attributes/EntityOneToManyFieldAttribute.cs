@@ -1,20 +1,20 @@
 ﻿using ESRI.ArcGIS.Geodatabase;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace ArcEasyObjects.Attributes
 {
-    public class EntityOneToOneFieldAttribute : Attribute, IEntityField
+    public class EntityOneToManyFieldAttribute : Attribute, IEntityField
     {
-        public EntityOneToOneFieldAttribute(string FieldName, Type FieldType)
+        public EntityOneToManyFieldAttribute(string FieldName, Type FieldType)
         {
             _fieldName = FieldName;
             _fieldType = FieldType;
         }
-
-        public EntityOneToOneFieldAttribute(Type FieldModelType, string FieldName, Type FieldType)
+        public EntityOneToManyFieldAttribute(Type FieldModelType, string FieldName, Type FieldType)
             : this(FieldName, FieldType)
         {
             _fieldModelType = FieldModelType;
@@ -28,21 +28,25 @@ namespace ArcEasyObjects.Attributes
         }
 
         private Type _fieldModelType;
-        private string _fieldName;
-        private Type _fieldType;
 
 
         public void Load(IWorkspace Workspace, IRow Row, BaseModel BaseModel, ModelProperty Property)
         {
             object[] _parametros = { (object)Workspace };
-
-            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAttribute)Property.Attribute).FieldModelType, _parametros);
-            string _KeyObj = Row.get_Value(Row.Fields.FindField(Property.Attribute.FieldName)).ToString();
+            EntityOneToManyFieldAttribute _attribute = (EntityOneToManyFieldAttribute)Property.Attribute;
+            BaseModel otmField = (BaseModel)Activator.CreateInstance((_attribute).FieldModelType, _parametros);
+            string _KeyObj = Row.get_Value(Row.Fields.FindField(_attribute.FieldName)).ToString();
             Int32 _keyValue = !String.IsNullOrEmpty(_KeyObj) ? Convert.ToInt32(_KeyObj) : 0;
             if (_keyValue > 0)
             {
-                otoField.Load(_keyValue);
-                Property.Property.SetValue(BaseModel, otoField, null);
+                var _source = otmField.Search(_attribute.FieldName + "=" + _keyValue, BaseModel.LoadMethod.Lazy);
+                IList _target = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(_attribute.FieldModelType));
+                foreach (var _item in _source)
+                {
+                    _target.Add(_item);
+                }
+
+                Property.Property.SetValue(BaseModel, _target, null);
             }
         }
 
@@ -62,5 +66,9 @@ namespace ArcEasyObjects.Attributes
             get { return _fieldType; }
         }
 
+
+
+        private string _fieldName;
+        private Type _fieldType;
     }
 }

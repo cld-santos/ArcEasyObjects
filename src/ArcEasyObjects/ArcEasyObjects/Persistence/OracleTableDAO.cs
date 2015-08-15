@@ -187,5 +187,11 @@ namespace ArcEasyObjects.Persistence
 
         private System.Data.OracleClient.OracleConnection _Connection;
 
+
+
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause, BaseModel.LoadMethod ChooseMethod)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

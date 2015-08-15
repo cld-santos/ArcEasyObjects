@@ -13,7 +13,7 @@ namespace ArcEasyObjects
     public abstract class BaseModel 
     {
         public enum Type { FeatureClass, GISTable, Table, OracleTable };
-
+        public enum LoadMethod { Eager, Lazy };
         public string EntityName { get { return _FeatureClassConfig.EntityName; } }
         public string KeyField { get { return _KeyField; } }
         public HashSet<ModelProperty> ModelProperties { get { return _ModelProperties; } }
@@ -70,6 +70,15 @@ namespace ArcEasyObjects
 
         }
 
+        public List<BaseModel> Search(string AEOWhereClause, LoadMethod ChooseLoadMethod)
+        {
+
+            String AOWhereClause = toAOWhereClause(AEOWhereClause);
+
+            return _persistence.Search(this, AOWhereClause, ChooseLoadMethod);
+
+        }
+
         
         private string toAOWhereClause(string AEOWhereClause)
         {
@@ -89,7 +98,7 @@ namespace ArcEasyObjects
         private HashSet<ModelProperty> _ModelProperties;
         private IDictionary<string, string> _ModelAttributes;
         private string _KeyField;
-        private EntityAEOAttribute _FeatureClassConfig;
+        private EntityClassAttribute _FeatureClassConfig;
 
     }
 }

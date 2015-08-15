@@ -8,7 +8,7 @@ using System.Text;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [EntityAEO("PT_PONTO_NOTAVEL", Type.FeatureClass)]
+    [EntityClass("PT_PONTO_NOTAVEL", Type.FeatureClass)]
     public class PontoNotavel : ArcEasyObjects.GISModel
     {
         //TODO: Remover dependencia explicita da classe pai

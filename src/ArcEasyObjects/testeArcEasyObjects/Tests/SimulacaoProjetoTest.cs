@@ -16,13 +16,6 @@ namespace testeArcEasyObjects
     public class SimulacaoProjetoTest
     {
 
-        [ClassInitialize]
-        public static void Initialization(TestContext context)
-        {
-            inicializaLicenca();
-            _workspace = _openWorkspace("");
-        }
-
         
         public void mustSaveAModel()
         {
@@ -112,6 +105,14 @@ namespace testeArcEasyObjects
 
 
         #region Métodos e Atributos Privados
+        [ClassInitialize]
+        public static void Initialization(TestContext context)
+        {
+            inicializaLicenca();
+            _workspace = _openWorkspace("");
+        }
+
+
         private static void inicializaLicenca()
         {
 

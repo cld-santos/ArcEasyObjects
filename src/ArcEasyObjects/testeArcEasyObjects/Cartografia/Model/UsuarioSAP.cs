@@ -7,7 +7,7 @@ using ESRI.ArcGIS.Geodatabase;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [EntityAEO("NEOSDE.TB_USUARIO_SAP", Type.Table)]
+    [EntityClass("NEOSDE.TB_USUARIO_SAP", Type.Table)]
     public class UsuarioSAP : ArcEasyObjects.BaseModel
     {
         //TODO: Remover dependencia explicita da classe pai

@@ -195,5 +195,11 @@ namespace ArcEasyObjects.Persistence
 
         private IWorkspace _workspace;
 
+
+
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause, BaseModel.LoadMethod ChooseMethod)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

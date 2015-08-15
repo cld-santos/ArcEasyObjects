@@ -1,6 +1,7 @@
 ﻿using ArcEasyObjects.Attributes;
 using ESRI.ArcGIS.Geodatabase;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,13 +12,13 @@ namespace ArcEasyObjects.Persistence
 
     public class TableDAO : IPersistence
     {
-
+        
         public TableDAO(IWorkspace Workspace)
         {
             _workspace = Workspace;
         }
 
-        public void Load(BaseModel BaseModel, int KeyFieldValue)
+        public void Load(BaseModel BaseModel, int KeyFieldValue, BaseModel.LoadMethod ChooseLoadMethod)
         {
 
             string _WhereClause = BaseModel.KeyField + "=" + KeyFieldValue;
@@ -43,40 +44,11 @@ namespace ArcEasyObjects.Persistence
             {
                 foreach (ModelProperty _property in BaseModel.ModelProperties)
                 {
-                    if (_property.Attribute is EntityOneToOneFieldAttribute)
-                    {
-                        loadOneToOne(_row, BaseModel, _property);
-                    }
-                    else
-                    {
-                        if (_property.Attribute.FieldType == typeof(bool) || _property.Attribute.FieldType == typeof(bool))
-                        {
-                            _property.Property.SetValue(BaseModel, "1".Equals(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)).ToString()), null);
-                        }
-                        else
-                        {
-                            _property.Property.SetValue(BaseModel,
-                                                                 Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                                    _property.Attribute.FieldType), null);
-                        }
-                    }
+                    _property.Attribute.Load(_workspace, _row, BaseModel, _property, ChooseLoadMethod);
                 }
             }
         }
 
-        private void loadOneToOne(IRow Row, BaseModel AEOModel, ModelProperty Property)
-        {
-            object[] _parametros = { (object)_workspace };
-
-            BaseModel otoField = (BaseModel)Activator.CreateInstance(((EntityOneToOneFieldAttribute)Property.Attribute).FieldModelType, _parametros);
-            string _KeyObj = Row.get_Value(Row.Fields.FindField(Property.Attribute.FieldName)).ToString();
-            Int32 _keyValue = !String.IsNullOrEmpty(_KeyObj) ? Convert.ToInt32(_KeyObj) : 0;
-            if (_keyValue > 0)
-            {
-                otoField.Load(_keyValue);
-                Property.Property.SetValue(AEOModel, otoField, null);
-            }
-        }
 
         public void Save(BaseModel BaseModel)
         {
@@ -226,7 +198,7 @@ namespace ArcEasyObjects.Persistence
 
         }
 
-        public List<BaseModel> Search(BaseModel BaseModel, string AOWhereClause)
+        public List<BaseModel> Search(BaseModel BaseModel, string AOWhereClause, BaseModel.LoadMethod ChooseLoadMethod)
         {
             List<BaseModel> _ModelsReturn = new List<BaseModel>();
 
@@ -255,16 +227,7 @@ namespace ArcEasyObjects.Persistence
 
                 foreach (ModelProperty _property in BaseModel.ModelProperties)
                 {
-                    if (!(_property.Attribute is EntityOneToOneFieldAttribute))
-                    {
-                        _property.Property.SetValue(_model,
-                                                    Convert.ChangeType(_row.get_Value(_row.Fields.FindField(_property.Attribute.FieldName)),
-                                                                       _property.Attribute.FieldType), null);
-                    }
-                    else
-                    {
-                        loadOneToOne(_row, (BaseModel)_model, _property);
-                    }
+                    _property.Attribute.Load(_workspace, _row, BaseModel, _property, ChooseLoadMethod);
                 }
 
                 _ModelsReturn.Add((BaseModel)_model);
@@ -275,5 +238,16 @@ namespace ArcEasyObjects.Persistence
 
         private IWorkspace _workspace;
 
+
+
+        public void Load(BaseModel AEOModel, int KeyFieldValue)
+        {
+            this.Load(AEOModel, KeyFieldValue, BaseModel.LoadMethod.Eager);
+        }
+
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause)
+        {
+            return this.Search(AEOModel, AOWhereClause, BaseModel.LoadMethod.Eager);
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [EntityAEO("TB_EXTRA_INFO",  Type.GISTable)]
+    [EntityClass("TB_EXTRA_INFO",  Type.GISTable)]
     public class InformacaoExtra : ArcEasyObjects.GISModel
     {
         //TODO: Remover dependencia explicita da classe pai

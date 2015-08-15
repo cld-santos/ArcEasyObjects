@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ArcEasyObjects.Attributes
 {
-    public class EntityAEOAttribute : Attribute
+    public class EntityClassAttribute : Attribute
     {
 
         public BaseModel.Type TypeEntity
@@ -18,7 +18,7 @@ namespace ArcEasyObjects.Attributes
             get { return _EntityName; }
         }
 
-        public EntityAEOAttribute(string EntityName, BaseModel.Type TypeEntity)
+        public EntityClassAttribute(string EntityName, BaseModel.Type TypeEntity)
         {
             _EntityName = EntityName;
             _TypeEntity = TypeEntity;

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [EntityAEO("TB_AVALIACAO_PN",  Type.GISTable)]
+    [EntityClass("TB_AVALIACAO_PN",  Type.GISTable)]
     public class Avaliacao : ArcEasyObjects.GISModel
     {
         public Avaliacao(IWorkspace Workspace) : base(Workspace) { }

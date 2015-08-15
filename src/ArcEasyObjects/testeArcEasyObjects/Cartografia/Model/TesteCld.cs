@@ -7,7 +7,7 @@ using ESRI.ArcGIS.Geodatabase;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [EntityAEO("NEOSDE.TB_TESTE_CLD", Type.Table)]
+    [EntityClass("NEOSDE.TB_TESTE_CLD", Type.Table)]
     public class TesteCld : ArcEasyObjects.BaseModel
     {
         //TODO: Remover dependencia explicita da classe pai

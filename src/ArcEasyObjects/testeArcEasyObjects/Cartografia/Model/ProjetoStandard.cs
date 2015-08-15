@@ -7,7 +7,7 @@ using ESRI.ArcGIS.Geodatabase;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [EntityAEO("NEOSDE.DOM_PROJETO_STANDARD", Type.Table)]
+    [EntityClass("NEOSDE.DOM_PROJETO_STANDARD", Type.Table)]
     public class ProjetoStandard : ArcEasyObjects.BaseModel
     {
         public ProjetoStandard() : base() { }

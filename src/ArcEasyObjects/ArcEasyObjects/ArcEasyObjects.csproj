@@ -57,16 +57,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\EntityOneToManyFieldAttribute.cs" />
+    <Compile Include="Attributes\EntityManyToManyFieldAttribute.cs" />
     <Compile Include="Attributes\EntityDateTimeFieldAttribute.cs" />
     <Compile Include="Attributes\EntityDateFieldAttribute.cs" />
     <Compile Include="Attributes\EntityOneToOneFieldAttribute.cs" />
     <Compile Include="Attributes\EntityKeyFieldAttribute.cs" />
     <Compile Include="Attributes\EntityShapeFieldAttribute.cs" />
+    <Compile Include="Attributes\IEntityField.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
     <Compile Include="ExceptionAEO\KeyFieldNotFoundException.cs" />
     <Compile Include="GISModel.cs" />
     <Compile Include="EntityAEO.cs" />
-    <Compile Include="Attributes\EntityAEOAttribute.cs" />
+    <Compile Include="Attributes\EntityClassAttribute.cs" />
     <Compile Include="Attributes\EntityFieldAttribute.cs" />
     <Compile Include="ExceptionAEO\InvalidModelAEOException.cs" />
     <Compile Include="BaseModel.cs" />

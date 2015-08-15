@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ESRI.ArcGIS.Geodatabase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,20 +14,22 @@ namespace ArcEasyObjects.Attributes
             get { return _property; }
         }
 
-        public EntityFieldAttribute Attribute
+        public IEntityField Attribute
         {   
             get { return _attribute; }
         }
 
 
-        public ModelProperty(PropertyInfo PropertyInfo, EntityFieldAttribute Attribute)
+        public ModelProperty(PropertyInfo PropertyInfo, IEntityField Attribute)
         {
             _property  = PropertyInfo;
             _attribute = Attribute;
         }
 
         private PropertyInfo _property;
-        private EntityFieldAttribute _attribute;
+        private IEntityField _attribute;
+
+
 
 
     }

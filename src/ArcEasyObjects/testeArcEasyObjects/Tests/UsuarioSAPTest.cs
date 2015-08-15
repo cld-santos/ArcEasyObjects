@@ -11,7 +11,7 @@ using testeArcEasyObjects.Cartografia.Model;
 
 namespace testeArcEasyObjects.Cartografia.Model
 {
-    [TestClass]
+    //[TestClass]
     public class UsuarioSAPTest
     {
         
