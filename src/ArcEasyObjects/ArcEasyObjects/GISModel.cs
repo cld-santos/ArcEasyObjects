@@ -10,6 +10,7 @@ namespace ArcEasyObjects
 {
     public class GISModel : BaseModel
     {
+        public GISModel() : base() { }
         public GISModel(IWorkspace Workspace) : base(Workspace) { }
         
         [EntityField("OBJECTID", typeof(Int32))]

@@ -59,5 +59,33 @@ namespace ArcEasyObjects.Attributes
         {
             throw new NotImplementedException();
         }
+
+
+        public void Load(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace, ESRI.ArcGIS.Geodatabase.IFeature Row, BaseModel BaseModel, ModelProperty Property)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Load(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace, ESRI.ArcGIS.Geodatabase.IFeature Row, BaseModel BaseModel, ModelProperty Property, BaseModel.LoadMethod ChooseLoadMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Save(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace, ESRI.ArcGIS.Geodatabase.IRow Row, BaseModel BaseModel, ModelProperty Property)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace, ESRI.ArcGIS.Geodatabase.IFeature Row, BaseModel BaseModel, ModelProperty Property)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public string Save(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace, BaseModel BaseModel, ModelProperty Property)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

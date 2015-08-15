@@ -8,9 +8,6 @@ namespace ArcEasyObjects.Attributes
 {
     public class EntityShapeFieldAttribute : EntityFieldAttribute
     {
-        public EntityShapeFieldAttribute(Type Type):base("",Type)
-        {
-
-        }
+        public EntityShapeFieldAttribute(Type Type):base("",Type) { }
     }
 }

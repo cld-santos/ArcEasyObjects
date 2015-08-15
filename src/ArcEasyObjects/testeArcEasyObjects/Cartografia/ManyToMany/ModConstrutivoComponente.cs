@@ -7,8 +7,8 @@ using System.Text;
 
 namespace testeArcEasyObjects.Cartografia.ManyToMany
 {
-    [EntityClass("NEOSDE.TB_COMPONENTE_MODCONSTRUTIVO", Type.Table)]
-    public class ModConstrutivoComponente : ArcEasyObjects.BaseModel
+    [EntityClass("NEOSDE.TB_COMPONENTE_MODCONSTRUTIVO", Type.GISTable)]
+    public class ModConstrutivoComponente : ArcEasyObjects.GISModel
     {
 
         public ModConstrutivoComponente(IWorkspace Workspace) : base(Workspace) { }

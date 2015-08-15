@@ -20,6 +20,7 @@ namespace testeArcEasyObjects
         public void mustSaveAModel()
         {
             SimulacaoProjeto sp = new SimulacaoProjeto(_workspace);
+            sp.de_observacao = "Sem Testes";
             sp.no_versao = "tests";
             sp.nu_projeto_id = 9999;
             sp.dt_criacao = DateTime.Now.Date;
@@ -95,8 +96,8 @@ namespace testeArcEasyObjects
                 sp = _item;
             }
 
-            sp.de_observacao = "Sem Testes";
-            sp.no_versao = "testado";
+            Assert.AreEqual(sp.de_observacao, "Sem Testes");
+            Assert.AreEqual(sp.no_versao, "tests");
 
             sp.Delete();
 

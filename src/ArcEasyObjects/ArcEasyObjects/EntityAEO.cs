@@ -92,7 +92,7 @@ namespace ArcEasyObjects
             EntityKeyFieldAttribute _featureAttribute = (EntityKeyFieldAttribute)_attribute;
             _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
             _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
-            _KeyField = ((EntityFieldAttribute)_attribute).FieldName;
+            _KeyField = _attribute.FieldName;
         }
 
         private void loadEntityField(IEntityField _attribute, PropertyInfo _property)

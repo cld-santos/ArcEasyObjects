@@ -38,12 +38,6 @@ namespace ArcEasyObjects
             _persistence = _createEntityPersistence[_FeatureClassConfig.TypeEntity]();
         }
 
-        public BaseModel(System.Data.OracleClient.OracleConnection Connection) : this()
-        {
-            _createEntityPersistence.Add(Type.OracleTable, () => { return new OracleTableDAO(Connection); });
-            _persistence = _createEntityPersistence[_FeatureClassConfig.TypeEntity]();
-        }
-
         public void Save()
         {
             _persistence.Save(this);

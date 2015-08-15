@@ -16,65 +16,14 @@ namespace ArcEasyObjects.Persistence
         {
             _workspace = Workspace;
         }
-
-        public void Load(BaseModel AEOModel, int KeyFieldValue) 
-        {
-            if (String.IsNullOrEmpty(AEOModel.KeyField)) throw new KeyFieldNotFoundException();
-            IQueryFilter _queryParamns = new QueryFilter();
-            _queryParamns.WhereClause = AEOModel.KeyField + "=" + KeyFieldValue;
-
-            ICursor _rows = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).Search(_queryParamns, true);
-            IRow _row = _rows.NextRow();
-            if (_row != null)
-            {
-                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
-                {
-                    _property.Attribute.Load(_workspace, _row, AEOModel, _property);
-                }
-            }
-        }
-
-
-        
+                
         public void Save(BaseModel AEOModel)
         {
-            
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).CreateRow();
 
             foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))
             {
-                if (_property.Attribute is EntityKeyFieldAttribute)
-                {
-
-                    EntityKeyFieldAttribute _keyField = (EntityKeyFieldAttribute)_property.Attribute;
-                    if (String.IsNullOrEmpty(_keyField.Sequence))
-                    {
-                        _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
-
-                    }
-                    else
-                    {
-                        ICursor cursor = Helper.GDBCursor.obterCursor((IFeatureWorkspace)_workspace, "SYS.DUAL", _keyField.Sequence + ".NEXTVAL", "");
-                        IRow row = cursor.NextRow();
-                        _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(row.get_Value(0).ToString(), _property.Attribute.FieldType));
-                    }
-                }
-                else if (_property.Attribute is EntityOneToOneFieldAttribute)
-                {
-                    BaseModel _bm = (BaseModel)_property.Property.GetValue(AEOModel, null);
-                    if (_bm != null)
-                    {
-                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAttribute).First<ModelProperty>();
-                        Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
-
-                        _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), _keyValue);
-                    }
-                }
-                else
-                {
-                    _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), Convert.ChangeType(_property.Property.GetValue(AEOModel, null), _property.Attribute.FieldType));
-                }
-
+                _property.Attribute.Save(_workspace, _row, AEOModel, _property);
             }
 
             _row.Store();
@@ -100,31 +49,31 @@ namespace ArcEasyObjects.Persistence
 
             foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))
             {
-                //TODO: Apply Observer pattern
-                if (_property.Attribute is EntityOneToOneFieldAttribute)
-                {
-                    BaseModel _bm = (BaseModel)_property.Property.GetValue(BaseModel, null);
-                    if (_bm != null)
-                    {
-                        ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAttribute).First<ModelProperty>();
-                        Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
-
-                        _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName), _keyValue);
-                    }
-                }
-                else
-                {
-                    _row.set_Value(_row.Fields.FindField(_property.Attribute.FieldName),
-                                    Convert.ChangeType(_property.Property.GetValue(BaseModel, null),
-                                                       _property.Attribute.FieldType));
-                }
+                _property.Attribute.Save(_workspace, _row, BaseModel, _property);
             }
 
             _row.Store();
 
         }
 
-        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause)
+        public void Load(BaseModel AEOModel, int KeyFieldValue)
+        {
+            if (String.IsNullOrEmpty(AEOModel.KeyField)) throw new KeyFieldNotFoundException();
+            IQueryFilter _queryParamns = new QueryFilter();
+            _queryParamns.WhereClause = AEOModel.KeyField + "=" + KeyFieldValue;
+
+            ICursor _rows = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).Search(_queryParamns, true);
+            IRow _row = _rows.NextRow();
+            if (_row != null)
+            {
+                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
+                {
+                    _property.Attribute.Load(_workspace, _row, AEOModel, _property);
+                }
+            }
+        }
+        
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause, BaseModel.LoadMethod ChooseMethod)
         {
             List<BaseModel> _ModelsReturn = new List<BaseModel>();
 
@@ -141,7 +90,7 @@ namespace ArcEasyObjects.Persistence
 
                 foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
-                        _property.Attribute.Load(_workspace, _row, (BaseModel)_model, _property);
+                        _property.Attribute.Load(_workspace, _row, (BaseModel)_model, _property, ChooseMethod);
                 }
 
                 _ModelsReturn.Add((BaseModel)_model);
@@ -155,9 +104,10 @@ namespace ArcEasyObjects.Persistence
 
 
 
-        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause, BaseModel.LoadMethod ChooseMethod)
+        public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause)
         {
-            throw new NotImplementedException();
+            return this.Search(AEOModel, AOWhereClause, BaseModel.LoadMethod.Lazy);
+
         }
     }
 }

@@ -48,9 +48,6 @@
     <Reference Include="ESRI.ArcGIS.Version, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.OracleClient, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=x86">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -64,6 +61,7 @@
     <Compile Include="Attributes\EntityOneToOneFieldAttribute.cs" />
     <Compile Include="Attributes\EntityKeyFieldAttribute.cs" />
     <Compile Include="Attributes\EntityShapeFieldAttribute.cs" />
+    <Compile Include="Attributes\FieldFormatHelper.cs" />
     <Compile Include="Attributes\IEntityField.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
     <Compile Include="ExceptionAEO\KeyFieldNotFoundException.cs" />
@@ -75,7 +73,6 @@
     <Compile Include="BaseModel.cs" />
     <Compile Include="Helper\GDBCursor.cs" />
     <Compile Include="Interfaces\IPersistence.cs" />
-    <Compile Include="Persistence\OracleTableDAO.cs" />
     <Compile Include="Persistence\TableDAO.cs" />
     <Compile Include="Persistence\GISTableDAO.cs" />
     <Compile Include="Persistence\FeatureClasseDAO.cs" />

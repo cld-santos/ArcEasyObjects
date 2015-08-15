@@ -57,12 +57,11 @@ namespace testeArcEasyObjects
         [TestMethod]
         public void mustSearchSomeFeatures()
         {   
-            //TODO: Criar uma lista do tipo desejado, aplicar generics.
-            //List<PontoNotavel> _pns = new List<PontoNotavel>();
+
             mustSaveAModel();
             PontoNotavel _pn = new PontoNotavel(_workspace);
 
-            //TODO:Replace only words
+            
             var _pns = _pn.Search("PontoNotavel.Codigo = 1");
             
             foreach (PontoNotavel _item in _pns)
@@ -138,7 +137,7 @@ namespace testeArcEasyObjects
 
             Assert.IsNotNull(_pn.InformacaoExtra);
             Assert.AreEqual(_pn.InformacaoExtra.Informacoes, "Testes Novos com SubModel");
-
+            _pn.Delete();
         }
 
         #region Métodos e Atributos Privados

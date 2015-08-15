@@ -91,7 +91,6 @@
     </Compile>
     <Compile Include="Tests\testPontoNotavel.cs" />
     <Compile Include="Tests\LoadModelTest.cs" />
-    <Compile Include="Tests\UnitTest1.cs" />
     <Compile Include="Tests\OneToManyTest.cs" />
     <Compile Include="Tests\UsuarioSAPTest.cs" />
   </ItemGroup>

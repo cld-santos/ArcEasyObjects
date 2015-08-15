@@ -49,8 +49,42 @@ namespace ArcEasyObjects.Attributes
 
         public virtual void Load(IWorkspace Workspace, IRow Row, BaseModel BaseModel, ModelProperty Property, BaseModel.LoadMethod ChooseLoadMethod)
         {
-            if (ChooseLoadMethod == BaseModel.LoadMethod.Lazy) return;
             this.Load(Workspace, Row, BaseModel, Property);
+        }
+
+
+        public void Load(IWorkspace Workspace, IFeature Feature, BaseModel BaseModel, ModelProperty Property)
+        {
+            if (!String.IsNullOrEmpty(Feature.get_Value(Feature.Fields.FindField(Property.Attribute.FieldName)).ToString()))
+            {
+                Property.Property.SetValue(BaseModel,
+                                             Convert.ChangeType(Feature.get_Value(Feature.Fields.FindField(Property.Attribute.FieldName)),
+                                                                Property.Attribute.FieldType),
+                                             null);
+            }
+        }
+
+        public void Load(IWorkspace Workspace, IFeature Feature, BaseModel BaseModel, ModelProperty Property, BaseModel.LoadMethod ChooseLoadMethod)
+        {
+            this.Load(Workspace, Feature, BaseModel, Property);
+        }
+
+
+        public void Save(IWorkspace Workspace, IRow Row, BaseModel BaseModel, ModelProperty Property)
+        {
+            Row.set_Value(Row.Fields.FindField(Property.Attribute.FieldName), Convert.ChangeType(Property.Property.GetValue(BaseModel, null), Property.Attribute.FieldType));
+        }
+
+        public void Save(IWorkspace Workspace, IFeature Feature, BaseModel BaseModel, ModelProperty Property)
+        {
+            Feature.set_Value(Feature.Fields.FindField(Property.Attribute.FieldName),
+               Convert.ChangeType(Property.Property.GetValue(BaseModel, null),
+                                  Property.Attribute.FieldType));
+        }
+
+        public string Save(IWorkspace Workspace, BaseModel BaseModel, ModelProperty Property)
+        {
+            return FieldFormatHelper.FormatField(Property.Property.GetValue(BaseModel, null), Property.Attribute.FieldType);
         }
     }
 }

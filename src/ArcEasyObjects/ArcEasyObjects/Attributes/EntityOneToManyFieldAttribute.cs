@@ -70,5 +70,49 @@ namespace ArcEasyObjects.Attributes
 
         private string _fieldName;
         private Type _fieldType;
+
+
+        public void Load(IWorkspace Workspace, IFeature Feature, BaseModel BaseModel, ModelProperty Property)
+        {
+            object[] _parametros = { (object)Workspace };
+            EntityOneToManyFieldAttribute _attribute = (EntityOneToManyFieldAttribute)Property.Attribute;
+            BaseModel otmField = (BaseModel)Activator.CreateInstance((_attribute).FieldModelType, _parametros);
+            string _KeyObj = Feature.get_Value(Feature.Fields.FindField(_attribute.FieldName)).ToString();
+            Int32 _keyValue = !String.IsNullOrEmpty(_KeyObj) ? Convert.ToInt32(_KeyObj) : 0;
+            if (_keyValue > 0)
+            {
+                var _source = otmField.Search(_attribute.FieldName + "=" + _keyValue, BaseModel.LoadMethod.Lazy);
+                IList _target = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(_attribute.FieldModelType));
+                foreach (var _item in _source)
+                {
+                    _target.Add(_item);
+                }
+
+                Property.Property.SetValue(BaseModel, _target, null);
+            }
+
+        }
+
+        public void Load(IWorkspace Workspace, IFeature Feature, BaseModel BaseModel, ModelProperty Property, BaseModel.LoadMethod ChooseLoadMethod)
+        {
+            if (ChooseLoadMethod == BaseModel.LoadMethod.Lazy) return;
+            this.Load(Workspace, Feature, BaseModel, Property);
+        }
+
+        public void Save(IWorkspace Workspace, IRow Row, BaseModel BaseModel, ModelProperty Property)
+        {
+            //Row.set_Value(Row.Fields.FindField(Property.Attribute.FieldName), Convert.ChangeType(Property.Property.GetValue(BaseModel, null), Property.Attribute.FieldType));
+        }
+
+        public void Save(IWorkspace Workspace, IFeature Row, BaseModel BaseModel, ModelProperty Property)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public string Save(IWorkspace Workspace, BaseModel BaseModel, ModelProperty Property)
+        {
+            //throw new NotImplementedException();
+            return "";
+        }
     }
 }
