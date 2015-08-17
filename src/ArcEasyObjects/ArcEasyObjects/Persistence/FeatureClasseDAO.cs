@@ -110,6 +110,12 @@ namespace ArcEasyObjects.Persistence
         }
 
         private IWorkspace _workspace;
-        
+
+
+
+        public void Delete(BaseModel AEOModel, string AOWhereClause)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

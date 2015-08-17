@@ -11,20 +11,26 @@ namespace ArcEasyObjects.Persistence
 {
     public class GISTableDAO:IPersistence
     {
-
+        
         public GISTableDAO(IWorkspace Workspace)
         {
             _workspace = Workspace;
         }
                 
-        public void Save(BaseModel AEOModel)
+        public void Save(BaseModel BaseModel)
         {
-            IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).CreateRow();
+            IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).CreateRow();
 
-            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute) && !(x.Attribute is EntityManyToManyFieldAttribute)))
             {
-                _property.Attribute.Save(_workspace, _row, AEOModel, _property);
+                _property.Attribute.Save(_workspace, _row, BaseModel, _property);
             }
+
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityManyToManyFieldAttribute)))
+            {
+                _property.Attribute.Save(_workspace, BaseModel, _property);
+            }
+
 
             _row.Store();
 
@@ -56,23 +62,28 @@ namespace ArcEasyObjects.Persistence
 
         }
 
-        public void Load(BaseModel AEOModel, int KeyFieldValue)
+        public void Load(BaseModel BaseModel, int KeyFieldValue, BaseModel.LoadMethod ChooseLoadMethod)
         {
-            if (String.IsNullOrEmpty(AEOModel.KeyField)) throw new KeyFieldNotFoundException();
+            if (String.IsNullOrEmpty(BaseModel.KeyField)) throw new KeyFieldNotFoundException();
             IQueryFilter _queryParamns = new QueryFilter();
-            _queryParamns.WhereClause = AEOModel.KeyField + "=" + KeyFieldValue;
+            _queryParamns.WhereClause = BaseModel.KeyField + "=" + KeyFieldValue;
 
-            ICursor _rows = ((IFeatureWorkspace)_workspace).OpenTable(AEOModel.EntityName).Search(_queryParamns, true);
+            ICursor _rows = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).Search(_queryParamns, true);
             IRow _row = _rows.NextRow();
             if (_row != null)
             {
-                foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
+                foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityShapeFieldAttribute)))
                 {
-                    _property.Attribute.Load(_workspace, _row, AEOModel, _property);
+                    _property.Attribute.Load(_workspace, _row, BaseModel, _property);
                 }
             }
         }
-        
+
+        public void Load(BaseModel BaseModel, int KeyFieldValue)
+        {
+            this.Load(BaseModel, KeyFieldValue, BaseModel.LoadMethod.Lazy);
+        }
+
         public List<BaseModel> Search(BaseModel AEOModel, string AOWhereClause, BaseModel.LoadMethod ChooseMethod)
         {
             List<BaseModel> _ModelsReturn = new List<BaseModel>();
@@ -108,6 +119,12 @@ namespace ArcEasyObjects.Persistence
         {
             return this.Search(AEOModel, AOWhereClause, BaseModel.LoadMethod.Lazy);
 
+        }
+
+
+        public void Delete(BaseModel AEOModel, string AOWhereClause)
+        {
+            throw new NotImplementedException();
         }
     }
 }

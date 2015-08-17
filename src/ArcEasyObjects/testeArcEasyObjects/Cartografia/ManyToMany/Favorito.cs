@@ -27,11 +27,11 @@ namespace testeArcEasyObjects.Cartografia.ManyToMany
         [EntityField("FL_PONTO", typeof(bool))]
         public bool ehPonto { get; set; }
 
-        [EntityManyToManyField(typeof(FavoritoToComponente), "IdentificadorFavorito")]
-        IList<Componente> Componentes { get; set; }
+        [EntityManyToManyField(typeof(Componente), typeof(FavoritoToComponente), "FavoritoToComponente.IdentificadorFavorito", "FavoritoToComponente.IdentificadorComponente")]
+        public IList<Componente> Componentes { get; set; }
 
-        [EntityManyToManyField(typeof(FavoritoToModuloConstrutivo), "IdentificadorFavorito")]
-        IList<ModConstrutivo> ModulosConstrutivos { get; set; }
+        [EntityManyToManyField(typeof(ModConstrutivo), typeof(FavoritoToModuloConstrutivo), "FavoritoToModuloConstrutivo.IdentificadorFavorito", "FavoritoToModuloConstrutivo.IdentificadorModuloConstrutivo")]
+        public IList<ModConstrutivo> ModulosConstrutivos { get; set; }
     }
 }
 

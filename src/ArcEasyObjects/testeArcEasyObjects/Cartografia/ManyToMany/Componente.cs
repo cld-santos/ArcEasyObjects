@@ -7,7 +7,7 @@ using System.Text;
 
 namespace testeArcEasyObjects.Cartografia.ManyToMany
 {
-    [EntityClass("NEOSDE.TB_COMPONENTE", Type.GISTable)]
+    [EntityClass("NEOSDE.TB_COMPONENTE", Type.Table)]
     public class Componente : ArcEasyObjects.BaseModel
     {
 

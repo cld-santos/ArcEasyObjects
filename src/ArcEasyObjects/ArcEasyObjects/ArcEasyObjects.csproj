@@ -61,7 +61,7 @@
     <Compile Include="Attributes\EntityOneToOneFieldAttribute.cs" />
     <Compile Include="Attributes\EntityKeyFieldAttribute.cs" />
     <Compile Include="Attributes\EntityShapeFieldAttribute.cs" />
-    <Compile Include="Attributes\FieldFormatHelper.cs" />
+    <Compile Include="Helper\FieldFormatHelper.cs" />
     <Compile Include="Attributes\IEntityField.cs" />
     <Compile Include="Attributes\ModelProperty.cs" />
     <Compile Include="ExceptionAEO\KeyFieldNotFoundException.cs" />

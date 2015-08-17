@@ -12,7 +12,7 @@ namespace ArcEasyObjects
 {
     public abstract class BaseModel 
     {
-        public enum Type { FeatureClass, GISTable, Table, OracleTable };
+        public enum Type { FeatureClass, GISTable, Table};
         public enum LoadMethod { Eager, Lazy };
         public string EntityName { get { return _FeatureClassConfig.EntityName; } }
         public string KeyField { get { return _KeyField; } }
@@ -50,9 +50,16 @@ namespace ArcEasyObjects
         {
             _persistence.Load(this, KeyFieldValue);
         }
+
         public void Delete()
         {
             _persistence.Delete(this);
+        }
+
+        public void Delete(string AEOWhereClause)
+        {
+            String AOWhereClause = toAOWhereClause(AEOWhereClause);
+            _persistence.Delete(this, AOWhereClause);
         }
 
         public List<BaseModel> Search(string AEOWhereClause)

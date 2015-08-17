@@ -24,10 +24,15 @@ namespace ArcEasyObjects.Persistence
             string _dml = "INSERT INTO {0}({1}) VALUES({2})";
             string _fields = "", _values = "";
             
-            foreach (ModelProperty _property in BaseModel.ModelProperties)
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityManyToManyFieldAttribute)))
             {
                 _fields += _property.Attribute.FieldName + ",";
                 _values += _property.Attribute.Save(_workspace,BaseModel,_property) + ",";
+            }
+
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityManyToManyFieldAttribute)))
+            {
+                _property.Attribute.Save(_workspace, BaseModel, _property);
             }
 
             _fields = _fields.Substring(0,_fields.Length-1);
@@ -43,12 +48,27 @@ namespace ArcEasyObjects.Persistence
         {
             string _dml = "DELETE FROM {0} WHERE {1}";
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityKeyFieldAttribute) && !(x.Attribute is EntityManyToManyFieldAttribute)))
             {
                 String _WhereClause = BaseModel.KeyField + "=" + FieldFormatHelper.FormatField(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
                 _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName,_WhereClause));
             }
+
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityManyToManyFieldAttribute)))
+            {
+                ((EntityManyToManyFieldAttribute)_property.Attribute).Delete(_workspace, BaseModel, _property);
+            }
+
         }
+
+        public void Delete(BaseModel BaseModel, string AEOWhereClause)
+        {
+            if (String.IsNullOrEmpty(AEOWhereClause)) return;
+            string _dml = "DELETE FROM {0} WHERE {1}";
+            _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName, AEOWhereClause));
+
+        }
+
 
         public void Update(BaseModel BaseModel)
         {
@@ -61,12 +81,16 @@ namespace ArcEasyObjects.Persistence
                 _WhereClause = BaseModel.KeyField + "=" + FieldFormatHelper.FormatField(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
             }
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAttribute) && !(x.Attribute is EntityManyToManyFieldAttribute)))
             {
                 _values = String.Format(_set, _property.Attribute.FieldName, _property.Attribute.Save(_workspace, BaseModel,_property));
                 _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName, _values, _WhereClause));
             }
 
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityManyToManyFieldAttribute)))
+            {
+                _property.Attribute.Save(_workspace, BaseModel, _property);
+            }
         }
 
         public void Load(BaseModel BaseModel, int KeyFieldValue, BaseModel.LoadMethod ChooseLoadMethod)
@@ -75,7 +99,7 @@ namespace ArcEasyObjects.Persistence
             string _WhereClause = BaseModel.KeyField + "=" + KeyFieldValue;
             string _fields = "";
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties)
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x=> !(x.Attribute is EntityManyToManyFieldAttribute)))
             {
                 _fields += _property.Attribute.FieldName + ",";
             }
@@ -86,7 +110,6 @@ namespace ArcEasyObjects.Persistence
             queryDef.Tables = BaseModel.EntityName;
             queryDef.SubFields = _fields;
             queryDef.WhereClause = _WhereClause;
-            // queryDef.PostfixClause = postFixClause;
             ICursor _rows = queryDef.Evaluate();
 
 
@@ -108,7 +131,7 @@ namespace ArcEasyObjects.Persistence
 
             string _fields = "";
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties)
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityManyToManyFieldAttribute)))
             {
                 _fields += _property.Attribute.FieldName + ",";
             }
@@ -127,11 +150,11 @@ namespace ArcEasyObjects.Persistence
             while ((_row = _rows.NextRow()) != null)
             {
                 object[] _parameters = { _workspace };
-                object _model = Activator.CreateInstance(BaseModel.GetType(), _parameters);
-
+                BaseModel _model = (BaseModel)Activator.CreateInstance(BaseModel.GetType(), _parameters);
+                
                 foreach (ModelProperty _property in BaseModel.ModelProperties)
                 {
-                    _property.Attribute.Load(_workspace, _row, BaseModel, _property, ChooseLoadMethod);
+                    _property.Attribute.Load(_workspace, _row, _model, _property, ChooseLoadMethod);
                 }
 
                 _ModelsReturn.Add((BaseModel)_model);
@@ -153,5 +176,6 @@ namespace ArcEasyObjects.Persistence
         {
             return this.Search(AEOModel, AOWhereClause, BaseModel.LoadMethod.Eager);
         }
+
     }
 }

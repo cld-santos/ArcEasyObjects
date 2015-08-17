@@ -79,6 +79,7 @@
     <Compile Include="Cartografia\Model\PontoNotavel.cs" />
     <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
     <Compile Include="Tests\AvaliacaoTest.cs" />
+    <Compile Include="Tests\ManyToManyTest.cs" />
     <Compile Include="Tests\SimulacaoProjetoTest.cs" />
     <Compile Include="Tests\ProjetoStandardTest.cs" />
     <Compile Include="Tests\InformacaoExtraTest.cs" />
