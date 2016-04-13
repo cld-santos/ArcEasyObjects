@@ -12,9 +12,9 @@ namespace ArcEasyObjects
     {
         public GISModel() : base() { }
         public GISModel(IWorkspace Workspace) : base(Workspace) { }
-        
-        [EntityField("OBJECTID", typeof(Int32))]
-        public Int32 ObjectId
+
+        [EntityOIDField("OBJECTID", typeof(Int32))]
+        public virtual Int32 ObjectId
         {
             get { return _ObjectId; }
             set { _ObjectId = value; }

@@ -71,14 +71,17 @@
     <Compile Include="Cartografia\ManyToMany\ModConstrutivo.cs" />
     <Compile Include="Cartografia\ManyToMany\ModConstrutivoComponente.cs" />
     <Compile Include="Cartografia\Model\Avaliacao.cs" />
+    <Compile Include="Cartografia\Model\LPTProjeto.cs" />
     <Compile Include="Cartografia\Model\SimulacaoProjeto.cs" />
     <Compile Include="Cartografia\Model\SolicitacaoIntervencaoOP.cs" />
     <Compile Include="Cartografia\Model\TesteCld.cs" />
+    <Compile Include="Cartografia\Model\UnitTest1.cs" />
     <Compile Include="Cartografia\Model\UsuarioSAP.cs" />
     <Compile Include="Cartografia\Model\InformacaoExtra.cs" />
     <Compile Include="Cartografia\Model\PontoNotavel.cs" />
     <Compile Include="Cartografia\Model\ProjetoStandard.cs" />
     <Compile Include="Tests\AvaliacaoTest.cs" />
+    <Compile Include="Tests\LPTProjetoTest.cs" />
     <Compile Include="Tests\ManyToManyTest.cs" />
     <Compile Include="Tests\SimulacaoProjetoTest.cs" />
     <Compile Include="Tests\ProjetoStandardTest.cs" />

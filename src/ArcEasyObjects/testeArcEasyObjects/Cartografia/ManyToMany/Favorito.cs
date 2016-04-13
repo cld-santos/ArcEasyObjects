@@ -7,28 +7,28 @@ using System.Text;
 
 namespace testeArcEasyObjects.Cartografia.ManyToMany
 {
-    [EntityClass("NEOSDE.TB_FAVORITO",Type.Table)]
-    public class Favorito:ArcEasyObjects.BaseModel
+    [EntityClass("NEOSDE.TB_FAVORITO", Type.Table)]
+    public class Favorito : ArcEasyObjects.BaseModel
     {
-        public Favorito(IWorkspace Workspace) : base(Workspace){}
+        public Favorito(IWorkspace Workspace) : base(Workspace) { }
 
-        [EntityKeyField("NU_FAVORITO_ID",typeof(Int32),"NEOSDE.SEQ_FAVORITO")]
-        public Int32 Identificador {get; set;}
+        [EntityKeyField("NU_FAVORITO_ID", typeof(Int32), "NEOSDE.SEQ_FAVORITO")]
+        public Int32 Identificador { get; set; }
 
-        [EntityField("NO_NOME",typeof(string))]
-        public string Nome {get; set;}
+        [EntityField("NO_NOME", typeof(string))]
+        public string Nome { get; set; }
 
-        [EntityField("CD_USUARIO",typeof(Int32))]
-        public Int32 CodigoUsuario {get; set;}
+        [EntityField("CD_USUARIO", typeof(Int32))]
+        public Int32 CodigoUsuario { get; set; }
 
-        [EntityField("CD_EMPREITEIRA",typeof(Int32))]
+        [EntityField("CD_EMPREITEIRA", typeof(Int32))]
         public Int32 CodigoEmpreiteira { get; set; }
 
         [EntityField("FL_PONTO", typeof(bool))]
         public bool ehPonto { get; set; }
 
-        [EntityManyToManyField(typeof(Componente), typeof(FavoritoToComponente), "FavoritoToComponente.IdentificadorFavorito", "FavoritoToComponente.IdentificadorComponente")]
-        public IList<Componente> Componentes { get; set; }
+        [EntityOneToManyField(typeof(FavoritoComponente), "NU_FAVORITO_ID", typeof(Int32))]
+        public IList<FavoritoComponente> ComponentesFavoritos { get; set; }
 
         [EntityManyToManyField(typeof(ModConstrutivo), typeof(FavoritoToModuloConstrutivo), "FavoritoToModuloConstrutivo.IdentificadorFavorito", "FavoritoToModuloConstrutivo.IdentificadorModuloConstrutivo")]
         public IList<ModConstrutivo> ModulosConstrutivos { get; set; }

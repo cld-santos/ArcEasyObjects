@@ -16,7 +16,7 @@ namespace testeArcEasyObjects
     public class SimulacaoProjetoTest
     {
 
-        
+        [TestMethod]
         public void mustSaveAModel()
         {
             SimulacaoProjeto sp = new SimulacaoProjeto(_workspace);
@@ -100,10 +100,15 @@ namespace testeArcEasyObjects
             Assert.AreEqual(sp.no_versao, "tests");
 
             sp.Delete();
-
         }
 
-
+        [TestMethod]
+        public void mustSearchInvalidWhereClause()
+        {
+            SimulacaoProjeto sm = new SimulacaoProjeto((IWorkspace)_workspace);
+            var _simulacoes = sm.Search(string.Format("SimulacaoProjeto.nu_projeto_id = {0}", 444));
+            Assert.IsNull(_simulacoes);
+        }
 
         #region Métodos e Atributos Privados
         [ClassInitialize]

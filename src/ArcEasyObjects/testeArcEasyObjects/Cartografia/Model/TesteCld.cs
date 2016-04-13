@@ -28,14 +28,14 @@ namespace testeArcEasyObjects.Cartografia.Model
         }
 
         [EntityDateField("DT_TESTE")]
-        public DateTime Data
+        public DateTime? Data
         {
             get { return _Data; }
             set { _Data = value; }
         }
 
         [EntityDateTimeField("DT_TEMPO_TESTE")]
-        public DateTime Tempo
+        public DateTime? Tempo
         {
             get { return _Tempo; }
             set { _Tempo = value; }
@@ -48,11 +48,19 @@ namespace testeArcEasyObjects.Cartografia.Model
             set { _Flag = value; }
         }
 
+        [EntityField("VALOR", typeof(decimal))]
+        public decimal Valor
+        {
+            get { return _Valor; }
+            set { _Valor = value; }
+        }
+
         private int _Identificador;
         private string _Nome;
-        private  DateTime _Data;
-        private  DateTime _Tempo;
+        private  DateTime? _Data;
+        private  DateTime? _Tempo;
         private bool _Flag;
+        private decimal _Valor;
 
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using testeArcEasyObjects.Cartografia.ManyToMany;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
+using System.Linq;
 
 namespace testeArcEasyObjects.Tests
 {
@@ -52,6 +53,56 @@ namespace testeArcEasyObjects.Tests
             Assert.IsNull(_modConstrutivo.Componentes[1].objComponente);
             Assert.IsNull(_modConstrutivo.Componentes[2].objComponente);
         }
+
+
+        [TestMethod]
+        public void mustSearchAllComponentes()
+        {
+            Componente componente = new Componente(_workspace);
+            var lista =  componente.Search(String.Format("Componente.IndUAR = {0}", 1),ArcEasyObjects.BaseModel.LoadMethod.Lazy);
+            System.Console.WriteLine(lista.Count);
+        }
+
+        [TestMethod]
+        public void mustSearchAllModConstrutivo()
+        {
+            ModConstrutivo _ModConstrutivo = new ModConstrutivo(_workspace);
+            var lista = _ModConstrutivo.Search("", ArcEasyObjects.BaseModel.LoadMethod.Lazy).Cast<ModConstrutivo>().ToList<ModConstrutivo>();
+            System.Console.WriteLine(lista.Count);
+
+            var _ModConstrutivosLINQ = from item in lista where
+                                (int)item.IndAcao == 3 && item.IdObjetoReal == 16 && item.Atributo_2.Contains("")
+                                && item.Atributo_3.Contains("") && item.Atributo_4.Contains("")
+                                && !item.IndPropExcluir && item.CodigoSAP.Trim().EndsWith("C")
+                                        select new { item.IndAcao, item.CodigoSAP, item.Descricao };
+            ;
+            System.Console.WriteLine(_ModConstrutivosLINQ.Count());
+
+        }
+
+        
+        [TestMethod]
+        public void mustSearchAllModConstrutivoWithDate()
+        {
+            ModConstrutivo _ModConstrutivo = new ModConstrutivo(_workspace);
+            //_modConstrutivoDAO = (ModConstrutivoDAOImpl)TableFactory.getInstance((typeof(IModConstrutivoDAO)), _workspaceProjeto);
+            ModConstrutivo modConstrutivo = new ModConstrutivo(_workspace);
+            string sql = "ModConstrutivo.DataAtualizacao >= TO_TIMESTAMP('{0}','DD/MM/YYYY')";
+            sql = string.Format(sql, DateTime.Now.AddMonths(-5).ToShortDateString());
+            var _listModAtualizado = modConstrutivo.Search(sql);
+            System.Console.WriteLine(_listModAtualizado.Count);
+
+
+        }
+
+        [TestMethod]
+        public void mustSearchAllFavoritsFromAUser()
+        {
+            Favorito _favorito = new Favorito(_workspace);
+            var _Favoritos = _favorito.Search("Favorito.CodigoUsuario = " + 7, ArcEasyObjects.BaseModel.LoadMethod.Lazy);
+            Assert.IsTrue(_Favoritos.Count > 0);
+        }
+
 
         #region Métodos e Atributos Privados
         [ClassInitialize]

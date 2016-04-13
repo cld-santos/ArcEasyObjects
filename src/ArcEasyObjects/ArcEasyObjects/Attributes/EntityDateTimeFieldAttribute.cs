@@ -64,22 +64,45 @@ namespace ArcEasyObjects.Attributes
 
         public void Save(IWorkspace Workspace, IRow Row, BaseModel BaseModel, ModelProperty Property)
         {
-            Row.set_Value(Row.Fields.FindField(Property.Attribute.FieldName), Convert.ChangeType(Property.Property.GetValue(BaseModel, null), Property.Attribute.FieldType));
+            if (Property.Property.GetValue(BaseModel, null) != null)
+            {
+                Row.set_Value(Row.Fields.FindField(Property.Attribute.FieldName), Convert.ChangeType(Property.Property.GetValue(BaseModel, null), Property.Attribute.FieldType));
+            }
+            else
+            {
+                Row.set_Value(Row.Fields.FindField(Property.Attribute.FieldName), DBNull.Value);
+            }
         }
 
         public void Save(IWorkspace Workspace, IFeature Feature, BaseModel BaseModel, ModelProperty Property)
         {
-            Feature.set_Value(Feature.Fields.FindField(Property.Attribute.FieldName),
-               Convert.ChangeType(Property.Property.GetValue(BaseModel, null),
-                                  Property.Attribute.FieldType));
+            if (Property.Property.GetValue(BaseModel, null) != null)
+            {
+                Feature.set_Value(Feature.Fields.FindField(Property.Attribute.FieldName),
+                   Convert.ChangeType(Property.Property.GetValue(BaseModel, null),
+                                      Property.Attribute.FieldType));
+            }
+            else
+            {
+                Feature.set_Value(Feature.Fields.FindField(Property.Attribute.FieldName), DBNull.Value);
+            }
         }
 
         public string Save(IWorkspace Workspace, BaseModel BaseModel, ModelProperty Property)
         {
-            string _DateValue = Convert.ToDateTime(Property.Property.GetValue(BaseModel, null)).ToShortDateString() + " " +
-                                Convert.ToDateTime(Property.Property.GetValue(BaseModel, null)).ToLongTimeString();
+            string _resultado = "''";
+            if (Property.Property.GetValue(BaseModel, null) != null)
+            {
+                DateTime _date = Convert.ToDateTime(Property.Property.GetValue(BaseModel, null));
+                string _DateValue = "";
+                if (_date.Year > 1)
+                {
+                    _DateValue = _date.ToShortDateString() + " " + _date.ToLongTimeString();
+                }
+                _resultado = "'" + FieldFormatHelper.FormatField(_DateValue, Property.Attribute.FieldType) + "'";
+            }
+            return _resultado;
 
-            return "'" + FieldFormatHelper.FormatField(_DateValue, Property.Attribute.FieldType) + "'";
         }
 
         private string _fieldName;

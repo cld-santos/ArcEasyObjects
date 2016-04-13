@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\EntityOIDFieldAttribute.cs" />
     <Compile Include="Attributes\EntityOneToManyFieldAttribute.cs" />
     <Compile Include="Attributes\EntityManyToManyFieldAttribute.cs" />
     <Compile Include="Attributes\EntityDateTimeFieldAttribute.cs" />

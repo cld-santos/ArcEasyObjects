@@ -1,4 +1,5 @@
 ﻿using ArcEasyObjects.Attributes;
+using ArcEasyObjects.Helper;
 using ESRI.ArcGIS.Geodatabase;
 using System;
 using System.Collections;
@@ -23,8 +24,8 @@ namespace ArcEasyObjects.Persistence
         {
             string _dml = "INSERT INTO {0}({1}) VALUES({2})";
             string _fields = "", _values = "";
-            
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityManyToManyFieldAttribute)))
+
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityManyToManyFieldAttribute) && !(x.Attribute is EntityOneToManyFieldAttribute)))
             {
                 _fields += _property.Attribute.FieldName + ",";
                 _values += _property.Attribute.Save(_workspace,BaseModel,_property) + ",";
@@ -81,16 +82,12 @@ namespace ArcEasyObjects.Persistence
                 _WhereClause = BaseModel.KeyField + "=" + FieldFormatHelper.FormatField(_property.Property.GetValue(BaseModel, null), _property.Attribute.FieldType);
             }
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAttribute) && !(x.Attribute is EntityManyToManyFieldAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityKeyFieldAttribute) && !(x.Attribute is EntityManyToManyFieldAttribute) && !(x.Attribute is EntityOneToManyFieldAttribute)))
             {
                 _values = String.Format(_set, _property.Attribute.FieldName, _property.Attribute.Save(_workspace, BaseModel,_property));
                 _workspace.ExecuteSQL(String.Format(_dml, BaseModel.EntityName, _values, _WhereClause));
             }
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => (x.Attribute is EntityManyToManyFieldAttribute)))
-            {
-                _property.Attribute.Save(_workspace, BaseModel, _property);
-            }
         }
 
         public void Load(BaseModel BaseModel, int KeyFieldValue, BaseModel.LoadMethod ChooseLoadMethod)
@@ -138,12 +135,8 @@ namespace ArcEasyObjects.Persistence
 
             _fields = _fields.Substring(0, _fields.Length - 1);
 
-            ESRI.ArcGIS.Geodatabase.IQueryDef2 queryDef = (ESRI.ArcGIS.Geodatabase.IQueryDef2)((IFeatureWorkspace)_workspace).CreateQueryDef();
-            queryDef.Tables = BaseModel.EntityName;
-            queryDef.SubFields = _fields;
-            queryDef.WhereClause = AOWhereClause;
-
-            ICursor _rows = queryDef.Evaluate();
+            ESRI.ArcGIS.Geodatabase.ITable tbProjeto = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName);
+            ICursor _rows = GDBCursor.obterCursor(tbProjeto, _fields, AOWhereClause,"");
 
             IRow _row;
 
@@ -154,7 +147,7 @@ namespace ArcEasyObjects.Persistence
                 
                 foreach (ModelProperty _property in BaseModel.ModelProperties)
                 {
-                    _property.Attribute.Load(_workspace, _row, _model, _property, ChooseLoadMethod);
+                    _property.Attribute.Load(_workspace, _row, (BaseModel)_model, _property, ChooseLoadMethod);
                 }
 
                 _ModelsReturn.Add((BaseModel)_model);

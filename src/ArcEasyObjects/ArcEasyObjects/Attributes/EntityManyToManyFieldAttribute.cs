@@ -78,6 +78,7 @@ namespace ArcEasyObjects.Attributes
 
         public void Load(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace, ESRI.ArcGIS.Geodatabase.IRow Row, BaseModel BaseModel, ModelProperty Property, BaseModel.LoadMethod ChooseLoadMethod)
         {
+            if (BaseModel.LoadMethod.Lazy == ChooseLoadMethod) return;
             this.Load(Workspace, Row, BaseModel, Property);
         }
 
@@ -112,6 +113,7 @@ namespace ArcEasyObjects.Attributes
 
         public void Load(ESRI.ArcGIS.Geodatabase.IWorkspace Workspace, ESRI.ArcGIS.Geodatabase.IFeature Feature, BaseModel BaseModel, ModelProperty Property, BaseModel.LoadMethod ChooseLoadMethod)
         {
+            if (BaseModel.LoadMethod.Lazy == ChooseLoadMethod) return;
             this.Load(Workspace, Feature, BaseModel, Property);
         }
 

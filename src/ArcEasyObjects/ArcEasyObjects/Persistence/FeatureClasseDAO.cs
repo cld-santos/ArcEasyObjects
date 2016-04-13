@@ -39,7 +39,7 @@ namespace ArcEasyObjects.Persistence
         {
             IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(AEOModel.EntityName).CreateFeature();
 
-            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))
+            foreach (ModelProperty _property in AEOModel.ModelProperties.Where(x => !(x.Attribute is EntityOIDFieldAttribute) && !(x.Attribute is EntityShapeFieldAttribute)))
             {
                 _property.Attribute.Save(_workspace, feat, AEOModel, _property);
             }
@@ -66,7 +66,7 @@ namespace ArcEasyObjects.Persistence
             IFeature feat = ((IFeatureWorkspace)_workspace).OpenFeatureClass(BaseModel.EntityName).GetFeature(((GISModel)BaseModel).ObjectId);
 
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))    
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityOIDFieldAttribute) && !(x.Attribute is EntityShapeFieldAttribute)))    
             {
                 _property.Attribute.Save(_workspace, feat, BaseModel, _property);
             }

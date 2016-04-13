@@ -29,7 +29,8 @@ namespace testeArcEasyObjects
             _testeCld.Nome = "teste claudio";
             _testeCld.Data = DateTime.Now.Date;
             _testeCld.Tempo = DateTime.Now;
-            _testeCld.Flag = true;            
+            _testeCld.Flag = true;
+            _testeCld.Valor = 15.55M;
             _testeCld.Save();
             return _testeCld;
         }
@@ -43,11 +44,34 @@ namespace testeArcEasyObjects
             _testeCld.Nome = "teste claudio denovo";
             _testeCld.Data = DateTime.Now.Date;
             _testeCld.Tempo = DateTime.Now;
-            _testeCld.Flag = true; 
+            _testeCld.Flag = true;
+            _testeCld.Valor = 15.55M;
             _testeCld.Update();
 
             Assert.IsTrue(_testeCld.Nome == "teste claudio denovo");
+            Assert.IsTrue(_testeCld.Data == DateTime.Now.Date);
             _testeCld.Delete();
+        }
+
+        [TestMethod]
+        public void deveSalvarUmaDataNula()
+        {
+            TesteCld _testeCld = new TesteCld(_workspace);
+
+            _testeCld.Nome = "teste claudio denovo";
+            _testeCld.Data = null;
+            _testeCld.Tempo = null;
+            _testeCld.Flag = true;
+            _testeCld.Valor = 15.55M;
+            _testeCld.Save();
+
+            TesteCld _testeCld2 = new TesteCld(_workspace);
+            _testeCld2.Load(_testeCld.Identificador);
+            Assert.IsTrue(_testeCld2.Nome == "teste claudio denovo");
+            Assert.IsTrue(_testeCld2.Tempo == null);
+            Assert.IsTrue(_testeCld2.Data == null);
+            //_testeCld.Delete();
+
         }
 
         [TestMethod]
@@ -59,8 +83,41 @@ namespace testeArcEasyObjects
 
             Assert.IsTrue(_testesCld.Count > 0);
             _testeCld.Delete();
+
+
+
         }
 
+        [TestMethod]
+        public void testAtualizaSolicitacaoIntervencao()
+        {
+            SolicitacaoIntervencaoOP si = new SolicitacaoIntervencaoOP(_workspace);
+            si.De_telefone_responsavel = "testes";
+            si.Nu_bairro_id = 1;
+            si.Nu_usuario = 7;
+            si.De_nome_responsavel = "testes";
+            si.De_comentario = "testes";
+            //si.Nu_solic_intervencao_op_id = sera gerado automaticamente pela sequence
+            si.Dt_solicitacao = DateTime.Now;
+            si.Nu_regional_id = 1;
+            si.Cd_codigo_area = 2;
+            si.Nu_tipo_natureza_op_id = 2;
+            si.Nu_tipo_solic_interv_op_id = 2;
+            si.Nu_motivo_solic_interv_op_id = 2;
+            si.De_desenho = "1111";
+            si.Dt_inicio_previsto = Convert.ToDateTime("29/08/1982");
+            si.Dt_termino_previsto = Convert.ToDateTime("29/08/1982");
+            si.De_endereco = "testes";
+            si.Nu_empresa_id = 1;
+            si.Cd_tipo_desligam_solic_interv = 1;
+            si.De_referencia = "1";
+            si.Cd_status_solic_intervencao = 1;
+            si.Cd_cancelamento_solic_interv = 0;
+            //si.Nu_instalacao_mt_id = xxx
+            si.Nu_empreiteira_id = 1;
+            si.Nu_ocorrencia_op_id = 0;
+            si.Save();
+        }
 
         
         #region Métodos e Atributos Privados

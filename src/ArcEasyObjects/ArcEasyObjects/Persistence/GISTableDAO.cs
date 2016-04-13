@@ -21,7 +21,7 @@ namespace ArcEasyObjects.Persistence
         {
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).CreateRow();
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute) && !(x.Attribute is EntityManyToManyFieldAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityOIDFieldAttribute) && !(x.Attribute is EntityShapeFieldAttribute) && !(x.Attribute is EntityManyToManyFieldAttribute)))
             {
                 _property.Attribute.Save(_workspace, _row, BaseModel, _property);
             }
@@ -31,6 +31,7 @@ namespace ArcEasyObjects.Persistence
                 _property.Attribute.Save(_workspace, BaseModel, _property);
             }
 
+            ((GISModel)BaseModel).ObjectId = _row.OID;
 
             _row.Store();
 
@@ -53,7 +54,7 @@ namespace ArcEasyObjects.Persistence
 
             IRow _row = ((IFeatureWorkspace)_workspace).OpenTable(BaseModel.EntityName).GetRow(((GISModel)BaseModel).ObjectId);
 
-            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !"OBJECTID".Equals(x.Attribute.FieldName) && !(x.Attribute is EntityShapeFieldAttribute)))
+            foreach (ModelProperty _property in BaseModel.ModelProperties.Where(x => !(x.Attribute is EntityOIDFieldAttribute) && !(x.Attribute is EntityShapeFieldAttribute)))
             {
                 _property.Attribute.Save(_workspace, _row, BaseModel, _property);
             }

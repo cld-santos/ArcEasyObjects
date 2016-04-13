@@ -117,7 +117,7 @@ namespace ArcEasyObjects.Attributes
             if (_bm != null)
             {
                 ModelProperty _keyProperty = _bm.ModelProperties.Where(x => x.Attribute is EntityKeyFieldAttribute).First<ModelProperty>();
-                Int32 _keyValue = (Int32)_keyProperty.Property.GetValue(_bm, null);
+                var _keyValue = Convert.ChangeType(_keyProperty.Property.GetValue(_bm, null),_keyProperty.Attribute.FieldType);
 
                 return FieldFormatHelper.FormatField(_keyValue, Property.Attribute.FieldType);
             }

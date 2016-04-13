@@ -14,7 +14,25 @@ namespace testeArcEasyObjects.Tests
         public void mustLoadAModel()
         {
             Favorito _Favorito = new Favorito(_workspace);
-            _Favorito.Load(1);
+            _Favorito.CodigoEmpreiteira = 9;
+            _Favorito.CodigoUsuario = 7;
+            _Favorito.ehPonto = false;
+            _Favorito.Nome = "Incluído pelo ArcEasy";
+
+            ModConstrutivo _modConstrutivo = new ModConstrutivo(_workspace);
+
+            var _listModConstrutivo = _modConstrutivo.Search("ModConstrutivo.Identificador in (544,285,284,283)");
+
+            _Favorito.ModulosConstrutivos = new List<ModConstrutivo>();
+
+            foreach (ModConstrutivo _item in _listModConstrutivo)
+            {
+                _Favorito.ModulosConstrutivos.Add(_item);
+            }
+
+            _Favorito.Save();
+            Favorito _FavoritoLoaded = new Favorito(_workspace);
+            _Favorito.Load(_Favorito.Identificador);
 
             Assert.IsNotNull(_Favorito.ModulosConstrutivos);
 
@@ -54,6 +72,19 @@ namespace testeArcEasyObjects.Tests
             {
                 _Favorito.ModulosConstrutivos.Add(_item);
             }
+
+
+            Componente _Componente = new Componente(_workspace);
+            _Componente.Load(511);
+            FavoritoComponente _favComponente = new FavoritoComponente(_workspace);
+            _favComponente.Componente = _Componente;
+            _favComponente.IdentificadorFavorito = _Favorito.Identificador;
+            _favComponente.Quantidade = 10;
+            _favComponente.Valor = 150.50;
+            _favComponente.Save();
+            _Favorito.ComponentesFavoritos = new List<FavoritoComponente>();
+            _Favorito.ComponentesFavoritos.Add(_favComponente);
+
 
             _Favorito.Save();
 

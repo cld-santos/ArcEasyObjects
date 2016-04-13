@@ -35,6 +35,27 @@ namespace testeArcEasyObjects
         }
 
         [TestMethod]
+        public void mustSaveANullDate()
+        {
+            InformacaoExtra _infoExtra = new InformacaoExtra(_workspace);
+
+            _infoExtra.CodigoInformacaoExtra = 1;
+            _infoExtra.CodigoPontoNotavel = 1;
+            _infoExtra.Informacoes = "Testes";
+            _infoExtra.DataCadastro = DateTime.Now.Date;
+            _infoExtra.Save();
+
+            Assert.IsNotNull(_infoExtra.DataCadastro);
+            _infoExtra.DataCadastro = null;
+            _infoExtra.Update();
+
+            InformacaoExtra _infoExtraB = new InformacaoExtra(_workspace);
+            _infoExtraB.Load(_infoExtra.CodigoInformacaoExtra);
+            Assert.IsNull(_infoExtraB.DataCadastro);
+
+
+        }
+        [TestMethod]
         public void mustLoadAModel()
         {
             mustSaveAModel();

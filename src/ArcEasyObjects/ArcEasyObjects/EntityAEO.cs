@@ -16,6 +16,7 @@ namespace ArcEasyObjects
 
             loadModels.Add(typeof(EntityKeyFieldAttribute), loadEntityKeyField);
             loadModels.Add(typeof(EntityFieldAttribute), loadEntityField);
+            loadModels.Add(typeof(EntityOIDFieldAttribute), loadEntityField);
             loadModels.Add(typeof(EntityDateFieldAttribute), loadEntityField);
             loadModels.Add(typeof(EntityDateTimeFieldAttribute), loadEntityField);
             loadModels.Add(typeof(EntityShapeFieldAttribute), loadEntityShapeField);

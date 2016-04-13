@@ -16,12 +16,12 @@ namespace ArcEasyScriptTest
                                 "add column NU_PROJECT(LongInteger) to NEOSDE.TB_PROJECT",
                                 "AdD column DE_NAME(Text,50) to NEOSDE.TB_PROJECT",
                                 "create GeometricNetwork",
-                                "rav NEOSDE.TB_PROJECT"};
+                                "RegisterAsVersionned NEOSDE.TB_PROJECT"};
 
             string[] strPatterns = { @"^connect", 
                                      @"^add",
                                      @"^create",
-                                     @"^rav"};
+                                     @"^RegisterAsVersionned"};
 
             List<Regex> _ScriptPatterns = new List<Regex>();
             foreach (var strPattern in strPatterns)
