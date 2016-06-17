@@ -1,0 +1,16 @@
+{
+  "script_teste": {
+    "dependent": [],
+    "script_path": "e:\\\\csantos\\\\programming\\\\python\\\\ArcEasyMigrations\\\\aem\\\\scripts\\\\script_teste.sql",
+    "env_exec": [],
+    "description": "Teste de execucao de script oracle",
+    "key": "script_teste"
+  },
+  "script_python_teste": {
+    "dependent": [],
+    "script_path": "e:\\\\csantos\\\\programming\\\\python\\\\ArcEasyMigrations\\\\aem\\\\scripts\\\\script_teste.py",
+    "env_exec": [],
+    "description": "Teste de execucao de script python",
+    "key": "script_python_teste"
+  }
+}

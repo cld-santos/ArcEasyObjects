@@ -1,0 +1,16 @@
+{
+  "DSNEO11": {
+    "tns_name": "BRCGI977_ORACELPE",
+    "password": "neosde01",
+    "sde_filepath": "e:\\csantos\\sde_file\\celpe.sde",
+    "key": "DSNEO11",
+    "user": "neosde"
+  },
+  "DPNEO11": {
+    "tns_name": "BRCGI977_ORACELPE",
+    "password": "neosde01",
+    "key": "DPNEO11",
+    "sde_filepath": "E:\\csantos\\programming\\python\\ArcEasyMigrations\\aem\\scripts\\connection\\BRCGI977_ORACELPE.sde",
+    "user": "neosde"
+  }
+}
