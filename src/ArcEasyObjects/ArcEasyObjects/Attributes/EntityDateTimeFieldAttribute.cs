@@ -99,7 +99,7 @@ namespace ArcEasyObjects.Attributes
                 {
                     _DateValue = _date.ToShortDateString() + " " + _date.ToLongTimeString();
                 }
-                _resultado = "to_date('" + FieldFormatHelper.FormatField(_DateValue, Property.Attribute.FieldType) + "','DD/MM/YYYY HH12:MI:SS')";
+                _resultado = "to_date('" + FieldFormatHelper.FormatField(_DateValue, Property.Attribute.FieldType) + "','DD/MM/YYYY HH24:MI:SS')";
             }
             return _resultado;
 
