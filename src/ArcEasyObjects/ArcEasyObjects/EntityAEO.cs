@@ -94,6 +94,7 @@ namespace ArcEasyObjects
             _modelProperties.Add(new ModelProperty(_property, _featureAttribute));
             _modelAttributes[_modelo.GetType().Name + "." + _property.Name] = _featureAttribute.FieldName;
             _KeyField = _attribute.FieldName;
+            //TODO: Incluir validação para lançar exceção caso não tenha entity key field
         }
 
         private void loadEntityField(IEntityField _attribute, PropertyInfo _property)

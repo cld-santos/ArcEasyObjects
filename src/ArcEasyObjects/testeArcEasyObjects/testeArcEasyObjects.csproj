@@ -71,6 +71,7 @@
     <Compile Include="Cartografia\ManyToMany\ModConstrutivo.cs" />
     <Compile Include="Cartografia\ManyToMany\ModConstrutivoComponente.cs" />
     <Compile Include="Cartografia\Model\Avaliacao.cs" />
+    <Compile Include="Cartografia\Model\InterfacePlanejamentoCusto.cs" />
     <Compile Include="Cartografia\Model\LPTProjeto.cs" />
     <Compile Include="Cartografia\Model\SimulacaoProjeto.cs" />
     <Compile Include="Cartografia\Model\SolicitacaoIntervencaoOP.cs" />

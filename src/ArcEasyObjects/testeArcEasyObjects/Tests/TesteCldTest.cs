@@ -5,8 +5,10 @@ using ESRI.ArcGIS.Geodatabase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using testeArcEasyObjects.Cartografia.Model;
+
 
 namespace testeArcEasyObjects
 {
@@ -35,6 +37,29 @@ namespace testeArcEasyObjects
             return _testeCld;
         }
 
+        [TestMethod]
+        public void deveSalvarUmaInterfacePlanejamentoCustos()
+        {
+            InterfacePlanejamentoCusto _testeCld = new InterfacePlanejamentoCusto(_workspace);
+            _testeCld.Chave = "teste claudio";
+            _testeCld.DataFim = DateTime.Now.Date;
+            _testeCld.DataInicio = DateTime.Now;
+            _testeCld.ProjetoSAP = "testes";
+            _testeCld.Status = 0;
+            _testeCld.ValorOrcamento = 15.55M;
+            _testeCld.Save();
+        }
+
+        [TestMethod]
+        public void deveAtualizarUmaInterfacePlanejamentoCustos()
+        {
+            InterfacePlanejamentoCusto _testeCld = new InterfacePlanejamentoCusto(_workspace);
+            _testeCld = _testeCld.Search(string.Format("InterfacePlanejamentoCusto.ProjetoSAP = '{0}' AND InterfacePlanejamentoCusto.Chave = '{1}'", "testes", "teste claudio")).Cast<InterfacePlanejamentoCusto>().First();
+
+            _testeCld.ValorOrcamento = 55000.99M;
+            _testeCld.Update();
+        }
+
 
         [TestMethod]
         public void deveAtualizarUmTesteCld()
@@ -45,12 +70,12 @@ namespace testeArcEasyObjects
             _testeCld.Data = DateTime.Now.Date;
             _testeCld.Tempo = DateTime.Now;
             _testeCld.Flag = true;
-            _testeCld.Valor = 15.55M;
+            _testeCld.Valor = 20.37M;
             _testeCld.Update();
 
             Assert.IsTrue(_testeCld.Nome == "teste claudio denovo");
             Assert.IsTrue(_testeCld.Data == DateTime.Now.Date);
-            _testeCld.Delete();
+            //_testeCld.Delete();
         }
 
         [TestMethod]
@@ -158,10 +183,10 @@ namespace testeArcEasyObjects
             IWorkspaceFactory workspaceFactory = (IWorkspaceFactory)Activator.CreateInstance(factoryType);
 
             IPropertySet prop = new PropertySet();
-            prop.SetProperty("SERVER", "10.150.17.21");
-            prop.SetProperty("INSTANCE", "sde:oracle11g:GSEPROJ");
+            prop.SetProperty("SERVER", "10.150.17.95");
+            prop.SetProperty("INSTANCE", "sde:oracle11g:BRCGI977_ORACELPE");
             prop.SetProperty("USER", "neogse");
-            prop.SetProperty("PASSWORD", "coelba");
+            prop.SetProperty("PASSWORD", "neogsedpneo11");
             prop.SetProperty("VERSION", Versao);
 
             return workspaceFactory.Open(prop, 0);
